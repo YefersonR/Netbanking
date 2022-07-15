@@ -5,8 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Entities\" />
-    <Folder Include="Commons\" />
     <Folder Include="Settings\" />
   </ItemGroup>
 
