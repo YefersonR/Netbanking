@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.32228.343
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApp.Netbanking", "Netbanking\WebApp.Netbanking.csproj", "{FE297EFC-42DC-4398-8B29-1FC874A2ED3F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApp.Netbanking", "Netbanking\WebApp.Netbanking.csproj", "{FE297EFC-42DC-4398-8B29-1FC874A2ED3F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApp", "WebApp", "{1E6640A0-C028-47E2-9A3F-B431CE15ECAE}"
 EndProject
@@ -13,11 +13,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastru
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{F1820D3E-0FB2-4A06-A35F-C3556D44C3AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Domain", "Core.Domain\Core.Domain.csproj", "{A3BB4160-405A-4E25-9394-CAD1909F7E77}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Domain", "Core.Domain\Core.Domain.csproj", "{A3BB4160-405A-4E25-9394-CAD1909F7E77}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Application", "Core.Application\Core.Application.csproj", "{05729CBC-E46B-48A3-AA82-4DA895A5EB24}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Application", "Core.Application\Core.Application.csproj", "{05729CBC-E46B-48A3-AA82-4DA895A5EB24}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Persistence", "Infrastructure.Persistence\Infrastructure.Persistence.csproj", "{B8764628-0C01-4179-B9C3-0DF4D687C918}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Persistence", "Infrastructure.Persistence\Infrastructure.Persistence.csproj", "{B8764628-0C01-4179-B9C3-0DF4D687C918}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Identity", "Infrastructure.Identity\Infrastructure.Identity.csproj", "{1C6AEB31-06FF-4835-B322-261B68780218}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +43,10 @@ Global
 		{B8764628-0C01-4179-B9C3-0DF4D687C918}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8764628-0C01-4179-B9C3-0DF4D687C918}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B8764628-0C01-4179-B9C3-0DF4D687C918}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C6AEB31-06FF-4835-B322-261B68780218}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C6AEB31-06FF-4835-B322-261B68780218}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C6AEB31-06FF-4835-B322-261B68780218}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C6AEB31-06FF-4835-B322-261B68780218}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -51,6 +57,7 @@ Global
 		{A3BB4160-405A-4E25-9394-CAD1909F7E77} = {C8A5BF3D-6749-412A-8606-51B22F231A97}
 		{05729CBC-E46B-48A3-AA82-4DA895A5EB24} = {C8A5BF3D-6749-412A-8606-51B22F231A97}
 		{B8764628-0C01-4179-B9C3-0DF4D687C918} = {BCE9E291-B2A2-4924-A91F-B72666D8B1C8}
+		{1C6AEB31-06FF-4835-B322-261B68780218} = {BCE9E291-B2A2-4924-A91F-B72666D8B1C8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {789B6A19-924B-41D3-9713-F43B288FEA2C}
