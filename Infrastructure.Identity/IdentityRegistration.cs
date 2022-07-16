@@ -21,14 +21,16 @@ namespace Infrastructure.Identity
             {
                 services.AddDbContext<IdentityContext>(option =>
                 {
-                    option.UseSqlServer(configuration.GetConnectionString("NetBankingString"),
+                    option.UseSqlServer(configuration.GetConnectionString("IdentityString"),
                         m=>m.MigrationsAssembly(typeof(IdentityContext).Assembly.FullName));
                 });
             }
             #endregion
             #region Identity Configurations
-             services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<IdentityContext>().AddDefaultTokenProviders();
-            #endregion
+             services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<IdentityContext>()
+                .AddDefaultTokenProviders();
+            #endregion 
         }
     }
 }

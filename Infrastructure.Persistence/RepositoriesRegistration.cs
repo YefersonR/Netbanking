@@ -14,12 +14,6 @@ namespace Infrastructure.Persistence
     {
         public static void AddPersistenceLayer(this IServiceCollection services, IConfiguration configuration)
         {
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-
-=======
-=======
->>>>>>> Stashed changes
             if (configuration.GetValue<bool>("InMemory"))
             {
                 services.AddDbContext<NetBankingContext>(option => option.UseInMemoryDatabase("DatabaseInMomory"));
@@ -32,10 +26,6 @@ namespace Infrastructure.Persistence
                     m => m.MigrationsAssembly(typeof(NetBankingContext).Assembly.FullName)));
 
             }
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
         }
     }
 }
