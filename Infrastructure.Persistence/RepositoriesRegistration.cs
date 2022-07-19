@@ -14,7 +14,18 @@ namespace Infrastructure.Persistence
     {
         public static void AddPersistenceLayer(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<NetBankingContext>(option => option.UseSqlServer(configuration.GetConnectionString("NetBankingString"),m => m.MigrationsAssembly(typeof(NetBankingContext).Assembly.FullName)));
+            if (configuration.GetValue<bool>("InMemory"))
+            {
+                services.AddDbContext<NetBankingContext>(option => option.UseInMemoryDatabase("DatabaseInMomory"));
+
+            }
+            else
+            {
+                services.AddDbContext<NetBankingContext>(option =>
+                    option.UseSqlServer(configuration.GetConnectionString("NetBankingString"),
+                    m => m.MigrationsAssembly(typeof(NetBankingContext).Assembly.FullName)));
+
+            }
         }
     }
 }
