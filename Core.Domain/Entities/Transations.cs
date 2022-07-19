@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Core.Domain.Entities
 {
-    public class Transations:AuditableBase
+    public class Transations : AuditableBase
     {
         public int  Id { get; set; }
         public Guid AccountNumber { get; set; }

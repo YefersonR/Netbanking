@@ -5,10 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace Core.Application.Interfaces.Services
 {
-    public interface ITransationService : IGenericService<TransationsSaveViewModel, TransationsViewModel, Transations>
+    public interface ITransationService : IGenericService<TransationsSaveViewModel, TransationsViewModel, Transaction>
     {
     }
 }
