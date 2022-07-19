@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Core.Application.Interfaces.Services
 {
-    public interface IUserService : IGenericService<UserSaveViewModel, UserViewModel, User>
+    public interface IUserService 
     {
     }
 }
