@@ -16,5 +16,6 @@ namespace Core.Application.Interfaces.Services
         Task<RegisterResponse> RegisterClients(RegisterRequest request, string origin);
         Task<ForgotPasswordResponse> ForgotPassword(ForgotPasswordRequest request, string origin);
         Task<ResetPasswordResponse> ResetPassword(ResetPasswordRequest request);
+        Task SignOut();
     }
 }
