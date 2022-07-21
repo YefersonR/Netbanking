@@ -1,6 +1,7 @@
 ﻿using Core.Application.DTOs.Account;
 using Core.Application.DTOs.Email;
 using Core.Application.Enums;
+using Core.Application.Interfaces.Services;
 using Infrastructure.Identity.Models;
 using Infrastructure.Shared.Services;
 using Microsoft.AspNetCore.Identity;
@@ -13,15 +14,16 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Identity.Services
 {
-    public class AccountService
+    public class AccountService : IAccountService 
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly EmailService _emailService;
-        public AccountService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        private readonly IEmailService _emailService;
+        public AccountService(UserManager<ApplicationUser> userManager,IEmailService emailService, SignInManager<ApplicationUser> signInManager)
         {
             _signInManager = signInManager;
             _userManager = userManager;
+            _emailService = emailService;
 
         }
         public async Task<AuthenticationResponse> Authentication(AuthenticationRequest request)
@@ -171,7 +173,7 @@ namespace Infrastructure.Identity.Services
         }
 
 
-        public async Task<string> SendForgotPasswordUrl(ApplicationUser user, string origin)
+        private async Task<string> SendForgotPasswordUrl(ApplicationUser user, string origin)
         {
 
             var code = await _userManager.GeneratePasswordResetTokenAsync(user);
@@ -183,7 +185,7 @@ namespace Infrastructure.Identity.Services
             return verificationUrl;
         }
 
-        public async Task<string> SendVerificacionEmailUrl(ApplicationUser user,string origin)
+        private async Task<string> SendVerificacionEmailUrl(ApplicationUser user,string origin)
         {
 
             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -195,6 +197,11 @@ namespace Infrastructure.Identity.Services
 
             return verificationUrl;
         }
+        public async Task SignOut()
+        {
+            await _signInManager.SignOutAsync();
+        }
+
 
     }
 }

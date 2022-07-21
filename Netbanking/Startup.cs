@@ -1,8 +1,12 @@
 using Core.Application;
+using Core.Application.Interfaces.Services;
+using Core.Application.Services;
 using Infrastructure.Identity;
 using Infrastructure.Persistence;
+using Infrastructure.Shared;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -22,11 +26,15 @@ namespace Netbanking
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
-            services.AddAplicationLayer(Configuration);
-            services.AddPersistenceLayer(Configuration);
-            services.AddIdentityLayer(Configuration);
             services.AddSession();
+            services.AddControllersWithViews();
+            services.AddPersistenceLayer(Configuration);
+            services.AddShareInfrastructure(Configuration);
+            services.AddIdentityLayer(Configuration);
+            services.AddAplicationLayer(Configuration);
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,7 +63,7 @@ namespace Netbanking
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=User}/{action=Index}/{id?}");
             });
         }
     }
