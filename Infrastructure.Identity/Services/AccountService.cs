@@ -18,11 +18,12 @@ namespace Infrastructure.Identity.Services
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly EmailService _emailService;
-        public AccountService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        private readonly IEmailService _emailService;
+        public AccountService(UserManager<ApplicationUser> userManager,IEmailService emailService, SignInManager<ApplicationUser> signInManager)
         {
             _signInManager = signInManager;
             _userManager = userManager;
+            _emailService = emailService;
 
         }
         public async Task<AuthenticationResponse> Authentication(AuthenticationRequest request)

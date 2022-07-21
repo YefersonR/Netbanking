@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+@using Core.Application.Helpers
+@using Core.Application.DTOs.Account
+@inject IHttpContextAccessor httpContextAccesor
+@{var user = httpContextAccesor.HttpContext.Session.Get<AuthenticationResponse>("user"); }
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -9,25 +15,39 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Netbanking</a>
+        <nav class="navbar navbar-expand-sm  w-100 navbar-toggleable-sm navbar-light bg-info border-bottom box-shadow mb-3">
+            <div class="container d-flex justify-content-between">
+                <a class="navbar-brand text-white" asp-controller="@(user != null ? "Home" : "User")" asp-action="Index"> NetBanking</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
+                @if (user == null)
+                {
+
+                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-controller="User" asp-action="Register">Registrarme</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                }
+                else
+                {
+
+                    <div>
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item">
+                                <a class="nav-link text-danger" style="font-size:1.1rem;" asp-controller="User" asp-action="LogOut">Cerrar Session</a>
+                            </li>
+                        </ul>
+                    </div>
+                }
             </div>
         </nav>
+
     </header>
     <div class="container">
         <main role="main" class="pb-3">

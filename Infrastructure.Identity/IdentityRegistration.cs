@@ -2,6 +2,7 @@
 using Infrastructure.Identity.Context;
 using Infrastructure.Identity.Models;
 using Infrastructure.Identity.Services;
+using Infrastructure.Shared.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -14,18 +15,16 @@ namespace Infrastructure.Identity
         public static void AddIdentityLayer(this IServiceCollection services, IConfiguration configuration)
         {
             #region Context
-            if (configuration.GetValue<bool>("InMemory"))
+            if (configuration.GetValue<bool>("DatabaseInMomory"))
             {
-                services.AddDbContext<IdentityContext>(option => option.UseInMemoryDatabase("DatabaseInMomory"));
+                services.AddDbContext<IdentityContext>(option => option.UseInMemoryDatabase("InMemoryDB"));
 
             }
             else
             {
                 services.AddDbContext<IdentityContext>(option =>
-                {
                     option.UseSqlServer(configuration.GetConnectionString("IdentityString"),
-                        m=>m.MigrationsAssembly(typeof(IdentityContext).Assembly.FullName));
-                });
+                        m=>m.MigrationsAssembly(typeof(IdentityContext).Assembly.FullName)));
             }
             #endregion
 
@@ -37,7 +36,7 @@ namespace Infrastructure.Identity
 
             #region
             services.AddTransient<IAccountService,AccountService>();
-
+            
             #endregion
         }
     }
