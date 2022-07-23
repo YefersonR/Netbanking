@@ -85,9 +85,10 @@ namespace Infrastructure.Identity.Services
             var user = new ApplicationUser()
             {
                 Email = request.Email,
-                FirstName = request.FirstName,
+                Name = request.Name,
                 LastName =request.LastName,
-                UserName = request.UserName
+                UserName = request.UserName,
+                Identification = request.Identification
             };
 
             var result = await _userManager.CreateAsync(user, request.Password);

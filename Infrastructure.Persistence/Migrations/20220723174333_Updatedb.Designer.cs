@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(NetBankingContext))]
-    [Migration("20220722212540_NewMigration")]
-    partial class NewMigration
+    [Migration("20220723174333_Updatedb")]
+    partial class Updatedb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
