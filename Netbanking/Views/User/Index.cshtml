@@ -16,19 +16,20 @@
                         <button type="button" class="btn-close" data-bs-dismiss="Alert" aria-label="Close"></button>
                     </div>
                 }
-                <form method="post" asp-controller="User" asp-action="Index">
-                    <div class="mb-3">
-                        <label asp-for="UserName" class="form-label">Nombre de usuario</label>
-                        <input class="form-control" asp-for="UserName" />
-                    </div>
+            <form method="post" asp-controller="User" asp-action="Index">
+                <div class="mb-3">
+                    <label asp-for="UserName" class="form-label">Nombre de usuario</label>
+                    <input class="form-control" asp-for="UserName" />
+                </div>
 
-                    <div class="mb-3">
-                        <label asp-for="Password" class="form-label">Contraseña</label>
-                        <input class="form-control" asp-for="Password" />
-                    </div>
+                <div class="mb-3">
+                    <label asp-for="Password" class="form-label">Contraseña</label>
+                    <input class="form-control" asp-for="Password" />
+                </div>
 
-                    <button type="submit" class="btn btn-primary">Iniciar Seccion</button>
-                </form>
+                <button type="submit" class="btn btn-primary">Iniciar Seccion</button>
+                <a asp-controller="User" asp-action="ForgotPassword" class="btn btn-warning float-end me-2">Olvide mi contraseña</a>
+            </form>
             </div>
         </div>
     </div>

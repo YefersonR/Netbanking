@@ -15,12 +15,12 @@ namespace Infrastructure.Identity.Seeds
         {
             ApplicationUser applicationAdmin = new()
             {
-                FirstName = "",
-                LastName = "",
-                UserName = "",
-                Email = "",
+                FirstName = "Admin",
+                LastName = "Administrador",
+                UserName = "Admin",
+                Email = "yefersonrubio27@gmail.com",
                 EmailConfirmed = true,
-                PhoneNumber = "",
+                PhoneNumber = "8096534321",
                 PhoneNumberConfirmed = true,
 
 
@@ -28,7 +28,7 @@ namespace Infrastructure.Identity.Seeds
         
             if(userManager.Users.All(user=>user.Id != applicationAdmin.Id))
             {
-                var user = userManager.FindByEmailAsync(applicationAdmin.Email);
+                var user = await userManager.FindByEmailAsync(applicationAdmin.Email);
                 if (user == null)
                 {
                     await userManager.CreateAsync(applicationAdmin,"123Pa$$word!");

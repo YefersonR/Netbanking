@@ -32,6 +32,13 @@ namespace Infrastructure.Identity
              services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<IdentityContext>()
                 .AddDefaultTokenProviders();
+            services.ConfigureApplicationCookie(option =>
+                 {
+                     option.LoginPath = "/User";
+                     option.AccessDeniedPath = "/Home";
+                 }
+             ) ;
+            services.AddAuthentication();
             #endregion
 
             #region

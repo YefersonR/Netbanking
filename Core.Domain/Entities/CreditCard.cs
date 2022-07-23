@@ -12,7 +12,6 @@ namespace Core.Domain.Entities
         public Guid CardNumber { get; set; }
         public float Limit { get; set; }
         public float Debt { get; set;}
-        public Guid AccountUser { get; set; }
-        public User User { get; set; }
+        public string UserID { get; set; }
     }
 }
