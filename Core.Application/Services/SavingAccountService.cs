@@ -23,5 +23,12 @@ namespace Core.Application.Services
             _savingsAccountRepository = savingsAccountRepository;
             _mapper = mapper;
         }
+
+        public async Task<List<SavingsAccountViewModel>> GetAllByUserID(string ID)
+        {
+            var SavingList = await _savingsAccountRepository.GetAllAsync();
+            return _mapper.Map<List<SavingsAccountViewModel>>(SavingList.Where(x => x.UserID == ID).ToList());
+        }
+
     }
 }
