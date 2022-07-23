@@ -79,7 +79,7 @@ namespace Infrastructure.Identity.Services
             if (userWithSameEmail != null)
             {
                 response.HasError = true;
-                response.Error = $"Email {request.UserName} is already register";
+                response.Error = $"Email {request.Email} is already register";
                 return response;
             }
             var user = new ApplicationUser()
