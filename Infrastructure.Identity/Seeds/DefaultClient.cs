@@ -15,17 +15,17 @@ namespace Infrastructure.Identity.Seeds
         {
             ApplicationUser applicationUser = new()
             {
-                FirstName = "",
-                UserName = "",
+                FirstName = "Ramon",
+                UserName = "Ramonson",
                 Email = "",
-                PhoneNumber = "",
+                PhoneNumber = "8095432231",
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true,
 
             };
             if(userManager.Users.All(user=>user.Id != applicationUser.Id))
             {
-                var user = userManager.FindByEmailAsync(applicationUser.Email);
+                var user = await userManager.FindByEmailAsync(applicationUser.Email);
                 if (user == null)
                 {
                     await userManager.CreateAsync(applicationUser,"123Pasword!");

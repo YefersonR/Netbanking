@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Core.Application.Helpers;
 using Microsoft.AspNetCore.Http;
+using WebApp.Netbanking.Middleware;
 
 namespace WebApp.Netbanking.Controllers
 {
@@ -19,11 +20,13 @@ namespace WebApp.Netbanking.Controllers
         {
             _userService = userService;
         }
+        [ServiceFilter(typeof(LoginAuthorize))]
         public IActionResult Index()
         {
             return View(new LoginViewModel());
         }
 
+        [ServiceFilter(typeof(LoginAuthorize))]
         [HttpPost]
         public async Task<IActionResult> Index(LoginViewModel loginViewModel)
         {
@@ -52,14 +55,18 @@ namespace WebApp.Netbanking.Controllers
             HttpContext.Session.Remove("user");
             return RedirectToRoute(new { controller="User",action="Index"});
         }
+        
+        [ServiceFilter(typeof(LoginAuthorize))]
         public IActionResult Register()
         {
             return View(new UserSaveViewModel());
         }
+        
+        [ServiceFilter(typeof(LoginAuthorize))]
         [HttpPost]
         public async Task<IActionResult> Register(UserSaveViewModel saveViewModel)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return View(saveViewModel);
             }
@@ -74,19 +81,25 @@ namespace WebApp.Netbanking.Controllers
             }
             return RedirectToRoute(new {controller="User",action="Index" });
         }
+        
+        [ServiceFilter(typeof(LoginAuthorize))]
         public async Task<IActionResult> ConfirmEmail(string userId, string token)
         {
             string response = await _userService.ConfirmEmail(userId,token);
-            return View(response);
+            return View("ConfirmEmail", response);
         }
+        
+        [ServiceFilter(typeof(LoginAuthorize))]
         public IActionResult ForgotPassword()
         {
             return View(new ForgotPasswordViewModel());
         }
+        
+        [ServiceFilter(typeof(LoginAuthorize))]
         [HttpPost]
         public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel forgotPassword)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return View(forgotPassword);
             }
@@ -101,14 +114,18 @@ namespace WebApp.Netbanking.Controllers
             }
             return RedirectToRoute(new { controller = "User", action = "Index" });
         }
+        
+        [ServiceFilter(typeof(LoginAuthorize))]
         public IActionResult ResetPassword(string token)
         {
             return View(new ResetPasswordViewModel { Token = token});
         }
+        
+        [ServiceFilter(typeof(LoginAuthorize))]
         [HttpPost]
         public async Task<IActionResult> ResetPassword(ResetPasswordViewModel resetPassword)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return View(resetPassword);
             }

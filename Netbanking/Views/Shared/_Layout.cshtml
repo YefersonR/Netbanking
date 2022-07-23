@@ -2,7 +2,10 @@
 @using Core.Application.Helpers
 @using Core.Application.DTOs.Account
 @inject IHttpContextAccessor httpContextAccesor
-@{var user = httpContextAccesor.HttpContext.Session.Get<AuthenticationResponse>("user"); }
+@{
+    var user = httpContextAccesor.HttpContext.Session.Get<AuthenticationResponse>("user");
+    var isAdmin = user != null ? user.Roles.Any(rol => rol == "Admin") : false;
+}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -17,7 +20,7 @@
     <header>
         <nav class="navbar navbar-expand-sm  w-100 navbar-toggleable-sm navbar-light bg-info border-bottom box-shadow mb-3">
             <div class="container d-flex justify-content-between">
-                <a class="navbar-brand text-white" asp-controller="@(user != null ? "Home" : "User")" asp-action="Index"> NetBanking</a>
+                <a class="navbar-brand text-white" asp-controller="@(user != null ? "Admin" : "Client")" asp-action="Index"> NetBanking</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -36,7 +39,41 @@
                 }
                 else
                 {
+                    if (isAdmin)
+                    {
 
+                        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                            <ul class="navbar-nav flex-grow-1">
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" asp-controller="Admin" asp-action="Users">Administracion de usuario</a>
+                                </li>
+                            </ul>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                            <ul class="navbar-nav flex-grow-1">
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" asp-controller="Admin" asp-action="Users">Beneficiario</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                            <ul class="navbar-nav flex-grow-1">
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" asp-controller="Admin" asp-action="Users">Avance de efectivo</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                            <ul class="navbar-nav flex-grow-1">
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" asp-controller="Admin" asp-action="Users">Transferencia</a>
+                                </li>
+                            </ul>
+                        </div>
+                    }
                     <div>
                         <ul class="navbar-nav flex-grow-1">
                             <li class="nav-item">

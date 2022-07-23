@@ -12,6 +12,6 @@ namespace Core.Domain.Entities
         public int Id { get; set; }
         public Guid AccountUser { get; set; }
         public float Amount { get; set; }
-        public User User { get; set; }
+        public string UserID { get; set; }
     }
 }

@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-
+using WebApp.Netbanking.Middleware;
 
 namespace Netbanking
 {
@@ -33,6 +33,8 @@ namespace Netbanking
             services.AddIdentityLayer(Configuration);
             services.AddAplicationLayer(Configuration);
 
+            services.AddTransient<ValidateSession,ValidateSession>();
+            services.AddScoped<LoginAuthorize>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
         }

@@ -62,21 +62,6 @@ namespace Infrastructure.Identity.Services
 
             return response;
         }
-        public async Task<string> ConfirmAccount(string userId,string token)
-        {
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user == null)
-            {
-                return "No accounts registered with this user";
-            }
-            token = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(token));
-            var result = await _userManager.ConfirmEmailAsync(user,token);
-            if (result.Succeeded)
-            {
-                return $"Account confirmed for {user.Email}. You can now use the app";
-            }
-            return $"An error occurred while confirming {user.Email}.";
-        }
         public async Task<RegisterResponse> RegisterClients(RegisterRequest request,string origin)
         {
             RegisterResponse response = new();
@@ -171,7 +156,21 @@ namespace Infrastructure.Identity.Services
 
             return response;
         }
-
+        public async Task<string> ConfirmAccount(string userId, string token)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return "No accounts registered with this user";
+            }
+            token = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(token));
+            var result = await _userManager.ConfirmEmailAsync(user, token);
+            if (result.Succeeded)
+            {
+                return $"Account confirmed for {user.Email}. You can now use the app";
+            }
+            return $"An error occurred while confirming {user.Email}.";
+        }
 
         private async Task<string> SendForgotPasswordUrl(ApplicationUser user, string origin)
         {
@@ -193,7 +192,7 @@ namespace Infrastructure.Identity.Services
             string route = "User/ConfirmEmail";
             var uri = new Uri(string.Concat($"{origin}/{route}"));
             var verificationUrl = QueryHelpers.AddQueryString(uri.ToString(),"userId",user.Id);
-            verificationUrl = QueryHelpers.AddQueryString(uri.ToString(), "token", code);
+            verificationUrl += QueryHelpers.AddQueryString(verificationUrl, "token", code);
 
             return verificationUrl;
         }
