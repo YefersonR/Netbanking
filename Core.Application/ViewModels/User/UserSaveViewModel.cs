@@ -11,7 +11,7 @@ namespace Core.Application.ViewModels.User
     {
         [Required(ErrorMessage = "Debe ingresar el nombre del usuario")]
         [DataType(DataType.Text)]
-        public string FirstName { get; set; }
+        public string Name { get; set; }
         
         [Required(ErrorMessage = "Debe ingresar el apellido del usuario")]
         [DataType(DataType.Text)] 

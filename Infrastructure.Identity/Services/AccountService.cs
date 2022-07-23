@@ -79,15 +79,16 @@ namespace Infrastructure.Identity.Services
             if (userWithSameEmail != null)
             {
                 response.HasError = true;
-                response.Error = $"Email {request.UserName} is already register";
+                response.Error = $"Email {request.Email} is already register";
                 return response;
             }
             var user = new ApplicationUser()
             {
                 Email = request.Email,
-                FirstName = request.FirstName,
+                Name = request.Name,
                 LastName =request.LastName,
-                UserName = request.UserName
+                UserName = request.UserName,
+                Identification = request.Identification
             };
 
             var result = await _userManager.CreateAsync(user, request.Password);
