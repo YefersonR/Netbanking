@@ -22,5 +22,12 @@ namespace Core.Application.Services
             _loansRepository = loansRepository;
             _mapper = mapper;
         }
+
+        public async Task<List<LoansViewModel>> GetAllByUserID(string ID)
+        {
+            var LoansList = await _loansRepository.GetAllAsync();
+            return _mapper.Map<List<LoansViewModel>>(LoansList.Where(x => x.UserID == ID).ToList());
+        }
+        
     }
 }

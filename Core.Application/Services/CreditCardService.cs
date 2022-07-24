@@ -22,5 +22,11 @@ namespace Core.Application.Services
             _creditCardRepository = creditCardRepository;
             _mapper = mapper;
         }
+
+        public async Task<List<CreditCardViewModel>> GetAllByUserID(string ID)
+        {
+            var CreditCardsList = await _creditCardRepository.GetAllAsync();
+            return _mapper.Map<List<CreditCardViewModel>>(CreditCardsList.Where(x => x.UserID == ID).ToList());
+        }
     }
 }
