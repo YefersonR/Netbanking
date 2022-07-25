@@ -10,10 +10,9 @@ namespace Core.Application.ViewModels.Transation
     public class TransationsViewModel
     {
         public int Id { get; set; }
-        public Guid AccountNumber { get; set; }
-        public float Amount { get; set; }
-        public Guid NumberAccountToPay { get; set; }
-        public SavingsAccountViewModel User { get; set; }
-        public SavingsAccountViewModel AccountToPay { get; set; }
+        public string AccountNumber { get; set; }
+        public double Amount { get; set; }
+        public string NumberAccountToPay { get; set; }
+        public DateTime Created { get; set; }
     }
 }

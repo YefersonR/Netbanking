@@ -1,12 +1,13 @@
-﻿using Core.Application.Interfaces.Services;
+﻿using Core.Application.Enums;
+using Core.Application.Interfaces.Services;
 using Core.Application.ViewModels.Products;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace WebApp.Netbanking.Controllers
 {
-
-    
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         private readonly ICreditCardService _creditCardService;
@@ -25,12 +26,12 @@ namespace WebApp.Netbanking.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Products(string ID)
+        public async Task<IActionResult> Products()
         {
             UserProductsViewModels vm = new();
-            vm.TarjetasDeCredito = await _creditCardService.GetAllByUserID(ID);
-            vm.Prestamos = await _loansService.GetAllByUserID(ID);
-            vm.CuentasDeAhorro = await _savingsAccountService.GetAllByUserID(ID);
+            vm.TarjetasDeCredito = await _creditCardService.GetAllAsync();
+            vm.Prestamos = await _loansService.GetAllAsync();
+            vm.CuentasDeAhorro = await _savingsAccountService.GetAllAsync();
             return View(vm);
         }
     }

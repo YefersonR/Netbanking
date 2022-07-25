@@ -1,4 +1,5 @@
-﻿using Core.Application.ViewModels.User;
+﻿using Core.Application.ViewModels.Transation;
+using Core.Application.ViewModels.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +10,11 @@ namespace Core.Application.ViewModels.Loans
 {
     public class LoansSaveViewModel
     {
-        public int Id { get; set; }
-        public Guid AccountUser { get; set; }
-        public float Amount { get; set; }
-        public UserViewModel User { get; set; }
+        public string Loan { get; set; }
+        public double Debt { get; set; }
+        public double Limit { get; set; }
+        public string UserID { get; set; }
+        public DateTime Created { get; set; }
     }
 }
+

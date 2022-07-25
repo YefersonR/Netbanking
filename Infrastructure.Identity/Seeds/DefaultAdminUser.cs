@@ -15,7 +15,7 @@ namespace Infrastructure.Identity.Seeds
         {
             ApplicationUser applicationAdmin = new()
             {
-                Name = "Admin",
+                FirstName = "Admin",
                 LastName = "Administrador",
                 UserName = "Admin",
                 Email = "yefersonrubio27@gmail.com",

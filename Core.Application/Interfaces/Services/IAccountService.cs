@@ -14,6 +14,11 @@ namespace Core.Application.Interfaces.Services
         Task<AuthenticationResponse> Authentication(AuthenticationRequest request);
         Task<string> ConfirmAccount(string userId, string token);
         Task<RegisterResponse> RegisterClients(RegisterRequest request, string origin);
+        Task<RegisterResponse> UpdateClient(RegisterRequest request, string origin);
+        Task<RegisterResponse> RegisterAdmin(RegisterRequest request, string origin);
+        Task<RegisterResponse> UpdateAdmin(RegisterRequest request, string origin);
+        //Task<List<RegisterRequest>> GetAllClients();
+        //Task<List<UserViewModel>> GetAllAdmins();
         Task<ForgotPasswordResponse> ForgotPassword(ForgotPasswordRequest request, string origin);
         Task<ResetPasswordResponse> ResetPassword(ResetPasswordRequest request);
         Task SignOut();

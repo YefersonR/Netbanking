@@ -11,10 +11,10 @@ namespace Core.Application.ViewModels.SavingsAccount
 {
     public class SavingsAccountViewModel
     {
-        public Guid AccountNumber { get; set; }
+        public string AccountNumber { get; set; }
         public float Amount { get; set; }
-        public UserViewModel User { get; set; }
+        public string UserID { get; set; }
+        public DateTime Created { get; set; }
         public List<TransationsViewModel> Transations { get; set; }
-        public List<BeneficiaryViewModel> Beneficiaries { get; set; }
     }
 }

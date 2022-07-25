@@ -9,9 +9,12 @@ namespace Core.Domain.Entities
 {
     public class Loans : AuditableBase
     {
-        public int Id { get; set; }
-        public Guid AccountUser { get; set; }
-        public float Amount { get; set; }
+        public string Loan { get; set; }
+        public double Debt { get; set; }
         public string UserID { get; set; }
+        public double Limit { get; set; }
+        public List<Transations> Transations { get; set; }
+
+
     }
 }

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(NetBankingContext))]
-    [Migration("20220723174333_Updatedb")]
-    partial class Updatedb
+    [Migration("20220725025623_Test2Migration")]
+    partial class Test2Migration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -28,11 +28,8 @@ namespace Infrastructure.Persistence.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<Guid>("AccountBeneficiary")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("AccountUser")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("AccountBeneficiary")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
@@ -51,16 +48,13 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AccountBeneficiary");
-
                     b.ToTable("Beneficiaries");
                 });
 
             modelBuilder.Entity("Core.Domain.Entities.CreditCard", b =>
                 {
-                    b.Property<Guid>("CardNumber")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("CardNumber")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
@@ -68,11 +62,11 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<float>("Debt")
-                        .HasColumnType("real");
+                    b.Property<double>("Debt")
+                        .HasColumnType("float");
 
-                    b.Property<float>("Limit")
-                        .HasColumnType("real");
+                    b.Property<double>("Limit")
+                        .HasColumnType("float");
 
                     b.Property<DateTime>("Updated")
                         .HasColumnType("datetime2");
@@ -90,22 +84,20 @@ namespace Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Core.Domain.Entities.Loans", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<Guid>("AccountUser")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<float>("Amount")
-                        .HasColumnType("real");
+                    b.Property<string>("Loan")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Debt")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Limit")
+                        .HasColumnType("float");
 
                     b.Property<DateTime>("Updated")
                         .HasColumnType("datetime2");
@@ -116,19 +108,21 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<string>("UserID")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("Loan");
 
                     b.ToTable("Loans");
                 });
 
             modelBuilder.Entity("Core.Domain.Entities.SavingsAccount", b =>
                 {
-                    b.Property<Guid>("AccountNumber")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("AccountNumber")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<float>("Amount")
-                        .HasColumnType("real");
+                    b.Property<double>("Amount")
+                        .HasColumnType("float");
+
+                    b.Property<int>("BeneficiaryID")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
@@ -147,6 +141,9 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasKey("AccountNumber");
 
+                    b.HasIndex("BeneficiaryID")
+                        .IsUnique();
+
                     b.ToTable("SavingsAccounts");
                 });
 
@@ -157,14 +154,11 @@ namespace Infrastructure.Persistence.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<Guid>("AccountNumber")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("AccountNumber")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("AccountToPayAccountNumber")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<float>("Amount")
-                        .HasColumnType("real");
+                    b.Property<double>("Amount")
+                        .HasColumnType("float");
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
@@ -172,8 +166,14 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("NumberAccountToPay")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("CreditCardCardNumber")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("LoansLoan")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("SavingsAccountAccountNumber")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("Updated")
                         .HasColumnType("datetime2");
@@ -181,47 +181,69 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UserToPayAccount")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("AccountNumber");
+                    b.HasIndex("CreditCardCardNumber");
 
-                    b.HasIndex("AccountToPayAccountNumber");
+                    b.HasIndex("LoansLoan");
+
+                    b.HasIndex("SavingsAccountAccountNumber");
 
                     b.ToTable("Transations");
                 });
 
-            modelBuilder.Entity("Core.Domain.Entities.Beneficiary", b =>
+            modelBuilder.Entity("Core.Domain.Entities.SavingsAccount", b =>
                 {
-                    b.HasOne("Core.Domain.Entities.SavingsAccount", "BeneficiaryUser")
-                        .WithMany("Beneficiaries")
-                        .HasForeignKey("AccountBeneficiary")
+                    b.HasOne("Core.Domain.Entities.Beneficiary", "Beneficiary")
+                        .WithOne("BeneficiaryUser")
+                        .HasForeignKey("Core.Domain.Entities.SavingsAccount", "BeneficiaryID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("BeneficiaryUser");
+                    b.Navigation("Beneficiary");
                 });
 
             modelBuilder.Entity("Core.Domain.Entities.Transations", b =>
                 {
-                    b.HasOne("Core.Domain.Entities.SavingsAccount", "User")
+                    b.HasOne("Core.Domain.Entities.CreditCard", "CreditCard")
                         .WithMany("Transations")
-                        .HasForeignKey("AccountNumber")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CreditCardCardNumber");
 
-                    b.HasOne("Core.Domain.Entities.SavingsAccount", "AccountToPay")
-                        .WithMany()
-                        .HasForeignKey("AccountToPayAccountNumber");
+                    b.HasOne("Core.Domain.Entities.Loans", "Loans")
+                        .WithMany("Transations")
+                        .HasForeignKey("LoansLoan");
 
-                    b.Navigation("AccountToPay");
+                    b.HasOne("Core.Domain.Entities.SavingsAccount", "SavingsAccount")
+                        .WithMany("Transations")
+                        .HasForeignKey("SavingsAccountAccountNumber");
 
-                    b.Navigation("User");
+                    b.Navigation("CreditCard");
+
+                    b.Navigation("Loans");
+
+                    b.Navigation("SavingsAccount");
+                });
+
+            modelBuilder.Entity("Core.Domain.Entities.Beneficiary", b =>
+                {
+                    b.Navigation("BeneficiaryUser");
+                });
+
+            modelBuilder.Entity("Core.Domain.Entities.CreditCard", b =>
+                {
+                    b.Navigation("Transations");
+                });
+
+            modelBuilder.Entity("Core.Domain.Entities.Loans", b =>
+                {
+                    b.Navigation("Transations");
                 });
 
             modelBuilder.Entity("Core.Domain.Entities.SavingsAccount", b =>
                 {
-                    b.Navigation("Beneficiaries");
-
                     b.Navigation("Transations");
                 });
 #pragma warning restore 612, 618

@@ -2,7 +2,6 @@
 using Infrastructure.Identity.Context;
 using Infrastructure.Identity.Models;
 using Infrastructure.Identity.Services;
-using Infrastructure.Shared.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

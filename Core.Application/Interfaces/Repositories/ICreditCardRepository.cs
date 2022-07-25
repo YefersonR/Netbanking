@@ -9,5 +9,7 @@ namespace Core.Application.Interfaces.Repositories
 {
     public interface ICreditCardRepository : IGenericRepository<CreditCard>
     {
+        Task<CreditCard> GetById(string Id);
+        Task Pay(string Id);
     }
 }

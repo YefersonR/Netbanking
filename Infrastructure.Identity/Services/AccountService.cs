@@ -1,9 +1,11 @@
 ﻿using Core.Application.DTOs.Account;
 using Core.Application.DTOs.Email;
 using Core.Application.Enums;
+using Core.Application.ViewModels.SavingsAccount;
 using Core.Application.Interfaces.Services;
+using Core.Application.Services;
+using Core.Application.ViewModels.User;
 using Infrastructure.Identity.Models;
-using Infrastructure.Shared.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using System;
@@ -11,6 +13,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Core.Application.Helpers;
+using Infrastructure.Identity.Context;
 
 namespace Infrastructure.Identity.Services
 {
@@ -18,13 +22,14 @@ namespace Infrastructure.Identity.Services
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly IEmailService _emailService;
-        public AccountService(UserManager<ApplicationUser> userManager,IEmailService emailService, SignInManager<ApplicationUser> signInManager)
+        private readonly ISavingsAccountService _savingAccount;
+        private readonly IdentityContext _identityContext;
+        public AccountService(IdentityContext identityContext, ISavingsAccountService savingAccount,UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             _signInManager = signInManager;
             _userManager = userManager;
-            _emailService = emailService;
-
+            _savingAccount = savingAccount;
+            _identityContext = identityContext;
         }
         public async Task<AuthenticationResponse> Authentication(AuthenticationRequest request)
         {
@@ -82,11 +87,85 @@ namespace Infrastructure.Identity.Services
                 response.Error = $"Email {request.Email} is already register";
                 return response;
             }
+            var cuenta = GenerateNumberAccount.GenerateAccount();
+            var account = new SavingsAccountSaveViewModel()
+            {
+                AccountNumber = cuenta,
+                Amount = 0,
+                
+            };
+            await _savingAccount.Add(account);
+
             var user = new ApplicationUser()
             {
                 Email = request.Email,
-                Name = request.Name,
+                FirstName = request.FirstName,
                 LastName =request.LastName,
+                UserName = request.UserName,
+                Identification = request.Identification,
+                SavingAccount = account.AccountNumber
+            };
+
+            var result = await _userManager.CreateAsync(user, request.Password);
+            if (!result.Succeeded)
+            {
+                response.HasError = true;
+                response.Error = $"An error ocurred trying to register the user";
+                return response;
+            }
+            await _userManager.AddToRoleAsync(user,Roles.Client.ToString());
+            return response;
+        }
+        public async Task<RegisterResponse> UpdateClient(RegisterRequest request,string origin)
+        {
+            RegisterResponse response = new();
+            response.HasError = false;
+
+            var userToUpdate = await _userManager.FindByNameAsync(request.UserName);
+
+            var user = userToUpdate;
+
+            user.Email = request.Email;
+            user.FirstName = request.FirstName;
+            user.LastName = request.LastName;
+            user.UserName = request.UserName;
+            user.Identification = request.Identification;
+            
+            var result = await _userManager.UpdateAsync(user);
+            if (!result.Succeeded)
+            {
+                response.HasError = true;
+                response.Error = $"An error ocurred trying to update the user";
+                return response;
+            }
+            return response;
+        }
+
+        public async Task<RegisterResponse> RegisterAdmin(RegisterRequest request, string origin)
+        {
+            RegisterResponse response = new();
+
+            response.HasError = false;
+            var userWithSameUserName = await _userManager.FindByNameAsync(request.UserName);
+            if (userWithSameUserName != null)
+            {
+                response.HasError = true;
+                response.Error = $"userName {request.UserName} is already taken";
+                return response;
+            }
+            var userWithSameEmail = await _userManager.FindByEmailAsync(request.Email);
+
+            if (userWithSameEmail != null)
+            {
+                response.HasError = true;
+                response.Error = $"Email {request.Email} is already register";
+                return response;
+            }
+            var user = new ApplicationUser()
+            {
+                Email = request.Email,
+                FirstName = request.FirstName,
+                LastName = request.LastName,
                 UserName = request.UserName,
                 Identification = request.Identification
             };
@@ -98,15 +177,32 @@ namespace Infrastructure.Identity.Services
                 response.Error = $"An error ocurred trying to register the user";
                 return response;
             }
-            await _userManager.AddToRoleAsync(user,Roles.Client.ToString());
-            var verificationUri = await SendVerificacionEmailUrl(user,origin);
-            await _emailService.SendEmail(new EmailRequest()
-            {
-                To = user.Email,
-                Body = $"Confirm your account this url {verificationUri}",
-                Subject="Confirm Registration"
-            }); 
+            await _userManager.AddToRoleAsync(user, Roles.Admin.ToString());
+            
+            return response;
+        }
+        public async Task<RegisterResponse> UpdateAdmin(RegisterRequest request, string origin)
+        {
+            RegisterResponse response = new();
+            response.HasError = false;
 
+            var userToUpdate = await _userManager.FindByNameAsync(request.UserName);
+
+            var user = userToUpdate;
+
+            user.Email = request.Email;
+            user.FirstName = request.FirstName;
+            user.LastName = request.LastName;
+            user.UserName = request.UserName;
+            user.Identification = request.Identification;
+
+            var result = await _userManager.UpdateAsync(user);
+            if (!result.Succeeded)
+            {
+                response.HasError = true;
+                response.Error = $"An error ocurred trying to update the user";
+                return response;
+            }
             return response;
         }
 
@@ -125,13 +221,7 @@ namespace Infrastructure.Identity.Services
                 return response;
             }
             var verificationUri = await SendForgotPasswordUrl(user, origin);
-            await _emailService.SendEmail(new EmailRequest()
-            {
-                To = user.Email,
-                Body = $"Reset your account visiting this url {verificationUri}",
-                Subject = "Reset Password"
-            });
-
+            
             return response;
         }
         public async Task<ResetPasswordResponse> ResetPassword(ResetPasswordRequest request)
@@ -185,23 +275,38 @@ namespace Infrastructure.Identity.Services
             return verificationUrl;
         }
 
-        private async Task<string> SendVerificacionEmailUrl(ApplicationUser user,string origin)
-        {
-
-            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-            string route = "User/ConfirmEmail";
-            var uri = new Uri(string.Concat($"{origin}/{route}"));
-            var verificationUrl = QueryHelpers.AddQueryString(uri.ToString(),"userId",user.Id);
-            verificationUrl += QueryHelpers.AddQueryString(verificationUrl, "token", code);
-
-            return verificationUrl;
-        }
         public async Task SignOut()
-        {
+       {
             await _signInManager.SignOutAsync();
-        }
+       }
+        public List<RegisterRequest> GetAllClients()
+        {
+         
 
+            var users =  _identityContext.Users;
+            RegisterRequest registerRequest = new();
+            return users.Select(userq => new RegisterRequest 
+            {
+                FirstName = userq.FirstName,
+                LastName = userq.LastName,
+                UserName = userq.UserName,
+                Identification = userq.Identification
+                
+
+            }).ToList();
+
+
+        }
+        public async Task<IList<ApplicationUser>> GetAllAdmins()
+        {
+            return await _userManager.GetUsersInRoleAsync(Roles.Admin.ToString());
+        }
+        public async Task ChangeUserState(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            user.EmailConfirmed = user.EmailConfirmed == false ? true : false;
+            await _userManager.UpdateAsync(user);
+        }
 
     }
 }

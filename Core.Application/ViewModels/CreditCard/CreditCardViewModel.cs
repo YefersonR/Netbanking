@@ -1,4 +1,6 @@
-﻿using Core.Application.ViewModels.User;
+﻿using Core.Application.ViewModels.Transation;
+using Core.Application.ViewModels.User;
+using Core.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +11,11 @@ namespace Core.Application.ViewModels.CreditCard
 {
     public class CreditCardViewModel
     {
-        public Guid CardNumber { get; set; }
-        public float Limit { get; set; }
-        public float Debt { get; set; }
-        public Guid AccountUser { get; set; }
-        public UserViewModel User { get; set; }
+        public string CardNumber { get; set; }
+        public double Limit { get; set; }
+        public double Debt { get; set; }
+        public string UserID { get; set; }
+        public DateTime Created { get; set; }
+        public List<TransationsViewModel> Transations { get; set; }
     }
 }

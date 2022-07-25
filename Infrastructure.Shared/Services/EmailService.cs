@@ -42,7 +42,6 @@ namespace Infrastructure.Shared.Services
             }
             catch (Exception ex)
             {
-
             }
         }
     }

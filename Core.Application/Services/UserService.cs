@@ -53,5 +53,10 @@ namespace Core.Application.Services
         {
             await _accountService.SignOut();
         }
+        ////public async Task<List<UserViewModel>> GetAllClients()
+        ////{
+
+        ////}
+
     }
 }
