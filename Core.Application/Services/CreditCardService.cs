@@ -53,5 +53,11 @@ namespace Core.Application.Services
             CreditCardSaveViewModel CardVm = _mapper.Map<CreditCardSaveViewModel>(Card);
             return CardVm;
         }
+
+        public async Task<List<CreditCardViewModel>> GetAllByUserID(string ID)
+        {
+            var CreditCardsList = await _creditCardRepository.GetAllAsync();
+            return _mapper.Map<List<CreditCardViewModel>>(CreditCardsList.Where(x => x.UserID == ID).ToList());
+        }
     }
 }
