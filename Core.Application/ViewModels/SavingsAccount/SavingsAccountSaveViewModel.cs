@@ -8,7 +8,10 @@ namespace Core.Application.ViewModels.SavingsAccount
 {
     public class SavingsAccountSaveViewModel
     {
-        public Guid AccountNumber { get; set; }
+        public string AccountNumber { get; set; }
         public float Amount { get; set; }
+        public string UserID { get; set; }
+        public DateTime Created { get; set; }
+
     }
 }

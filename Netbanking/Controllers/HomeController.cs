@@ -1,4 +1,6 @@
 ﻿using Core.Application.Enums;
+using Core.Application.Interfaces.Services;
+using Infrastructure.Identity.Context;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -12,8 +14,7 @@ using System.Threading.Tasks;
 namespace Netbanking.Controllers
 {
     public class HomeController : Controller
-    { 
-        [Authorize(Roles = "Admin")]
+    {
         public IActionResult Index()
         {
             return View();

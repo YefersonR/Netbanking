@@ -17,5 +17,15 @@ namespace Infrastructure.Persistence.Repositories
         {
             _dbContext = dbContext;
         }
+        public async Task<CreditCard> GetById(string Id)
+        {
+            return await _dbContext.Set<CreditCard>().FindAsync(Id);
+        }
+        public async Task Pay(string Id)
+        {
+            CreditCard entry = await _dbContext.Set<CreditCard>().FindAsync(Id);
+            _dbContext.Entry(entry).CurrentValues.SetValues(entry);
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }

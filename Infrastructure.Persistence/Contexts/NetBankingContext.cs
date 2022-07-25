@@ -29,7 +29,7 @@ namespace Infrastructure.Persistence.Contexts
             modelBuilder.Entity<Transations>()
                 .HasKey(transations => transations.Id);
             modelBuilder.Entity<Loans>()
-                .HasKey(loans => loans.Id);
+                .HasKey(loans => loans.Loan);
             modelBuilder.Entity<SavingsAccount>()
                 .HasKey(savings => savings.AccountNumber);
             #endregion
@@ -37,15 +37,23 @@ namespace Infrastructure.Persistence.Contexts
 
             modelBuilder.Entity<Beneficiary>()
                 .HasOne<SavingsAccount>(transations => transations.BeneficiaryUser)
-                .WithMany(user => user.Beneficiaries)
-                .HasForeignKey(transations => transations.AccountBeneficiary);
-            
-            modelBuilder.Entity<SavingsAccount>()
-                .HasMany<Transations>(user => user.Transations)
-                .WithOne(transations => transations.User)
-                .HasForeignKey(benediciary => benediciary.AccountNumber);
+                .WithOne(beneficiary => beneficiary.Beneficiary)
+                .HasForeignKey<SavingsAccount>(transations => transations.BeneficiaryID);
 
-            
+            modelBuilder.Entity<Transations>()
+                .HasOne<SavingsAccount>(account => account.SavingsAccount)
+                .WithMany(transations => transations.Transations)
+                .HasForeignKey(transations => transations.UserToPayAccount);
+
+            modelBuilder.Entity<Transations>()
+                .HasOne<Loans>(account => account.Loans)
+                .WithMany(transations => transations.Transations)
+                .HasForeignKey(transations => transations.UserToPayAccount);
+
+            modelBuilder.Entity<Transations>()
+                .HasOne<CreditCard>(account => account.CreditCard)
+                .WithMany(transations => transations.Transations)
+                .HasForeignKey(transations => transations.UserToPayAccount);
             #endregion
 
         }

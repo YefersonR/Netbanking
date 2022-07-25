@@ -2,6 +2,7 @@ using Core.Application;
 using Core.Application.Interfaces.Services;
 using Core.Application.Services;
 using Infrastructure.Identity;
+using Infrastructure.Identity.Context;
 using Infrastructure.Persistence;
 using Infrastructure.Shared;
 using Microsoft.AspNetCore.Builder;
@@ -34,6 +35,7 @@ namespace Netbanking
             services.AddAplicationLayer(Configuration);
 
             services.AddTransient<ValidateSession,ValidateSession>();
+            services.AddTransient<IdentityContext, IdentityContext>();
             services.AddScoped<LoginAuthorize>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
@@ -65,7 +67,7 @@ namespace Netbanking
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=User}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }
