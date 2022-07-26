@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Identity.Migrations
 {
     [DbContext(typeof(IdentityContext))]
-    [Migration("20220715065044_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20220723174351_Updatedb")]
+    partial class Updatedb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -46,9 +46,6 @@ namespace Infrastructure.Identity.Migrations
 
                     b.Property<string>("Identification")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
 
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");

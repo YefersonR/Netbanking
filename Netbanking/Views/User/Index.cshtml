@@ -1,0 +1,38 @@
+﻿@using Core.Application.ViewModels.User
+@model LoginViewModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+
+<div class="row mt-5">
+    <div class="col-6 offset-3">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                @Html.ValidationSummary(false, "", new {@class = "text-danger"})
+                @if (Model.HasError)
+                {
+                    <div class="alert alert-danger alert-dismissible fade show " role="alert">
+                        <p>@Model.Error</p>
+                        <button type="button" class="btn-close" data-bs-dismiss="Alert" aria-label="Close"></button>
+                    </div>
+                }
+            <form method="post" asp-controller="User" asp-action="Index">
+                <div class="mb-3">
+                    <label asp-for="UserName" class="form-label">Nombre de usuario</label>
+                    <input class="form-control" asp-for="UserName" />
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Password" class="form-label">Contraseña</label>
+                    <input class="form-control" asp-for="Password" />
+                </div>
+
+                <button type="submit" class="btn btn-primary">Iniciar Seccion</button>
+                <a asp-controller="User" asp-action="ForgotPassword" class="btn btn-warning float-end me-2">Olvide mi contraseña</a>
+            </form>
+            </div>
+        </div>
+    </div>
+</div>

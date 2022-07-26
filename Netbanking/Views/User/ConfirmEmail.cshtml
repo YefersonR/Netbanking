@@ -1,0 +1,19 @@
+﻿@model string  
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="row mt-5">
+    <div class="col-6 offset-3">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                
+                    <div class="alert alert-danger alert-dismissible fade show " role="alert">
+                        <h2>@Model - <a class="btn btn-primary" asp-controller="User" asp-action="Index">Inicia Seccion</a></h2>
+                        <button type="button" class="btn-close" data-bs-dismiss="Alert" aria-label="Close"></button>
+                    </div>
+ 
+            </div>
+        </div>
+    </div>
+</div>

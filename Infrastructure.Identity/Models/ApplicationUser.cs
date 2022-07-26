@@ -12,8 +12,7 @@ namespace Infrastructure.Identity.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Identification { get; set; }
-        public bool IsActive { get; set; }
-        public Guid SavingAccount { get; set; }
+        public string SavingAccount { get; set; }
         public Guid CardCredit { get; set; }
 
     }

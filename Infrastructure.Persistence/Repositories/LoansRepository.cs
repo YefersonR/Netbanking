@@ -17,5 +17,15 @@ namespace Infrastructure.Persistence.Repositories
         {
             _dbContext = dbContext;
         }
+        public async Task<Loans> GetById(string Id)
+        {
+            return await _dbContext.Set<Loans>().FindAsync(Id);
+        }
+        public async Task Pay(string Id)
+        {
+            Loans entry = await _dbContext.Set<Loans>().FindAsync(Id);
+            _dbContext.Entry(entry).CurrentValues.SetValues(entry);
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }

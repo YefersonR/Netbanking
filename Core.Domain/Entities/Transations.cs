@@ -10,10 +10,12 @@ namespace Core.Domain.Entities
     public class Transations : AuditableBase
     {
         public int  Id { get; set; }
-        public Guid AccountNumber { get; set; }
-        public float Amount { get; set; }
-        public Guid NumberAccountToPay{ get; set; }
-        public SavingsAccount User { get; set; }
-        public SavingsAccount AccountToPay{ get; set; }
+        public string AccountNumber { get; set; }
+        public double Amount { get; set; }
+        public string UserToPayAccount { get; set; }
+        public CreditCard CreditCard { get; set; }
+        public SavingsAccount SavingsAccount { get; set; }
+        public Loans Loans { get; set; }
+
     }
 }

@@ -10,6 +10,6 @@ namespace Core.Application.Interfaces.Services
 {
     public interface ICreditCardService : IGenericService<CreditCardSaveViewModel, CreditCardViewModel, CreditCard>
     {
-        
+        Task<CreditCardSaveViewModel> GetById(string id);
     }
 }

@@ -11,9 +11,9 @@ namespace Core.Application.ViewModels.Beneficiary
     public class BeneficiaryViewModel
     {
         public int Id { get; set; }
-        public Guid AccountUser { get; set; }
-        public UserViewModel User { get; set; }
-        public Guid AccountBeneficiary { get; set; }
+        public string UserID { get; set; }
+        public string AccountBeneficiary { get; set; }
+        public string BeneficiaryID { get; set; }
         public SavingsAccountViewModel BeneficiaryUser { get; set; }
     }
 }
