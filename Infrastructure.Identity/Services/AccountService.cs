@@ -99,7 +99,7 @@ namespace Infrastructure.Identity.Services
             var user = new ApplicationUser()
             {
                 Email = request.Email,
-                FirstName = request.FirstName,
+                Name = request.Name,
                 LastName =request.LastName,
                 UserName = request.UserName,
                 Identification = request.Identification,
@@ -126,7 +126,7 @@ namespace Infrastructure.Identity.Services
             var user = userToUpdate;
 
             user.Email = request.Email;
-            user.FirstName = request.FirstName;
+            user.Name = request.Name;
             user.LastName = request.LastName;
             user.UserName = request.UserName;
             user.Identification = request.Identification;
@@ -164,7 +164,7 @@ namespace Infrastructure.Identity.Services
             var user = new ApplicationUser()
             {
                 Email = request.Email,
-                FirstName = request.FirstName,
+                Name = request.Name,
                 LastName = request.LastName,
                 UserName = request.UserName,
                 Identification = request.Identification
@@ -191,7 +191,7 @@ namespace Infrastructure.Identity.Services
             var user = userToUpdate;
 
             user.Email = request.Email;
-            user.FirstName = request.FirstName;
+            user.Name = request.Name;
             user.LastName = request.LastName;
             user.UserName = request.UserName;
             user.Identification = request.Identification;
@@ -287,7 +287,7 @@ namespace Infrastructure.Identity.Services
             RegisterRequest registerRequest = new();
             return users.Select(userq => new RegisterRequest 
             {
-                FirstName = userq.FirstName,
+                Name = userq.Name,
                 LastName = userq.LastName,
                 UserName = userq.UserName,
                 Identification = userq.Identification
