@@ -30,10 +30,15 @@ namespace Core.Application.Services
             
             return response;
         }
-        public async Task<RegisterResponse> Register(UserSaveViewModel userSaveViewModel,string origin)
+        public async Task<RegisterResponse> RegisterClient(UserSaveViewModel userSaveViewModel,string origin)
         {
             RegisterRequest registerRequest = _mapper.Map<RegisterRequest>(userSaveViewModel);
             return await _accountService.RegisterClients(registerRequest,origin);
+        }
+        public async Task<RegisterResponse> RegisterAdmin(UserSaveViewModel userSaveViewModel, string origin)
+        {
+            RegisterRequest registerRequest = _mapper.Map<RegisterRequest>(userSaveViewModel);
+            return await _accountService.RegisterAdmin(registerRequest, origin);
         }
         public async Task<string> ConfirmEmail(string userId,string token)
         {

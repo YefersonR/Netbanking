@@ -37,7 +37,6 @@ namespace WebApp.Netbanking.Controllers
             AuthenticationResponse user = await _userService.Login(loginViewModel);
             if(user != null && user.HasError != true)
             {
-
                 HttpContext.Session.Set<AuthenticationResponse>("user",user);
                 return RedirectToRoute(new { controller = "Home", action = "Index" });
             }
@@ -71,12 +70,12 @@ namespace WebApp.Netbanking.Controllers
                 return View(saveViewModel);
             }
             var origin = Request.Headers["origin"];
-            RegisterResponse registerResponse = await _userService.Register(saveViewModel,origin);
+            RegisterResponse registerResponse = await _userService.RegisterClient(saveViewModel,origin);
             if (registerResponse.HasError)
             {
                 saveViewModel.HasError = registerResponse.HasError;
                 saveViewModel.Error = registerResponse.Error;
-                
+                    
                 return View(saveViewModel);
             }
             return RedirectToRoute(new {controller="User",action="Index" });

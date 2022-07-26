@@ -35,6 +35,7 @@ namespace Infrastructure.Identity.Services
         {
             AuthenticationResponse response = new();
             var user = await _userManager.FindByNameAsync(request.UserName);
+
             if(user == null)
             {
                 response.HasError = true;
@@ -94,7 +95,7 @@ namespace Infrastructure.Identity.Services
                 Amount = 0,
                 
             };
-            await _savingAccount.Add(account);
+           //var Savingaccount = await _savingAccount.Add(account);
 
             var user = new ApplicationUser()
             {
