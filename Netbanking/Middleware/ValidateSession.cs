@@ -24,5 +24,10 @@ namespace WebApp.Netbanking.Middleware
             }
             return true;
         }
+        public bool IsAdmin()
+        {
+            AuthenticationResponse user = _httpContext.HttpContext.Session.Get<AuthenticationResponse>("user");
+            return user != null ? user.Roles.Any(rol => rol == "Admin") : false;
+        }
     }
 }

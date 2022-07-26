@@ -20,7 +20,14 @@ namespace WebApp.Netbanking.Middleware
             if (_validateSession.HasUser())
             {
                 var controller = (UserController)context.Controller;
-                context.Result = controller.RedirectToRoute("Index", "Home");
+                if (_validateSession.IsAdmin())
+                {
+                    context.Result = controller.RedirectToRoute("Index", "Admin");
+                }
+                else
+                {
+                    context.Result = controller.RedirectToRoute("Index", "Client");
+                }
             }
             else
             {

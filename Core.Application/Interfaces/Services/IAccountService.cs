@@ -17,8 +17,7 @@ namespace Core.Application.Interfaces.Services
         Task<RegisterResponse> UpdateClient(RegisterRequest request, string origin);
         Task<RegisterResponse> RegisterAdmin(RegisterRequest request, string origin);
         Task<RegisterResponse> UpdateAdmin(RegisterRequest request, string origin);
-        //Task<List<RegisterRequest>> GetAllClients();
-        //Task<List<UserViewModel>> GetAllAdmins();
+        Task<List<UserViewModel>> GetAllUser();
         Task<ForgotPasswordResponse> ForgotPassword(ForgotPasswordRequest request, string origin);
         Task<ResetPasswordResponse> ResetPassword(ResetPasswordRequest request);
         Task SignOut();

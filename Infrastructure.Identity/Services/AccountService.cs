@@ -35,6 +35,7 @@ namespace Infrastructure.Identity.Services
         {
             AuthenticationResponse response = new();
             var user = await _userManager.FindByNameAsync(request.UserName);
+
             if(user == null)
             {
                 response.HasError = true;
@@ -94,12 +95,12 @@ namespace Infrastructure.Identity.Services
                 Amount = 0,
                 
             };
-            await _savingAccount.Add(account);
+           //var Savingaccount = await _savingAccount.Add(account);
 
             var user = new ApplicationUser()
             {
                 Email = request.Email,
-                FirstName = request.FirstName,
+                Name = request.Name,
                 LastName =request.LastName,
                 UserName = request.UserName,
                 Identification = request.Identification,
@@ -126,7 +127,7 @@ namespace Infrastructure.Identity.Services
             var user = userToUpdate;
 
             user.Email = request.Email;
-            user.FirstName = request.FirstName;
+            user.Name = request.Name;
             user.LastName = request.LastName;
             user.UserName = request.UserName;
             user.Identification = request.Identification;
@@ -164,7 +165,7 @@ namespace Infrastructure.Identity.Services
             var user = new ApplicationUser()
             {
                 Email = request.Email,
-                FirstName = request.FirstName,
+                Name = request.Name,
                 LastName = request.LastName,
                 UserName = request.UserName,
                 Identification = request.Identification
@@ -191,7 +192,7 @@ namespace Infrastructure.Identity.Services
             var user = userToUpdate;
 
             user.Email = request.Email;
-            user.FirstName = request.FirstName;
+            user.Name = request.Name;
             user.LastName = request.LastName;
             user.UserName = request.UserName;
             user.Identification = request.Identification;
@@ -279,27 +280,29 @@ namespace Infrastructure.Identity.Services
        {
             await _signInManager.SignOutAsync();
        }
-        public List<RegisterRequest> GetAllClients()
+        public async Task<List<UserViewModel>> GetAllUser()
         {
-         
-
-            var users =  _identityContext.Users;
-            RegisterRequest registerRequest = new();
-            return users.Select(userq => new RegisterRequest 
+            var users = _userManager.Users.ToList();
+            List<UserViewModel> usersList = users.Select(user => new UserViewModel
             {
-                FirstName = userq.FirstName,
-                LastName = userq.LastName,
-                UserName = userq.UserName,
-                Identification = userq.Identification
+                Name = user.Name,
+                LastName = user.LastName,
+                UserName = user.UserName,
+                Identification = user.Identification
                 
 
             }).ToList();
 
+            int counter = 0;
+            foreach(ApplicationUser user in users)
+            {
+                var roles = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
+                string role = roles[9];
+                usersList[counter].Roles = role;
+                counter++;
+            }
 
-        }
-        public async Task<IList<ApplicationUser>> GetAllAdmins()
-        {
-            return await _userManager.GetUsersInRoleAsync(Roles.Admin.ToString());
+            return usersList;
         }
         public async Task ChangeUserState(string id)
         {
