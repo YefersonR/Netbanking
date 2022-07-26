@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Core.Application.DTOs.Account;
+using Core.Application.Enums;
 using Core.Application.Interfaces.Services;
 using Core.Application.ViewModels.Beneficiary;
 using Core.Application.ViewModels.User;
@@ -53,10 +54,33 @@ namespace Core.Application.Services
         {
             await _accountService.SignOut();
         }
-        ////public async Task<List<UserViewModel>> GetAllClients()
-        ////{
+        public async Task<List<UserViewModel>> GetAllClients()
+        {
+            List<UserViewModel> usersVM = await _accountService.GetAllUser();
+            List<UserViewModel> usersClients = new();
+            
+            foreach(UserViewModel user in usersVM)
+            {
+                if (user.Roles == Roles.Client.ToString())
+                {
+                    usersClients.Add(user);
+                }
+            }
+            return usersClients;
+        }
+        public async Task<List<UserViewModel>> GetAlladmin()
+        {
+            List<UserViewModel> usersVM = await _accountService.GetAllUser();
+            List<UserViewModel> usersClients = new();
 
-        ////}
-
+            foreach (UserViewModel user in usersVM)
+            {
+                if (user.Roles == Roles.Client.ToString())
+                {
+                    usersClients.Add(user);
+                }
+            }
+            return usersClients;
+        }
     }
 }

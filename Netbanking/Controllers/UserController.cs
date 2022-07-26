@@ -37,7 +37,6 @@ namespace WebApp.Netbanking.Controllers
             AuthenticationResponse user = await _userService.Login(loginViewModel);
             if(user != null && user.HasError != true)
             {
-
                 HttpContext.Session.Set<AuthenticationResponse>("user",user);
                 return RedirectToRoute(new { controller = "Home", action = "Index" });
             }

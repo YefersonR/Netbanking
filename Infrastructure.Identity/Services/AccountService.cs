@@ -279,27 +279,31 @@ namespace Infrastructure.Identity.Services
        {
             await _signInManager.SignOutAsync();
        }
-        public List<RegisterRequest> GetAllClients()
+        public async Task<List<UserViewModel>> GetAllUser()
         {
-         
-
-            var users =  _identityContext.Users;
-            RegisterRequest registerRequest = new();
-            return users.Select(userq => new RegisterRequest 
+            var users = _userManager.Users.ToList();
+            List<UserViewModel> usersList = users.Select(user => new UserViewModel
             {
-                FirstName = userq.FirstName,
-                LastName = userq.LastName,
-                UserName = userq.UserName,
-                Identification = userq.Identification
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName =user.LastName,
+                Identification = user.Identification,
+                Email = user.Email,
+                UserName =user.UserName,
+                SavingsAccount =user.SavingAccount,
                 
-
             }).ToList();
 
+            int counter = 0;
+            foreach(ApplicationUser user in users)
+            {
+                var roles = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
+                string role = roles[9];
+                usersList[counter].Roles = role;
+                counter++;
+            }
 
-        }
-        public async Task<IList<ApplicationUser>> GetAllAdmins()
-        {
-            return await _userManager.GetUsersInRoleAsync(Roles.Admin.ToString());
+            return usersList;
         }
         public async Task ChangeUserState(string id)
         {
