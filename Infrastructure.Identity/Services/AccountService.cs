@@ -285,10 +285,10 @@ namespace Infrastructure.Identity.Services
             var users = _userManager.Users.ToList();
             List<UserViewModel> usersList = users.Select(user => new UserViewModel
             {
-                Name = userq.Name,
-                LastName = userq.LastName,
-                UserName = userq.UserName,
-                Identification = userq.Identification
+                Name = user.Name,
+                LastName = user.LastName,
+                UserName = user.UserName,
+                Identification = user.Identification
                 
 
             }).ToList();
