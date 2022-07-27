@@ -57,7 +57,7 @@ namespace Core.Application.Services
         }
         public async Task SingOut()
         {
-            await _accountService.SignOut();
+            await _accountService.SignOut(); 
         }
         public async Task<List<UserViewModel>> GetAllClients()
         {
@@ -66,10 +66,10 @@ namespace Core.Application.Services
             
             foreach(UserViewModel user in usersVM)
             {
-                if (user.Roles == Roles.Client.ToString())
-                {
-                    usersClients.Add(user);
-                }
+                //if (user.Roles == Roles.Client.ToString())
+                //{
+                //    usersClients.Add(user);
+                //}
             }
             return usersClients;
         }
@@ -80,10 +80,10 @@ namespace Core.Application.Services
 
             foreach (UserViewModel user in usersVM)
             {
-                if (user.Roles == Roles.Client.ToString())
-                {
-                    usersClients.Add(user);
-                }
+                //if (user.Roles == Roles.Client.ToString())
+                //{
+                //    usersClients.Add(user);
+                //}
             }
             return usersClients;
         }

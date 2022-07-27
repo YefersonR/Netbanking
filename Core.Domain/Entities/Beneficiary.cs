@@ -13,7 +13,6 @@ namespace Core.Domain.Entities
         public string UserID{get;set;}
         public string AccountBeneficiary { get; set; }
         public string BeneficiaryID { get; set; }
-        public SavingsAccount BeneficiaryUser { get; set; }
 
     }
 }

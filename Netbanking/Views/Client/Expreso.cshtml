@@ -4,11 +4,16 @@
 }
 
 <div class="container-fluid">
-
+     <br />
+    <br />
+    <br />
     <div class="row">
         <div class="col-6 offset-3">
             <div class="card">
-
+                 <div class="card-header bg-dark text-light">
+                    <h4>Pago de tipo expreso </h4>
+                </div>
+                <div class="card-body">
                 <form method="post" asp-controller="Client" asp-action="Pagos" enctype = "multipart/form-data"> 
                     
                      <div class="mb-3">
@@ -29,15 +34,14 @@
                     </div>
 
                      <button type="submit" class="btn btn-primary">Guardar</button>
-                    <a asp-controller="Home" asp-action="Index" class="btn btn-warning">Volver atras</a>
+                    <a asp-controller="Client" asp-action="Pagos" class="btn btn-warning">Volver atras</a>
                 
                  </form>
 
                     </div>
-                 
+                  </div>
                 
      </div>
         </div>
     </div>
-
 

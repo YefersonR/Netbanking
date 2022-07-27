@@ -9,6 +9,7 @@ using Infrastructure.Identity.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using System;
+using Core.Application.DTOs.Email;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,12 +25,14 @@ namespace Infrastructure.Identity.Services
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ISavingsAccountService _savingAccount;
         private readonly IdentityContext _identityContext;
-        public AccountService(IdentityContext identityContext, ISavingsAccountService savingAccount,UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        private readonly IEmailService _emailService;
+        public AccountService(IEmailService emailService,IdentityContext identityContext, ISavingsAccountService savingAccount,UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _savingAccount = savingAccount;
             _identityContext = identityContext;
+            _emailService = emailService;
         }
         public async Task<AuthenticationResponse> Authentication(AuthenticationRequest request)
         {
@@ -95,7 +98,7 @@ namespace Infrastructure.Identity.Services
                 Amount = 0,
                 
             };
-           //var Savingaccount = await _savingAccount.Add(account);
+            await _savingAccount.Add(account);
 
             var user = new ApplicationUser()
             {
@@ -115,6 +118,13 @@ namespace Infrastructure.Identity.Services
                 return response;
             }
             await _userManager.AddToRoleAsync(user,Roles.Client.ToString());
+            var verificationUri = await SendVerificacionEmailUrl(user,origin);
+            await _emailService.SendEmail(new EmailRequest()
+            {
+                To=user.Email,
+                Body =$"Please confirm your account vissitinf this Url {verificationUri}",
+                Subject = "Confirm registration"
+            });
             return response;
         }
         public async Task<RegisterResponse> UpdateClient(RegisterRequest request,string origin)
@@ -179,7 +189,13 @@ namespace Infrastructure.Identity.Services
                 return response;
             }
             await _userManager.AddToRoleAsync(user, Roles.Admin.ToString());
-            
+            var verificationUri = await SendVerificacionEmailUrl(user, origin);
+            await _emailService.SendEmail(new EmailRequest()
+            {
+                To = user.Email,
+                Body = $"Please confirm your account vissitinf this Url {verificationUri}",
+                Subject = "Confirm registration"
+            });
             return response;
         }
         public async Task<RegisterResponse> UpdateAdmin(RegisterRequest request, string origin)
@@ -263,8 +279,19 @@ namespace Infrastructure.Identity.Services
             }
             return $"An error occurred while confirming {user.Email}.";
         }
+        private async Task<string> SendVerificacionEmailUrl(ApplicationUser user, string origin)
+        {
 
-        private async Task<string> SendForgotPasswordUrl(ApplicationUser user, string origin)
+            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+            var route = "User/ConfirmEmail";
+            var Uri = new Uri(string.Concat($"{origin}/",route));
+            var verificationUrl = QueryHelpers.AddQueryString(Uri.ToString(),"userId",user.Id);
+            verificationUrl += QueryHelpers.AddQueryString(verificationUrl,"token",code);
+
+            return verificationUrl;
+        }
+    private async Task<string> SendForgotPasswordUrl(ApplicationUser user, string origin)
         {
 
             var code = await _userManager.GeneratePasswordResetTokenAsync(user);
@@ -275,6 +302,7 @@ namespace Infrastructure.Identity.Services
 
             return verificationUrl;
         }
+
 
         public async Task SignOut()
        {
@@ -294,13 +322,13 @@ namespace Infrastructure.Identity.Services
             }).ToList();
 
             int counter = 0;
-            foreach(ApplicationUser user in users)
-            {
-                var roles = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
-                string role = roles[9];
-                usersList[counter].Roles = role;
-                counter++;
-            }
+            //foreach(ApplicationUser user in users)
+            //{
+            //    var roles = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
+            //    string role = roles[9];
+            //    usersList[counter].Roles = role;
+            //    counter++;
+            //}
 
             return usersList;
         }

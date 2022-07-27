@@ -36,10 +36,10 @@ namespace Core.Application.Services
         {
             var Numberaccount = GenerateNumberAccount.GenerateAccount();
             var accountExist = await _savingsAccountRepository.GetById(Numberaccount);
-            while(accountExist == null)
+            while(accountExist != null)
             {
-                accountExist = await _savingsAccountRepository.GetById(Numberaccount);
                 Numberaccount = GenerateNumberAccount.GenerateAccount();
+                accountExist = await _savingsAccountRepository.GetById(Numberaccount);
             }
             vm.AccountNumber = Numberaccount;
             vm.UserID = user.Id;

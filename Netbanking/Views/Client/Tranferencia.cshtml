@@ -1,4 +1,5 @@
-﻿
+﻿@using Core.Application.ViewModels.Transation;
+@model TransationsSaveViewModel;
 @{
     ViewData["Title"] = "Tranferencia";
 }
@@ -8,36 +9,39 @@
     <div class="row">
         <div class="col-6 offset-3">
             <div class="card">
+                <div class="card-header bg-dark text-light">
+                    <h4>Transferencia a otra cuenta</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post" asp-controller="Client" asp-action="Tranferencia" enctype="multipart/form-data">
 
-                <form method="post" asp-controller="Client" asp-action="Tranferencia" enctype = "multipart/form-data"> 
-                    
-                     <div class="mb-3">
-                        <label  class="form-label">Numero de cuenta: </label>
-                        <input type="number"  class="form-control" />
-                        <span  class="text-danger"></span>
+                        <div class="mb-3">
+                            <label asp-for="AccountNumber" class="form-label">Numero de cuenta: </label>
+                            <input type="text" asp-for="AccountNumber" class="form-control" />
+                            <span class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Amount" class="form-label">Monto: </label>
+                            <input type="number" asp-for="Amount" class="form-control">
+                            <span class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="NumberAccountToPay" class="form-label">Numero de cuenta destino </label>
+                            <input asp-for="NumberAccountToPay" type="text" class="form-control" />
+                            <span class="text-danger"></span>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Pagar</button>
+                        <a asp-controller="Home" asp-action="Index" class="btn btn-warning">Volver atras</a>
+
+                    </form>
                     </div>
+                </div>
 
-                    <div class="mb-3">
-                        <label  class="form-label">Monto: </label>
-                        <input type="number"  class="form-control">
-                        <span  class="text-danger"></span>
-                    </div>                
 
-                      <div class="mb-3">
-                        <label  class="form-label">Numero de cuenta destino </label>
-                        <input type="number"  class="form-control" />
-                        <span  class="text-danger"></span>
-                    </div>
-
-                     <button type="submit" class="btn btn-primary">Pagar</button>
-                    <a asp-controller="Home" asp-action="Index" class="btn btn-warning">Volver atras</a>
-                
-                 </form>
-
-                    </div>
-                 
-                
-     </div>
+            </div>
         </div>
     </div>
 

@@ -56,32 +56,6 @@ namespace WebApp.Netbanking.Controllers
         }
         
         [ServiceFilter(typeof(LoginAuthorize))]
-        public IActionResult Register()
-        {
-            return View(new UserSaveViewModel());
-        }
-        
-        [ServiceFilter(typeof(LoginAuthorize))]
-        [HttpPost]
-        public async Task<IActionResult> Register(UserSaveViewModel saveViewModel)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(saveViewModel);
-            }
-            var origin = Request.Headers["origin"];
-            RegisterResponse registerResponse = await _userService.RegisterClient(saveViewModel,origin);
-            if (registerResponse.HasError)
-            {
-                saveViewModel.HasError = registerResponse.HasError;
-                saveViewModel.Error = registerResponse.Error;
-                    
-                return View(saveViewModel);
-            }
-            return RedirectToRoute(new {controller="User",action="Index" });
-        }
-        
-        [ServiceFilter(typeof(LoginAuthorize))]
         public async Task<IActionResult> ConfirmEmail(string userId, string token)
         {
             string response = await _userService.ConfirmEmail(userId,token);

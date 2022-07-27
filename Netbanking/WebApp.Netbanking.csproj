@@ -6,6 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\Tranferencia\**" />
+    <Content Remove="Views\Tranferencia\**" />
+    <EmbeddedResource Remove="Views\Tranferencia\**" />
+    <None Remove="Views\Tranferencia\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.15" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.17">
       <PrivateAssets>all</PrivateAssets>
@@ -20,10 +27,6 @@
     <ProjectReference Include="..\Infrastructure.Identity\Infrastructure.Identity.csproj" />
     <ProjectReference Include="..\Infrastructure.Persistence\Infrastructure.Persistence.csproj" />
     <ProjectReference Include="..\Infrastructure.Shared\Infrastructure.Shared.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Views\Tranferencia\" />
   </ItemGroup>
 
   <ItemGroup>

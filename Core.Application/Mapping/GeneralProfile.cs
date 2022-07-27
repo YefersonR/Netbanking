@@ -29,8 +29,8 @@ namespace Core.Application.Mappings
                 .ReverseMap()
                 .ForMember(dest => dest.CreatedBy, opt => opt.Ignore())
                             .ForMember(dest => dest.UpdatedBy, opt => opt.Ignore())
-                                .ForMember(dest => dest.Updated, opt => opt.Ignore())
-                                        .ForMember(dest => dest.BeneficiaryUser, opt => opt.Ignore());
+                                .ForMember(dest => dest.Updated, opt => opt.Ignore());
+//                                        .ForMember(dest => dest.BeneficiaryUser, opt => opt.Ignore());
             
             CreateMap<CreditCard, CreditCardViewModel>()
                 .ReverseMap()
@@ -78,7 +78,8 @@ namespace Core.Application.Mappings
 
             CreateMap<Transations, TransationsSaveViewModel>()
                 .ReverseMap()
-                    .ForMember(dest => dest.CreatedBy, opt => opt.Ignore())
+                    .ForMember(dest => dest.Created, opt => opt.Ignore())
+                        .ForMember(dest => dest.CreatedBy, opt => opt.Ignore())
                             .ForMember(dest => dest.UpdatedBy, opt => opt.Ignore())
                                 .ForMember(dest => dest.Updated, opt => opt.Ignore());
 
