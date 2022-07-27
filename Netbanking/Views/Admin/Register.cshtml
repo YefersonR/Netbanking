@@ -1,66 +1,87 @@
-﻿
-@{    
-    ViewData["Title"] = "Registro";    
+﻿@using Core.Application.ViewModels.User
+@model UserSaveViewModel
+@{
+
+    ViewData["Title"] = "Registro";
 }
 
-<div class="container-fluid">
+    <div class="container-fluid">
 
-    <div class="row">
-        <div class="col-6 offset-3">
-            <div class="card">
-                <div class="card-header bg-dark text-light">
-                    <h4>Registro de nuevo usuario</h4>
+        <div class="row">
+            <div class="col-6 offset-3">
+                <div class="card">
+                    <div class="card-header bg-dark text-light">
+                        <h4>Registro de nuevo usuario</h4>
+                    </div>
+                    <div class="card-body">
+
+                        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                        @if (Model.HasError)
+                        {
+                            <div class="alert alert-danger alert-dismissible fade show " role="alert">
+                                <p>@Model.Error</p>
+                                <button type="button" class="btn-close" data-bs-dismiss="Alert" aria-label="Close"></button>
+                            </div>
+                        }
+                        <form method="post" asp-controller="Admin" asp-action="Register">
+
+                            <div class="mb-3">
+                                <label asp-for="Name" class="form-label">Nombre: </label>
+                                <input asp-for="Name" class="form-control" />
+                                <span class="text-danger"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="UserName" class="form-label">Nombre de usuario: </label>
+                                <input asp-for="UserName" class="form-control" />
+                                <span class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label asp-for="LastName" class="form-label">Apellido: </label>
+                                <input asp-for="LastName" class="form-control" />
+                                <span class="text-danger"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="Email" class="form-label">Correo: </label>
+                                <input asp-for="Email" class="form-control" />
+                                <span class="text-danger"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Telefono: </label>
+                                <input class="form-control" />
+                                <span class="text-danger"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="Identification" class="form-label">Cedula: </label>
+                                <input asp-for="Identification" class="form-control" />
+                                <span class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label asp-for="Password" class="form-label">Contraseña: </label>
+                                <input asp-for="Password" class="form-control" />
+                                <span class="text-danger"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="ConfirmPassword" class="form-label">Confirmar contraseña: </label>
+                                <input asp-for="ConfirmPassword" class="form-control" />
+                                <span class="text-danger"></span>
+                            </div>
+
+
+                            <button @*type="submit"*@ class="btn btn-primary">Guardar</button>
+                            <a asp-controller="Admin" asp-action="Index" class="btn btn-warning">Volver atras</a>
+
+                        </form>
+
+                    </div>
+
                 </div>
-                <div class="card-body">
-
-                
-                    <form method="post" asp-controller="User" asp-action="Register">
-
-                        <div class="mb-3">
-                            <label  class="form-label">Nombre: </label>
-                            <input class="form-control" />
-                            <span  class="text-danger"></span>
-                        </div>
-
-                        <div class="mb-3">
-                            <label  class="form-label">Nombre de usuario: </label>
-                            <input  class="form-control" />
-                            <span  class="text-danger"></span>
-                        </div>
-                          <div class="mb-3">
-                            <label  class="form-label">Apellido: </label>
-                            <input  class="form-control" />
-                            <span  class="text-danger"></span>
-                        </div>
-
-                        <div class="mb-3">
-                            <label  class="form-label">Contraseña: </label>
-                            <input  class="form-control" />
-                            <span  class="text-danger"></span>
-                        </div>
-
-                        <div class="mb-3">
-                            <label  class="form-label">Confirmar contraseña: </label>
-                            <input  class="form-control" />
-                            <span  class="text-danger"></span>
-                        </div>
-
-                        <div class="mb-3">
-                            <label  class="form-label">Correo: </label>
-                            <input  class="form-control" />
-                            <span  class="text-danger"></span>
-                        </div>
-
-                        <button @*type="submit"*@ class="btn btn-primary">Guardar</button>
-                        <a asp-controller="User" asp-action="Usuarios" class="btn btn-warning">Volver atras</a>
-
-                    </form>
-                  
-                </div>
-
             </div>
         </div>
-    </div>
 
-</div>
+    </div>
 

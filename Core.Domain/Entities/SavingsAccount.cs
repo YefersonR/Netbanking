@@ -12,10 +12,6 @@ namespace Core.Domain.Entities
         public string AccountNumber{ get; set; }
         public double Amount { get; set; }
         public string UserID { get; set; }
-
-        public Beneficiary Beneficiary { get; set; }
-        public int BeneficiaryID { get; set; }
-
         public List<Transations> Transations { get; set; }
     }
 }

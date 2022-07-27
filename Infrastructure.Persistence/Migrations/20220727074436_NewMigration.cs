@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Infrastructure.Persistence.Migrations
 {
-    public partial class elian : Migration
+    public partial class NewMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -69,7 +69,6 @@ namespace Infrastructure.Persistence.Migrations
                     AccountNumber = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Amount = table.Column<double>(type: "float", nullable: false),
                     UserID = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    BeneficiaryID = table.Column<int>(type: "int", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -78,12 +77,6 @@ namespace Infrastructure.Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SavingsAccounts", x => x.AccountNumber);
-                    table.ForeignKey(
-                        name: "FK_SavingsAccounts_Beneficiaries_BeneficiaryID",
-                        column: x => x.BeneficiaryID,
-                        principalTable: "Beneficiaries",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -124,12 +117,6 @@ namespace Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_SavingsAccounts_BeneficiaryID",
-                table: "SavingsAccounts",
-                column: "BeneficiaryID",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Transations_UserToPayAccount",
                 table: "Transations",
                 column: "UserToPayAccount");
@@ -137,6 +124,9 @@ namespace Infrastructure.Persistence.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Beneficiaries");
+
             migrationBuilder.DropTable(
                 name: "Transations");
 
@@ -148,9 +138,6 @@ namespace Infrastructure.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "SavingsAccounts");
-
-            migrationBuilder.DropTable(
-                name: "Beneficiaries");
         }
     }
 }

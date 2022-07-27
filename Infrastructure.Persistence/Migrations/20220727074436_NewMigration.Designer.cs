@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(NetBankingContext))]
-    [Migration("20220725214516_elian")]
-    partial class elian
+    [Migration("20220727074436_NewMigration")]
+    partial class NewMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -124,9 +124,6 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<double>("Amount")
                         .HasColumnType("float");
 
-                    b.Property<int>("BeneficiaryID")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
 
@@ -143,9 +140,6 @@ namespace Infrastructure.Persistence.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("AccountNumber");
-
-                    b.HasIndex("BeneficiaryID")
-                        .IsUnique();
 
                     b.ToTable("SavingsAccounts");
                 });
@@ -185,17 +179,6 @@ namespace Infrastructure.Persistence.Migrations
                     b.ToTable("Transations");
                 });
 
-            modelBuilder.Entity("Core.Domain.Entities.SavingsAccount", b =>
-                {
-                    b.HasOne("Core.Domain.Entities.Beneficiary", "Beneficiary")
-                        .WithOne("BeneficiaryUser")
-                        .HasForeignKey("Core.Domain.Entities.SavingsAccount", "BeneficiaryID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Beneficiary");
-                });
-
             modelBuilder.Entity("Core.Domain.Entities.Transations", b =>
                 {
                     b.HasOne("Core.Domain.Entities.SavingsAccount", "SavingsAccount")
@@ -215,11 +198,6 @@ namespace Infrastructure.Persistence.Migrations
                     b.Navigation("Loans");
 
                     b.Navigation("SavingsAccount");
-                });
-
-            modelBuilder.Entity("Core.Domain.Entities.Beneficiary", b =>
-                {
-                    b.Navigation("BeneficiaryUser");
                 });
 
             modelBuilder.Entity("Core.Domain.Entities.CreditCard", b =>
