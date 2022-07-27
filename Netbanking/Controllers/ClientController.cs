@@ -75,7 +75,7 @@ namespace WebApp.Netbanking.Controllers
         public async Task<IActionResult> Beneficiario()
         {
             BeneficiarySaveViewModel beneficiarys = new();
-            //beneficiarys.Beneficiarys = await _BeneficiaryService.GetAllAsync();
+            //beneficiarys.Beneficiarys =  _BeneficiaryService.GetAllAsync();
             return View(beneficiarys);
         }
         [HttpPost]
