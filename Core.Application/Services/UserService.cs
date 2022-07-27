@@ -59,9 +59,9 @@ namespace Core.Application.Services
         {
             await _accountService.SignOut(); 
         }
-        public async Task<List<UserViewModel>> GetAllClients()
+        public List<UserViewModel> GetAllClients()
         {
-            List<UserViewModel> usersVM = await _accountService.GetAllUser();
+            List<UserViewModel> usersVM = _accountService.GetAllUser();
             List<UserViewModel> usersClients = new();
             
             foreach(UserViewModel user in usersVM)
@@ -73,9 +73,9 @@ namespace Core.Application.Services
             }
             return usersClients;
         }
-        public async Task<List<UserViewModel>> GetAlladmin()
+        public List<UserViewModel> GetAlladmin()
         {
-            List<UserViewModel> usersVM = await _accountService.GetAllUser();
+            List<UserViewModel> usersVM = _accountService.GetAllUser();
             List<UserViewModel> usersClients = new();
 
             foreach (UserViewModel user in usersVM)

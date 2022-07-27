@@ -1,4 +1,5 @@
 ﻿using Core.Application.Interfaces.Services;
+using Core.Application.ViewModels.Beneficiary;
 using Core.Application.ViewModels.Loans;
 using Core.Application.ViewModels.Transation;
 using Microsoft.AspNetCore.Authorization;
@@ -15,11 +16,13 @@ namespace WebApp.Netbanking.Controllers
     {
         private readonly ITransationService _transationService;
         private readonly ICreditCardService _CreditCardService;
+        private readonly IBeneficiaryService _BeneficiaryService;
 
 
-        public ClientController(ITransationService transationService)
+        public ClientController(IBeneficiaryService BeneficiaryService, ITransationService transationService)
         {
             _transationService = transationService;
+            _BeneficiaryService = BeneficiaryService;
         }
         public IActionResult Index()
         {
@@ -69,9 +72,17 @@ namespace WebApp.Netbanking.Controllers
         {
             return View();
         }
-        public IActionResult Beneficiario()
+        public async Task<IActionResult> Beneficiario()
         {
-            return View();
+            BeneficiarySaveViewModel beneficiarys = new();
+            //beneficiarys.Beneficiarys =  _BeneficiaryService.GetAllAsync();
+            return View(beneficiarys);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Beneficiario(BeneficiarySaveViewModel beneficiary)
+        {
+            await _BeneficiaryService.Add(beneficiary);
+            return View(beneficiary);
         }
         public IActionResult Tarjeta_de_credito()
         {

@@ -42,7 +42,7 @@ namespace Core.Application.Services
         public async Task<TransationsSaveViewModel> PayToAccount(TransationsSaveViewModel vm)
         {
             var account = await _savingsAccountRepository.GetById(vm.AccountNumber);
-            var accountToPay = await _savingsAccountRepository.GetById(vm.NumberAccountToPay);
+            var accountToPay = await _savingsAccountRepository.GetById(vm.UserToPayAccount);
             if (account.Amount >= vm.Amount)
             {
                 account.Amount -= vm.Amount;
@@ -50,15 +50,16 @@ namespace Core.Application.Services
 
                 accountToPay.Amount += vm.Amount;
                 await _savingsAccountRepository.Pay(accountToPay.AccountNumber);
+                Transations aTransation = _mapper.Map<Transations>(vm);
+                //account.Transations.Add(aTransation);
+                await _transationsRepository.AddAsync(aTransation);
             }
-            Transations aTransation = _mapper.Map<Transations>(vm);
-            account.Transations.Add(aTransation);
             return await base.Add(vm);
         }
         public async Task<TransationsSaveViewModel> PayToCard(TransationsSaveViewModel vm)
         {
             var account = await _savingsAccountRepository.GetById(vm.AccountNumber);
-            var card = await _creditCardRepository.GetById(vm.NumberAccountToPay);
+            var card = await _creditCardRepository.GetById(vm.UserToPayAccount);
             if(account.Amount >= vm.Amount )
             {
                 account.Amount -= vm.Amount;
@@ -85,7 +86,7 @@ namespace Core.Application.Services
         public async Task<TransationsSaveViewModel> RetireToCard(TransationsSaveViewModel vm)
         {
 
-            var card = await _creditCardRepository.GetById(vm.NumberAccountToPay);
+            var card = await _creditCardRepository.GetById(vm.UserToPayAccount);
             var account = await _savingsAccountRepository.GetById(vm.AccountNumber);
             if (card.Limit >= card.Debt)
             {
@@ -102,7 +103,7 @@ namespace Core.Application.Services
         public async Task<TransationsSaveViewModel> PayLoans(TransationsSaveViewModel vm)
         {
             var account = await _savingsAccountRepository.GetById(vm.AccountNumber);
-            var loans = await _loansRepository.GetById(vm.NumberAccountToPay);
+            var loans = await _loansRepository.GetById(vm.UserToPayAccount);
             if (account.Amount >= vm.Amount)
             {
                 account.Amount -= vm.Amount;
@@ -129,7 +130,7 @@ namespace Core.Application.Services
         public async Task<TransationsSaveViewModel> RetireLoans(TransationsSaveViewModel vm)
         {
 
-            var loans = await _loansRepository.GetById(vm.NumberAccountToPay);
+            var loans = await _loansRepository.GetById(vm.UserToPayAccount);
             var account = await _savingsAccountRepository.GetById(vm.AccountNumber);
             if (loans.Limit >= loans.Debt)
             {
