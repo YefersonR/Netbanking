@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(NetBankingContext))]
-    [Migration("20220725025623_Test2Migration")]
-    partial class Test2Migration
+    [Migration("20220725214516_elian")]
+    partial class elian
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -29,6 +29,9 @@ namespace Infrastructure.Persistence.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("AccountBeneficiary")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BeneficiaryID")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Created")
@@ -166,15 +169,6 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CreditCardCardNumber")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("LoansLoan")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("SavingsAccountAccountNumber")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<DateTime>("Updated")
                         .HasColumnType("datetime2");
 
@@ -182,15 +176,11 @@ namespace Infrastructure.Persistence.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserToPayAccount")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CreditCardCardNumber");
-
-                    b.HasIndex("LoansLoan");
-
-                    b.HasIndex("SavingsAccountAccountNumber");
+                    b.HasIndex("UserToPayAccount");
 
                     b.ToTable("Transations");
                 });
@@ -208,17 +198,17 @@ namespace Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Core.Domain.Entities.Transations", b =>
                 {
+                    b.HasOne("Core.Domain.Entities.SavingsAccount", "SavingsAccount")
+                        .WithMany("Transations")
+                        .HasForeignKey("UserToPayAccount");
+
                     b.HasOne("Core.Domain.Entities.CreditCard", "CreditCard")
                         .WithMany("Transations")
-                        .HasForeignKey("CreditCardCardNumber");
+                        .HasForeignKey("UserToPayAccount");
 
                     b.HasOne("Core.Domain.Entities.Loans", "Loans")
                         .WithMany("Transations")
-                        .HasForeignKey("LoansLoan");
-
-                    b.HasOne("Core.Domain.Entities.SavingsAccount", "SavingsAccount")
-                        .WithMany("Transations")
-                        .HasForeignKey("SavingsAccountAccountNumber");
+                        .HasForeignKey("UserToPayAccount");
 
                     b.Navigation("CreditCard");
 

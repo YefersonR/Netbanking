@@ -1,0 +1,66 @@
+﻿
+@{    
+    ViewData["Title"] = "Registro";    
+}
+
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-6 offset-3">
+            <div class="card">
+                <div class="card-header bg-dark text-light">
+                    <h4>Registro de nuevo usuario</h4>
+                </div>
+                <div class="card-body">
+
+                
+                    <form method="post" asp-controller="User" asp-action="Register">
+
+                        <div class="mb-3">
+                            <label  class="form-label">Nombre: </label>
+                            <input class="form-control" />
+                            <span  class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label  class="form-label">Nombre de usuario: </label>
+                            <input  class="form-control" />
+                            <span  class="text-danger"></span>
+                        </div>
+                          <div class="mb-3">
+                            <label  class="form-label">Apellido: </label>
+                            <input  class="form-control" />
+                            <span  class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label  class="form-label">Contraseña: </label>
+                            <input  class="form-control" />
+                            <span  class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label  class="form-label">Confirmar contraseña: </label>
+                            <input  class="form-control" />
+                            <span  class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label  class="form-label">Correo: </label>
+                            <input  class="form-control" />
+                            <span  class="text-danger"></span>
+                        </div>
+
+                        <button @*type="submit"*@ class="btn btn-primary">Guardar</button>
+                        <a asp-controller="User" asp-action="Usuarios" class="btn btn-warning">Volver atras</a>
+
+                    </form>
+                  
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+

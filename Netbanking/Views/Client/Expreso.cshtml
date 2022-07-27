@@ -1,0 +1,43 @@
+﻿
+@{
+    ViewData["Title"] = "Expreso";
+}
+
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-6 offset-3">
+            <div class="card">
+
+                <form method="post" asp-controller="Client" asp-action="Pagos" enctype = "multipart/form-data"> 
+                    
+                     <div class="mb-3">
+                        <label  class="form-label">Numero de cuenta: </label>
+                        <input type="number"  class="form-control" />
+                        <span  class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label  class="form-label">Monto: </label>
+                        <input type="number"  class="form-control">
+                    </div>                
+
+                      <div class="mb-3">
+                        <label  class="form-label">Numero de cuenta destino </label>
+                        <input type="number"  class="form-control" />
+                        <span  class="text-danger"></span>
+                    </div>
+
+                     <button type="submit" class="btn btn-primary">Guardar</button>
+                    <a asp-controller="Home" asp-action="Index" class="btn btn-warning">Volver atras</a>
+                
+                 </form>
+
+                    </div>
+                 
+                
+     </div>
+        </div>
+    </div>
+
+

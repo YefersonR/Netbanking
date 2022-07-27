@@ -12,19 +12,30 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>@ViewData["Title"] - Netbanking</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/sidebars.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+
+     <!----======== CSS ======== -->
+    <link rel="stylesheet" href="~/lib/sidervar/style.css">
+    
+    <!----===== Boxicons CSS ===== -->
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm  w-100 navbar-toggleable-sm navbar-light bg-info border-bottom box-shadow mb-3">
-            <div class="container d-flex justify-content-between">
-                <a class="navbar-brand text-white" asp-controller="@(user != null ? "Admin" : "Client")" asp-action="Index"> NetBanking</a>
+   @* <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Netbanking</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+
                 @if (user == null)
                 {
 
@@ -84,8 +95,141 @@
                 }
             </div>
         </nav>
+    </header>*@
 
-    </header>
+      <center>    
+
+        <a class=" btn btn-light text-dark text-center" asp-area="" asp-controller="Home" asp-action="Index">Internet Banking</a> 
+        </center>  
+         <nav class="sidebar close">
+        <header>
+            <div class="image-text">
+                <span class="image">
+                    <img src="~/lib/sidervar/logo.png" alt="">
+                </span>
+
+                <div class="text logo-text">
+                    <span class="name">Internet</span>
+                    <span class="profession">Banking</span>
+                </div>
+            </div>
+
+            <i class='bx bx-chevron-right toggle'></i>
+        </header>
+
+        <div class="menu-bar">
+
+             @if (user == null)
+            {
+                
+               
+            } else
+            {
+                if (isAdmin)
+                {
+                      <div class="bottom-content">
+                <li class="">
+                    <a asp-area="" asp-controller="Admin" asp-action="Users">
+                        <i class="bi bi-gear"></i>
+                        <span class="text nav-text">Administracion de usuario</span>
+                    </a>
+                </li>
+                </div>
+
+                  <div class="bottom-content">
+                <li class="">
+                    <a asp-area=""  asp-controller="User" asp-action="Register">
+                        <i class="bi bi-file-text-fill"></i>
+                        <span class="text nav-text">Registrarse</span>
+                    </a>
+                </li>
+                </div>
+                    
+                }
+             else
+
+            {
+
+           
+            <div class="menu">   
+                    <li class="nav-link">
+                        <a asp-area="" asp-controller="Home" asp-action="Index">
+                            <i class="bi bi-house-door"></i>
+                            <span class="text nav-text"> Home</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a asp-controller="Client" asp-action="Pagos">
+                            <i class="bi bi-cash-coin"></i>
+                            <span class="text nav-text"> Pagos</span>
+                        </a>
+                    </li>
+
+
+                    <li class="nav-link">
+                        <a asp-controller="Client" asp-action="beneficiariosAdd">
+                            <i class="bi bi-people-fill"></i>
+                            <span class="text nav-text"> Beneficiarios</span>
+                        </a>
+                    </li>
+
+
+                     <li class="nav-link">
+                        <a asp-controller="Client" asp-action="Avance_de_efectivo">
+                            <i class="bi bi-currency-exchange"></i>
+                            <span class="text nav-text"> Avanse de efectivo</span>
+                        </a>
+                    </li>
+
+                     <li class="nav-link">
+                        <a href="#">
+                            <i class="bx bi-credit-card-2-front"></i>
+                            <span class="text nav-text"> Tranferencia</span>
+                        </a>
+                    </li>
+
+               
+            </div>
+              
+            <div class="bottom-content">
+                <li class="">
+                    <a asp-area="" asp-controller="User" asp-action="LogOut">
+                        <i class='bx bx-log-out icon' ></i>
+                        <span class="text nav-text">Logout</span>
+                    </a>
+                </li>
+                
+
+                <li class="mode">
+                    <div class="sun-moon">
+                        <i class='bx bx-moon icon moon'></i>
+                        <i class='bx bx-sun icon sun'></i>
+                    </div>
+                    <span class="mode-text text">Dark mode</span>
+
+                    <div class="toggle-switch">
+                        <span class="switch"></span>
+                    </div>
+                </li>
+                
+                </div>
+            
+           
+                
+            }
+             }
+        </div>
+
+    </nav>
+
+   @* <section class="home">
+        <div class="text">Dashboard Sidebar</div>
+    </section>*@
+
+    <script src="~/lib/sidervar/script.js"></script>
+
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
@@ -94,12 +238,13 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2022 - Netbanking - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; @DateTime.Now.Year - Netbanking - 
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/lib/bootstrap/dist/js/sidebars.js"></script>>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

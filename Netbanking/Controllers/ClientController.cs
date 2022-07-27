@@ -14,5 +14,26 @@ namespace WebApp.Netbanking.Controllers
         {
             return View();
         }
+
+        public IActionResult beneficiariosAdd()
+        {
+            return View();
+        }
+
+      
+            
+        public IActionResult Pagos()
+        {
+            return View();
+        }
+        public IActionResult Avance_de_efectivo()
+        {
+            return View();
+        }
+
+        public IActionResult Tranferencia()
+        {
+            return View();
+        }
     }
 }
