@@ -97,7 +97,10 @@
         </nav>
     </header>*@
 
-     
+      <center>    
+
+        <a class=" btn btn-light text-dark text-center" asp-area="" asp-controller="Home" asp-action="Index">Internet Banking</a> 
+        </center>  
          <nav class="sidebar close">
         <header>
             <div class="image-text">
@@ -119,14 +122,7 @@
              @if (user == null)
             {
                 
-                 <div class="bottom-content">
-                <li class="">
-                    <a asp-area=""  asp-controller="User" asp-action="Register">
-                        <i class="bi bi-file-text-fill"></i>
-                        <span class="text nav-text">Registrarse</span>
-                    </a>
-                </li>
-                </div>
+               
             } else
             {
                 if (isAdmin)
@@ -136,6 +132,15 @@
                     <a asp-area="" asp-controller="Admin" asp-action="Users">
                         <i class="bi bi-gear"></i>
                         <span class="text nav-text">Administracion de usuario</span>
+                    </a>
+                </li>
+                </div>
+
+                  <div class="bottom-content">
+                <li class="">
+                    <a asp-area=""  asp-controller="User" asp-action="Register">
+                        <i class="bi bi-file-text-fill"></i>
+                        <span class="text nav-text">Registrarse</span>
                     </a>
                 </li>
                 </div>
@@ -150,37 +155,37 @@
                     <li class="nav-link">
                         <a asp-area="" asp-controller="Home" asp-action="Index">
                             <i class="bi bi-house-door"></i>
-                            <span class="text nav-text">Home</span>
+                            <span class="text nav-text"> Home</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="#">
+                        <a asp-controller="Client" asp-action="Pagos">
                             <i class="bi bi-cash-coin"></i>
-                            <span class="text nav-text">Pagos</span>
+                            <span class="text nav-text"> Pagos</span>
                         </a>
                     </li>
 
 
                     <li class="nav-link">
-                        <a asp-controller="Client" asp-action="beneficiario">
+                        <a asp-controller="Client" asp-action="beneficiariosAdd">
                             <i class="bi bi-people-fill"></i>
-                            <span class="text nav-text">Beneficiarios</span>
+                            <span class="text nav-text"> Beneficiarios</span>
                         </a>
                     </li>
 
 
                      <li class="nav-link">
-                        <a href="#">
+                        <a asp-controller="Client" asp-action="Avance_de_efectivo">
                             <i class="bi bi-currency-exchange"></i>
-                            <span class="text nav-text">Avanse de efectivo</span>
+                            <span class="text nav-text"> Avanse de efectivo</span>
                         </a>
                     </li>
 
                      <li class="nav-link">
                         <a href="#">
                             <i class="bx bi-credit-card-2-front"></i>
-                            <span class="text nav-text">Tranferencia</span>
+                            <span class="text nav-text"> Tranferencia</span>
                         </a>
                     </li>
 

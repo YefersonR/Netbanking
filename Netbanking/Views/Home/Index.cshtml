@@ -2,7 +2,33 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+  @*<div class="row">
+
+        @if (Model == null || Model.Count == 0)
+        {
+            <h2>No hay productos</h2>
+        }
+        else
+        {
+            @foreach (ProductViewModel item in Model)
+            {
+                <div class="col-4">
+                    <div class="card shadow-sm">
+                        <img class="bd-placeholder-img card-img-top img-product-size" src="@item.ImageUrl" />
+
+                        <div class="card-body">
+                            <h4 class="card-title">@item.Name - @item.CategoryName</h4>
+                            <p class="card-text">@item.Description</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <a asp-controller="Product" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-info">Editar</a>
+                                    <a asp-controller="Product" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">Borrar</a>
+                                </div>
+                                <small class="fw-bold fs-6">$@item.Price</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }*@
+

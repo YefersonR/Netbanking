@@ -15,7 +15,7 @@ namespace WebApp.Netbanking.Controllers
             return View();
         }
 
-        public IActionResult beneficiario()
+        public IActionResult beneficiariosAdd()
         {
             return View();
         }
@@ -26,7 +26,7 @@ namespace WebApp.Netbanking.Controllers
         {
             return View();
         }
-        public IActionResult Avanse_de_efectivo()
+        public IActionResult Avance_de_efectivo()
         {
             return View();
         }
