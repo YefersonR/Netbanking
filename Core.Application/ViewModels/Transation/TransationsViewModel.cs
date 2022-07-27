@@ -12,7 +12,7 @@ namespace Core.Application.ViewModels.Transation
         public int Id { get; set; }
         public string AccountNumber { get; set; }
         public double Amount { get; set; }
-        public string NumberAccountToPay { get; set; }
+        public string UserToPayAccount { get; set; }
         public DateTime Created { get; set; }
     }
 }

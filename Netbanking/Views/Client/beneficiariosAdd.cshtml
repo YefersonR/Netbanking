@@ -1,4 +1,5 @@
-﻿
+﻿@using Core.Application.ViewModels.Beneficiary
+@model BeneficiarySaveViewModel
 @{
     ViewData["Title"] = "beneficiario";
 }
@@ -7,7 +8,7 @@
 
   <div class="row mb-3">
         <div class="col-3 offset-9">
-           <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Open modal for</button>
+           <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Agregar beneficiario</button>
         </div>
     </div>
 
@@ -15,58 +16,53 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Nuevo veneficiario</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form>
+        <form method="post" asp-controller="Client" asp-action="Beneficiario">
           <div class="mb-3">
-            <label for="recipient-name" class="col-form-label">Recipient:</label>
-            <input type="text" class="form-control" id="recipient-name">
+            <label asp-for="AccountBeneficiary" for="recipient-name" class="col-form-label">Cuenta del beneficiario:</label>
+            <input asp-for="AccountBeneficiary" type="text" class="form-control" id="recipient-name">
           </div>
-          <div class="mb-3">
-            <label for="message-text" class="col-form-label">Message:</label>
-            <textarea class="form-control" id="message-text"></textarea>
+          <div class="modal-footer">
+            <a asp-controller="Client" asp-action="Beneficiario" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</a>
+            <button type="submit" class="btn btn-primary">Agrgar beneficiario</button>
           </div>
         </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Send message</button>
       </div>
     </div>
   </div>
 </div>
 
-     @*<div class="row">
+     <div class="row">
 
-        @if (Model == null || Model.Count == 0)
+        @if (Model == null || Model.Beneficiarys.Count == 0)
         {
-            <h2>No hay productos</h2>
+            <h2>No hay Beneficiarios</h2>
         }
         else
         {
-            @foreach (ProductViewModel item in Model)
+            @foreach (BeneficiaryViewModel item in Model.Beneficiarys)
             {
                 <div class="col-4">
                     <div class="card shadow-sm">
-                        <img class="bd-placeholder-img card-img-top img-product-size" src="@item.ImageUrl" />
-
+                        
                         <div class="card-body">
-                            <h4 class="card-title">@item.Name - @item.CategoryName</h4>
-                            <p class="card-text">@item.Description</p>
+                            <h4 class="card-title">@item.AccountBeneficiary</h4>
+                            <p class="card-text">@item.</p>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">
                                     <a asp-controller="Product" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-info">Editar</a>
                                     <a asp-controller="Product" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">Borrar</a>
                                 </div>
-                                <small class="fw-bold fs-6">$@item.Price</small>
+                                <small class="fw-bold fs-6"></small>
                             </div>
                         </div>
                     </div>
                 </div>
             }
-        }*@
+        }
 
     </div>
 

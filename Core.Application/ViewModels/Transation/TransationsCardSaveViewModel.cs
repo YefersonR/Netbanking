@@ -13,7 +13,7 @@ namespace Core.Application.ViewModels.Transation
         public string AccountNumber { get; set; }
         public double Amount { get; set; }
         public DateTime Created { get; set; }
-        public string NumberAccountToPay { get; set; }
+        public string UserToPayAccount { get; set; }
         public List<CreditCardViewModel> CreditCards{get;set;}
 
     }

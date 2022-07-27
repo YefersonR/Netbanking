@@ -10,7 +10,7 @@ namespace Infrastructure.Persistence.Contexts
 {
     public class NetBankingContext : DbContext
     {
-        public DbSet<Beneficiary> Beneficiaries { get; set; }
+        public DbSet<Beneficiary> Beneficiary { get; set; }
         public DbSet<Transations> Transations{ get; set; }
         public DbSet<CreditCard> CreditCards{ get; set; }
         public DbSet<Loans> Loans{ get; set; }
@@ -40,20 +40,20 @@ namespace Infrastructure.Persistence.Contexts
             //    .WithOne(beneficiary => beneficiary.Beneficiary)
             //    .HasForeignKey<SavingsAccount>(transations => transations.BeneficiaryID);
 
-            modelBuilder.Entity<Transations>()
-                .HasOne<SavingsAccount>(account => account.SavingsAccount)
-                .WithMany(transations => transations.Transations)
-                .HasForeignKey(transations => transations.UserToPayAccount);
+            //modelBuilder.Entity<Transations>()
+            //    .HasOne<SavingsAccount>(account => account.SavingsAccount)
+            //    .WithMany(transations => transations.Transations)
+            //    .HasForeignKey(transations => transations.UserToPayAccount);
 
-            modelBuilder.Entity<Transations>()
-                .HasOne<Loans>(account => account.Loans)
-                .WithMany(transations => transations.Transations)
-                .HasForeignKey(transations => transations.UserToPayAccount);
+            //modelBuilder.Entity<Transations>()
+            //    .HasOne<Loans>(account => account.Loans)
+            //    .WithMany(transations => transations.Transations)
+            //    .HasForeignKey(transations => transations.UserToPayAccount);
 
-            modelBuilder.Entity<Transations>()
-                .HasOne<CreditCard>(account => account.CreditCard)
-                .WithMany(transations => transations.Transations)
-                .HasForeignKey(transations => transations.UserToPayAccount);
+            //modelBuilder.Entity<Transations>()
+            //    .HasOne<CreditCard>(account => account.CreditCard)
+            //    .WithMany(transations => transations.Transations)
+            //    .HasForeignKey(transations => transations.UserToPayAccount);
             #endregion
 
         }

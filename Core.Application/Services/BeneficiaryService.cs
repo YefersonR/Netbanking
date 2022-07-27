@@ -21,14 +21,16 @@ namespace Core.Application.Services
         private readonly ISavingsAccountRepository _savingsAccountRepository;
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContext;
+        private readonly IAccountService _accountService;
         private readonly UserViewModel user;
 
-        public BeneficiaryService(ISavingsAccountRepository savingsAccountRepository,IBeneficiaryRepository beneficiaryRepository, IMapper mapper, IHttpContextAccessor httpContext) : base(beneficiaryRepository, mapper)
+        public BeneficiaryService(IAccountService accountService, ISavingsAccountRepository savingsAccountRepository,IBeneficiaryRepository beneficiaryRepository, IMapper mapper, IHttpContextAccessor httpContext) : base(beneficiaryRepository, mapper)
         {
             _beneficiaryRepository = beneficiaryRepository;
             _mapper = mapper;
             _savingsAccountRepository = savingsAccountRepository;
             _httpContext = httpContext;
+            _accountService = accountService;
             user = _httpContext.HttpContext.Session.Get<UserViewModel>("user");
         }
         public override async Task<BeneficiarySaveViewModel> Add(BeneficiarySaveViewModel vm)
@@ -36,9 +38,14 @@ namespace Core.Application.Services
             var accountExist = await _savingsAccountRepository.GetById(vm.AccountBeneficiary);
             if (accountExist != null)
             {
-                vm.BeneficiaryUser = _mapper.Map<SavingsAccountViewModel>(accountExist); 
-                vm.BeneficiaryID = accountExist.UserID;
-                vm.UserID = user.Id; 
+                vm.BeneficiaryUser = _mapper.Map<SavingsAccountViewModel>(accountExist);
+                var users = _accountService.GetAllUser();
+                var useer = users.FirstOrDefault(us => us.Id == accountExist.UserID);
+
+                vm.BeneficiaryID = useer.Id;
+                vm.UserID = user.Id;
+
+           
                 return await base.Add(vm);
             }
             return null;
@@ -47,6 +54,7 @@ namespace Core.Application.Services
         {
             var userAccounts = await base.GetAllAsync();
             var userBeneficiary = await _savingsAccountRepository.GetAllAsync();
+
             return userAccounts.Where(account => account.UserID == user.Id).ToList();
         }
     }

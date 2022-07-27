@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(NetBankingContext))]
-    [Migration("20220727074436_NewMigration")]
-    partial class NewMigration
+    [Migration("20220727175154_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,9 +27,6 @@ namespace Infrastructure.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("AccountBeneficiary")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("BeneficiaryID")
                         .HasColumnType("nvarchar(max)");
@@ -51,7 +48,7 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Beneficiaries");
+                    b.ToTable("Beneficiary");
                 });
 
             modelBuilder.Entity("Core.Domain.Entities.CreditCard", b =>
@@ -163,6 +160,15 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("CreditCardCardNumber")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("LoansLoan")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("SavingsAccountAccountNumber")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<DateTime>("Updated")
                         .HasColumnType("datetime2");
 
@@ -170,28 +176,32 @@ namespace Infrastructure.Persistence.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserToPayAccount")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserToPayAccount");
+                    b.HasIndex("CreditCardCardNumber");
+
+                    b.HasIndex("LoansLoan");
+
+                    b.HasIndex("SavingsAccountAccountNumber");
 
                     b.ToTable("Transations");
                 });
 
             modelBuilder.Entity("Core.Domain.Entities.Transations", b =>
                 {
-                    b.HasOne("Core.Domain.Entities.SavingsAccount", "SavingsAccount")
-                        .WithMany("Transations")
-                        .HasForeignKey("UserToPayAccount");
-
                     b.HasOne("Core.Domain.Entities.CreditCard", "CreditCard")
                         .WithMany("Transations")
-                        .HasForeignKey("UserToPayAccount");
+                        .HasForeignKey("CreditCardCardNumber");
 
                     b.HasOne("Core.Domain.Entities.Loans", "Loans")
                         .WithMany("Transations")
-                        .HasForeignKey("UserToPayAccount");
+                        .HasForeignKey("LoansLoan");
+
+                    b.HasOne("Core.Domain.Entities.SavingsAccount", "SavingsAccount")
+                        .WithMany("Transations")
+                        .HasForeignKey("SavingsAccountAccountNumber");
 
                     b.Navigation("CreditCard");
 

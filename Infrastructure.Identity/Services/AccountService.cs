@@ -308,11 +308,12 @@ namespace Infrastructure.Identity.Services
        {
             await _signInManager.SignOutAsync();
        }
-        public async Task<List<UserViewModel>> GetAllUser()
+        public List<UserViewModel> GetAllUser()
         {
             var users = _userManager.Users.ToList();
             List<UserViewModel> usersList = users.Select(user => new UserViewModel
             {
+                Id = user.Id,
                 Name = user.Name,
                 LastName = user.LastName,
                 UserName = user.UserName,
@@ -320,8 +321,8 @@ namespace Infrastructure.Identity.Services
                 
 
             }).ToList();
-
-            int counter = 0;
+            
+            //int counter = 0;
             //foreach(ApplicationUser user in users)
             //{
             //    var roles = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
