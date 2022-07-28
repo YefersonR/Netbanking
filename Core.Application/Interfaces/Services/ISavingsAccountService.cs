@@ -13,6 +13,5 @@ namespace Core.Application.Interfaces.Services
         Task<List<SavingsAccountViewModel>> GetAllByUserID(string id);
         Task UpdateC(SavingsAccountSaveViewModel model, string id);
         Task DeleteByStringID(string id);
-
     }
 }

@@ -355,9 +355,19 @@ namespace Infrastructure.Identity.Services
                 {
                     item.IsAdmin = true;
                 }
+                try
+                {
+                    var i = _savingAccount.GetAllByUserID(item.Id).Result.ToList();
+                    foreach (var data in i)
+                    {
+                        if (data.AccountNumber == user.SavingAccount)
+                        {
+                            item.Monto = data.Amount;
+                        }
+                    }
+                }
+                catch (Exception e) { }
             }
-
-            
 
             return all;
         }
