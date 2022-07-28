@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Core.Application.DTOs.Account;
 using Core.Application.Helpers;
 using Core.Application.Interfaces.Repositories;
 using Core.Application.Interfaces.Services;
@@ -20,14 +21,15 @@ namespace Core.Application.Services
         private readonly ICreditCardRepository _creditCardRepository;
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContext;
-        private readonly UserViewModel user;
+        private readonly AuthenticationResponse user;
 
         public CreditCardService(ICreditCardRepository creditCardRepository, IMapper mapper, IHttpContextAccessor httpContext) : base(creditCardRepository, mapper)
         {
             _creditCardRepository = creditCardRepository;
             _mapper = mapper;
             _httpContext = httpContext;
-            user = _httpContext.HttpContext.Session.Get<UserViewModel>("user");
+            user = _httpContext.HttpContext.Session.Get<AuthenticationResponse>("user");
+
         }
         public override async Task<CreditCardSaveViewModel> Add(CreditCardSaveViewModel vm)
         {

@@ -70,7 +70,7 @@ namespace WebApp.Netbanking.Controllers
         public async Task<IActionResult> Tranferencia(TransationsSaveViewModel transations )
         {
             await _transationService.PayToAccount(transations);
-            return RedirectToRoute(new { controller = "Home",action="Index" });
+            return RedirectToRoute(new { controller = "Client",action="Index" });
         }
 
         public IActionResult Prestamos()
