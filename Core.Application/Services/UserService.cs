@@ -17,38 +17,38 @@ namespace Core.Application.Services
     {
         private readonly IAccountService _accountService;
         private readonly IMapper _mapper;
-        
+
         public UserService(IAccountService accountService, IMapper mapper)
         {
             _accountService = accountService;
             _mapper = mapper;
         }
-        
+
         public async Task<AuthenticationResponse> Login(LoginViewModel loginViewModel)
         {
             AuthenticationRequest loginRequest = _mapper.Map<AuthenticationRequest>(loginViewModel);
-            AuthenticationResponse response = await _accountService.Authentication(loginRequest);    
-            
+            AuthenticationResponse response = await _accountService.Authentication(loginRequest);
+
             return response;
         }
-        public async Task<RegisterResponse> RegisterClient(UserSaveViewModel userSaveViewModel,string origin)
+        public async Task<RegisterResponse> RegisterClient(UserSaveViewModel userSaveViewModel, string origin)
         {
             RegisterRequest registerRequest = _mapper.Map<RegisterRequest>(userSaveViewModel);
-            return await _accountService.RegisterClients(registerRequest,origin);
+            return await _accountService.RegisterClients(registerRequest, origin);
         }
         public async Task<RegisterResponse> RegisterAdmin(UserSaveViewModel userSaveViewModel, string origin)
         {
             RegisterRequest registerRequest = _mapper.Map<RegisterRequest>(userSaveViewModel);
             return await _accountService.RegisterAdmin(registerRequest, origin);
         }
-        public async Task<string> ConfirmEmail(string userId,string token)
+        public async Task<string> ConfirmEmail(string userId, string token)
         {
             return await _accountService.ConfirmAccount(userId, token);
         }
-        public async Task<ForgotPasswordResponse> ForgotPassword(ForgotPasswordViewModel forgotPasswordViewModel,string origin)
+        public async Task<ForgotPasswordResponse> ForgotPassword(ForgotPasswordViewModel forgotPasswordViewModel, string origin)
         {
             ForgotPasswordRequest PasswordRequest = _mapper.Map<ForgotPasswordRequest>(forgotPasswordViewModel);
-            return await _accountService.ForgotPassword(PasswordRequest,origin);
+            return await _accountService.ForgotPassword(PasswordRequest, origin);
         }
         public async Task<ResetPasswordResponse> ResetPassword(ResetPasswordViewModel resetPasswordViewModel)
         {
@@ -57,10 +57,10 @@ namespace Core.Application.Services
         }
         public async Task SingOut()
         {
-            await _accountService.SignOut(); 
+            await _accountService.SignOut();
         }
         public async Task<List<UserGetAllViewModel>> GetAllClients()
-        {            
+        {
             return await _accountService.GetAllVMUser();
         }
         public List<UserViewModel> GetAlladmin()
@@ -85,6 +85,19 @@ namespace Core.Application.Services
                 }
             }
             return false;
+        }
+
+        public async Task<RegisterResponse> UpdateClient(UserSaveViewModel userSaveViewModel, string origin)
+        {
+            RegisterRequest registerRequest = _mapper.Map<RegisterRequest>(userSaveViewModel);
+            return await _accountService.UpdateClient(registerRequest, origin);
+        }
+
+        public async Task<RegisterResponse> UpdateAdmin(UserSaveViewModel userSaveViewModel, string origin)
+        {
+            RegisterRequest registerRequest = _mapper.Map<RegisterRequest>(userSaveViewModel);
+            return await _accountService.UpdateAdmin(registerRequest, origin);
+
         }
     }
 }

@@ -71,5 +71,11 @@ namespace Core.Application.Services
             return _mapper.Map<List<SavingsAccountViewModel>>(CreditCardsList.Where(x => x.UserID == ID).ToList());
         }
 
+        public async Task DeleteByStringID(string id)
+        {
+            var data = await _savingsAccountRepository.GetById(id);
+            await _savingsAccountRepository.DeleteAsync(data);
+        }
+
     }
 }

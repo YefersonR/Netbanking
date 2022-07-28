@@ -36,13 +36,12 @@ namespace Core.Application.Services
         {
             var Numberaccount = GenerateNumberAccount.GenerateAccount();
             var accountExist = await _loansRepository.GetById(Numberaccount);
-            while (accountExist == null)
+            while (accountExist != null)
             {
                 accountExist = await _loansRepository.GetById(Numberaccount);
                 Numberaccount = GenerateNumberAccount.GenerateAccount();
             }
             vm.Loan = Numberaccount;
-            vm.UserID = user.Id;
             return await base.Add(vm);
         }
         public override async Task<List<LoansViewModel>> GetAllAsync()
@@ -62,6 +61,12 @@ namespace Core.Application.Services
             var LoansList = await _loansRepository.GetAllAsync();
             return _mapper.Map<List<LoansViewModel>>(LoansList.Where(x => x.UserID == id).ToList());
         }
-        
+
+        public async Task DeleteByStringID(string id)
+        {
+            var data = await _loansRepository.GetById(id);
+            await _loansRepository.DeleteAsync(data);
+        }
+
     }
 }
