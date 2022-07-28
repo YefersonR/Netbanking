@@ -18,6 +18,9 @@ namespace Core.Application.Interfaces.Services
         Task<ForgotPasswordResponse> ForgotPassword(ForgotPasswordViewModel forgotPasswordViewModel, string origin);
         Task<ResetPasswordResponse> ResetPassword(ResetPasswordViewModel resetPasswordViewModel);
         Task SingOut();
+        Task<List<UserGetAllViewModel>> GetAllClients();
+        Task<UserSaveViewModel> GetAccountByid(string ID);
+        Task<bool> IsAdmin(string ID);
 
     }
 }

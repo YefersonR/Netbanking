@@ -1,0 +1,83 @@
+﻿@using Core.Application.ViewModels.CreditCard
+@using Core.Application.ViewModels.Loans
+@using Core.Application.ViewModels.Products
+@using Core.Application.ViewModels.SavingsAccount
+@model UserProductsViewModels
+@{
+    ViewData["Title"] = "Productos";
+}
+
+  <div class="row">
+
+        @if (Model == null || Model.CuentasDeAhorro.Count == 0)
+        {
+            <h2>No hay Cuentas de ahorro</h2>
+        }
+        else
+        {
+            @foreach (SavingsAccountViewModel item in Model.CuentasDeAhorro)
+            {
+                <div class="col-4">
+                    <div class="card shadow-sm">
+
+                        <div class="card-body">
+                            <h4 class="card-title">@item.AccountNumber</h4>
+                            <p class="card-text">@item.Created</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                               
+                                <small class="fw-bold fs-6">$@item.Amount</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+          @if (Model == null || Model.TarjetasDeCredito.Count == 0)
+        {
+            <h2>No hay Tarjetas De Credito</h2>
+        }
+        else
+        {
+            @foreach (CreditCardViewModel item in Model.TarjetasDeCredito)
+            {
+                <div class="col-4">
+                    <div class="card shadow-sm">
+
+                        <div class="card-body">
+                            <h4 class="card-title">@item.CardNumber</h4>
+                            <p class="card-text">@item.Created</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                               <small class="fw-bold fs-6">$@item.Limit</small>
+                                <small class="fw-bold fs-6">$@item.Debt</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+          @if (Model == null || Model.Prestamos.Count == 0)
+        {
+            <h2>No hay Prestamos</h2>
+        }
+        else
+        {
+            @foreach (LoansViewModel item in Model.Prestamos)
+            {
+                <div class="col-4">
+                    <div class="card shadow-sm">
+
+                        <div class="card-body">
+                            <h4 class="card-title">Prestamos</h4>
+                            <p class="card-text">@item.Created</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                               
+                                <small class="fw-bold fs-6">$@item.Limit</small>
+                                 <small class="fw-bold fs-6">$@item.Debt</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+
+          </div>

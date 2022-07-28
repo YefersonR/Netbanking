@@ -10,7 +10,7 @@ namespace Core.Application.Interfaces.Services
 {
     public interface ISavingsAccountService : IGenericService <SavingsAccountSaveViewModel, SavingsAccountViewModel, SavingsAccount>
     {
-        Task<SavingsAccountViewModel> GetById(string id);
+        Task<List<SavingsAccountViewModel>> GetAllByUserID(string id);
 
     }
 }

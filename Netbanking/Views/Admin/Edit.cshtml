@@ -2,7 +2,8 @@
 @model UserSaveViewModel
 @{
 
-    ViewData["Title"] = "Registro";
+    ViewData["Title"] = "Editar";
+    var isAdmin = ViewBag.Admin ? "disabled" : "";
 }
 
     <div class="container-fluid">
@@ -11,7 +12,7 @@
             <div class="col-6 offset-3">
                 <div class="card">
                     <div class="card-header bg-dark text-light">
-                        <h4>Registro de nuevo usuario</h4>
+                        <h4>Editar Usuario</h4>
                     </div>
                     <div class="card-body">
 
@@ -23,7 +24,7 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="Alert" aria-label="Close"></button>
                             </div>
                         }
-                        <form method="post" asp-controller="Admin" asp-action="Register">
+                        <form method="post" asp-controller="Admin" asp-action="Edit">
 
                             <div class="mb-3">
                                 <label asp-for="Name" class="form-label">Nombre: </label>
@@ -53,11 +54,18 @@
                                 <input class="form-control" />
                                 <span class="text-danger"></span>
                             </div>
-                            <div class="mb-3">
+
+                            @if(ViewBag.Admin){
+
+                        }
+                        else
+                        {
+                            <div class="mb-3"> 
                                 <label asp-for="MontoInicial" class="form-label">Monto Incial </label>
-                                <input type="number" step="any" asp-for="MontoInicial" class="form-control" />
+                                <input type="number" step="any" asp-for="MontoInicial" class="form-control"/>
                                 <span class="text-danger"></span>
                             </div>
+                        }
                             <div class="mb-3">
                                 <label asp-for="Identification" class="form-label">Cedula: </label>
                                 <input asp-for="Identification" class="form-control" />
@@ -77,15 +85,15 @@
 
 
                             <button @*type="submit"*@ class="btn btn-primary">Guardar</button>
-                            <a asp-controller="Admin" asp-action="Index" class="btn btn-warning">Volver atras</a>
+                                <a asp-controller="Admin" asp-action="Index" class="btn btn-warning">Volver atras</a>
 
-                        </form>
+                            </form>
+
+                        </div>
 
                     </div>
-
                 </div>
             </div>
-        </div>
 
-    </div>
+        </div>
 
