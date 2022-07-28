@@ -38,7 +38,13 @@ namespace WebApp.Netbanking.Controllers
             if(user != null && user.HasError != true)
             {
                 HttpContext.Session.Set<AuthenticationResponse>("user",user);
-                return RedirectToRoute(new { controller = "Home", action = "Index" });
+                if (user.Roles.Any(rol => rol == "Admin"))
+                {
+                    return RedirectToRoute(new { controller = "Admin", action = "Index" });
+                }
+                    return RedirectToRoute(new { controller = "Client", action = "Index" });
+
+
             }
             else
             {

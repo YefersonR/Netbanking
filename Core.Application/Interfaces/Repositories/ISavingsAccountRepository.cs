@@ -11,5 +11,6 @@ namespace Core.Application.Interfaces.Repositories
     {
         Task<SavingsAccount> GetById(string Id);
         Task Pay(string Id);
+        Task Update(SavingsAccount entity, string ID);
     }
 }

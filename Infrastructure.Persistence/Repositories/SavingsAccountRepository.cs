@@ -28,6 +28,11 @@ namespace Infrastructure.Persistence.Repositories
             _dbContext.Entry(entry).CurrentValues.SetValues(entry);
             await _dbContext.SaveChangesAsync();
         }
-
+        public async Task Update(SavingsAccount entity, string ID)
+        {
+            SavingsAccount etry = await _dbContext.Set<SavingsAccount>().FindAsync(ID);
+            _dbContext.Entry(etry).CurrentValues.SetValues(entity);
+            await _dbContext.SaveChangesAsync(); 
+        }
     }
 }

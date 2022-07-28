@@ -63,6 +63,7 @@ namespace WebApp.Netbanking.Controllers
         {
             TransationsSaveViewModel transations = new();
             transations.savingsAccounts = await _SavingAccountService.GetAllAsync();
+
             return View(transations);
         }
         [HttpPost]
