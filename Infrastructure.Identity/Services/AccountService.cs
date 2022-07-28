@@ -96,7 +96,6 @@ namespace Infrastructure.Identity.Services
             {
                 AccountNumber = cuenta,
                 Amount = 0,
-                
             };
             await _savingAccount.Add(account);
 
@@ -111,6 +110,12 @@ namespace Infrastructure.Identity.Services
             };
 
             var result = await _userManager.CreateAsync(user, request.Password);
+            var created= GetAllUser();
+            var createdaccount = created.FirstOrDefault(user => user.SavingsAccount == account.AccountNumber);
+
+            account.UserID = createdaccount.Id;
+            await _savingAccount.UpdateC(account,account.AccountNumber);
+
             if (!result.Succeeded)
             {
                 response.HasError = true;
@@ -317,19 +322,10 @@ namespace Infrastructure.Identity.Services
                 Name = user.Name,
                 LastName = user.LastName,
                 UserName = user.UserName,
-                Identification = user.Identification
+                Identification = user.Identification,
+                SavingsAccount = user.SavingAccount
                 
-
             }).ToList();
-            
-            //int counter = 0;
-            //foreach(ApplicationUser user in users)
-            //{
-            //    var roles = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
-            //    string role = roles[9];
-            //    usersList[counter].Roles = role;
-            //    counter++;
-            //}
 
             return usersList;
         }

@@ -21,10 +21,10 @@ namespace Core.Application.Services
         private readonly ISavingsAccountRepository _savingsAccountRepository;
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContext;
-        private readonly UserViewModel user;
+        private readonly UserViewModel user = new();
 
 
-        public SavingAccountService(ISavingsAccountRepository savingsAccountRepository, IMapper mapper, IHttpContextAccessor httpContext) : base(savingsAccountRepository, mapper)
+        public SavingAccountService( ISavingsAccountRepository savingsAccountRepository, IMapper mapper, IHttpContextAccessor httpContext) : base(savingsAccountRepository, mapper)
         {
             _savingsAccountRepository = savingsAccountRepository;
             _mapper = mapper;
@@ -41,9 +41,8 @@ namespace Core.Application.Services
                 Numberaccount = GenerateNumberAccount.GenerateAccount();
                 accountExist = await _savingsAccountRepository.GetById(Numberaccount);
             }
-            vm.AccountNumber = Numberaccount;
-            vm.UserID = user.Id;
-
+            vm.AccountNumber = Numberaccount; 
+          
             return await base.Add(vm);
         }
         public override async Task<List<SavingsAccountViewModel>> GetAllAsync()
@@ -58,6 +57,12 @@ namespace Core.Application.Services
             return accountVm;
         }
 
+        public async Task UpdateC(SavingsAccountSaveViewModel model,string id)
+        {
+
+            SavingsAccount accountVm = _mapper.Map<SavingsAccount>(model);
+            await _savingsAccountRepository.Update(accountVm,id);
+        }
         public async Task<List<SavingsAccountViewModel>> GetAllByUserID(string ID)
         {
             var CreditCardsList = await _savingsAccountRepository.GetAllAsync();

@@ -67,14 +67,6 @@ namespace Core.Application.Services
         {
             List<UserViewModel> usersVM = _accountService.GetAllUser();
             List<UserViewModel> usersClients = new();
-
-            foreach (UserViewModel user in usersVM)
-            {
-                //if (user.Roles == Roles.Client.ToString())
-                //{
-                //    usersClients.Add(user);
-                //}
-            }
             return usersClients;
         }
         public async Task<UserSaveViewModel> GetAccountByid(string ID)
