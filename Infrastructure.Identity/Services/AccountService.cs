@@ -39,7 +39,7 @@ namespace Infrastructure.Identity.Services
             AuthenticationResponse response = new();
             var user = await _userManager.FindByNameAsync(request.UserName);
 
-            if(user == null)
+            if (user == null)
             {
                 response.HasError = true;
                 response.Error = $"No account registered with {request.UserName}";
@@ -333,11 +333,43 @@ namespace Infrastructure.Identity.Services
 
             return usersList;
         }
+
+        public async Task<List<UserGetAllViewModel>> GetAllVMUser()
+        {
+            var users = _userManager.Users.ToList();
+            var all = users.Select(x => new UserGetAllViewModel
+            {
+                Id = x.Id,
+                UserName = x.UserName,
+                IsAdmin = false
+            }).ToList();
+
+            var adminID = GetAdminUsers().Result;
+            foreach (var item in all)
+            {
+                var user = await _userManager.FindByIdAsync(item.Id);
+                item.IsActive = user.EmailConfirmed;
+                if (adminID.Contains(item.Id))
+                {
+                    item.IsAdmin = true;
+                }
+            }
+
+            
+
+            return all;
+        }
         public async Task ChangeUserState(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
             user.EmailConfirmed = user.EmailConfirmed == false ? true : false;
             await _userManager.UpdateAsync(user);
+        }
+
+        public async Task<List<string>> GetAdminUsers()
+        {
+            var roleList = _userManager.GetUsersInRoleAsync("Admin").Result.ToList();
+            return roleList.Select(x => x.Id).ToList();
         }
 
     }

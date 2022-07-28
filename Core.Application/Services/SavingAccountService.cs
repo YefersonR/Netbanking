@@ -58,5 +58,11 @@ namespace Core.Application.Services
             return accountVm;
         }
 
+        public async Task<List<SavingsAccountViewModel>> GetAllByUserID(string ID)
+        {
+            var CreditCardsList = await _savingsAccountRepository.GetAllAsync();
+            return _mapper.Map<List<SavingsAccountViewModel>>(CreditCardsList.Where(x => x.UserID == ID).ToList());
+        }
+
     }
 }

@@ -21,5 +21,6 @@ namespace Core.Application.Interfaces.Services
         Task<ForgotPasswordResponse> ForgotPassword(ForgotPasswordRequest request, string origin);
         Task<ResetPasswordResponse> ResetPassword(ResetPasswordRequest request);
         Task SignOut();
+        Task<List<UserGetAllViewModel>> GetAllVMUser();
     }
 }

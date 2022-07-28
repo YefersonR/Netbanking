@@ -28,7 +28,7 @@ namespace WebApp.Netbanking.Controllers
         
         public IActionResult Index()
         {
-            return View();
+            return View(_userService.GetAllClients().Result);
         }
 
         public IActionResult Register()
@@ -54,12 +54,12 @@ namespace WebApp.Netbanking.Controllers
             }
             return RedirectToRoute(new { controller = "Admin", action = "Index" });
         }
-        public async Task<IActionResult> Products()
+        public async Task<IActionResult> Products(string id)
         {
             UserProductsViewModels vm = new();
-            vm.TarjetasDeCredito = await _creditCardService.GetAllAsync();
-            vm.Prestamos = await _loansService.GetAllAsync();
-            vm.CuentasDeAhorro = await _savingsAccountService.GetAllAsync();
+            vm.TarjetasDeCredito = await _creditCardService.GetAllByUserID(id);
+            vm.Prestamos = await _loansService.GetAllByUserID(id);
+            vm.CuentasDeAhorro = await _savingsAccountService.GetAllByUserID(id);
             return View(vm);
         }
     }

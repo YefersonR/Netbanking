@@ -1,7 +1,34 @@
-﻿
+﻿@model List<Core.Application.ViewModels.User.UserGetAllViewModel>
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Home";
 }
 
-<h1>Index</h1>
-
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Usuario</th>
+      <th scope="col">IsActive</th>
+      <th scope="col">IsAdmin</th>
+      <th scope="col">Monto</th>
+      <th scope="col">Productos</th>
+      <th scope="col">Editar</th>
+    </tr>
+  </thead>
+  <tbody>
+      @if(Model != null || Model.Count != 0){
+        @foreach(var data in Model)
+        {
+            <tr>
+              <th scope="row">@data.Id</th>
+              <td>@data.UserName</td>
+              <td>@data.IsActive</td>
+              <td>@data.IsAdmin</td>
+              <td>aun</td>
+              <td><a asp-controller="Admin" asp-action="Products" asp-route-id="@data.Id" class="btn btn-outline-Warning">Ver Productos</a></td>
+              <td><a asp-controller="Admin" asp-action="Editar" asp-route-id="@data.Id" class="btn btn-outline-Danger">Editar</a></td>
+            </tr>  
+        }
+      }
+  </tbody>
+</table>

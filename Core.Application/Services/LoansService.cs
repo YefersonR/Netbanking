@@ -55,10 +55,10 @@ namespace Core.Application.Services
             return loanVm;
         }
 
-        public async Task<List<LoansViewModel>> GetAllByUserID(string ID)
+        public async Task<List<LoansViewModel>> GetAllByUserID(string id)
         {
             var LoansList = await _loansRepository.GetAllAsync();
-            return _mapper.Map<List<LoansViewModel>>(LoansList.Where(x => x.UserID == ID).ToList());
+            return _mapper.Map<List<LoansViewModel>>(LoansList.Where(x => x.UserID == id).ToList());
         }
         
     }
