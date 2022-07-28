@@ -35,7 +35,11 @@
                                
                                 <small class="fw-bold fs-6">$@item.Amount</small>
                             </div>
-                            <a asp-controller="Admin" asp-action="DeleteProductSavin" asp-route-id="@item.AccountNumber" type="button" class="btn btn-danger position-absolute top-100 start-50 translate-middle">Eliminar</a>
+                            @if(ViewBag.Principal == item.AccountNumber){
+                                <button type="button" class="btn btn-danger position-absolute top-100 start-50 translate-middle" disabled>Eliminar</button>
+                            }else{
+                                <a asp-controller="Admin" asp-action="DeleteProductSavin" asp-route-id="@item.AccountNumber" type="button" class="btn btn-danger position-absolute top-100 start-50 translate-middle">Eliminar</a>
+                            }
                         </div>
                     </div>
                 </div>
