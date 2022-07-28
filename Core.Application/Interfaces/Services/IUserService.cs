@@ -21,7 +21,7 @@ namespace Core.Application.Interfaces.Services
         Task<List<UserGetAllViewModel>> GetAllClients();
         Task<UserSaveViewModel> GetAccountByid(string ID);
         Task<bool> IsAdmin(string ID);
-
+        Task<string> GetSavingByID(string id);
         Task<RegisterResponse> UpdateClient(UserSaveViewModel userSaveViewModel, string origin);
         Task<RegisterResponse> UpdateAdmin(UserSaveViewModel userSaveViewModel, string origin);
 

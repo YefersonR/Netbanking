@@ -100,6 +100,7 @@ namespace WebApp.Netbanking.Controllers
             vm.TarjetasDeCredito = await _creditCardService.GetAllByUserID(id);
             vm.Prestamos = await _loansService.GetAllByUserID(id);
             vm.CuentasDeAhorro = await _savingsAccountService.GetAllByUserID(id);
+            ViewBag.Principal = await _userService.GetSavingByID(id);
             return View(vm);
         }
 
