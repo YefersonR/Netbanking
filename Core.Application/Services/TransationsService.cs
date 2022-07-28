@@ -83,7 +83,7 @@ namespace Core.Application.Services
         public async Task<TransationsSaveViewModel> RetireToCard(TransationsSaveViewModel vm)
         {
 
-            var card = await _creditCardRepository.GetById(vm.UserToPayAccount);
+            var card = await _creditCardRepository.GetById(vm.CreditCard);
             var account = await _savingsAccountRepository.GetById(vm.AccountNumber);
             if (card.Limit >= card.Debt)
             {

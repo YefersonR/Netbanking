@@ -1,6 +1,7 @@
 ﻿using Core.Application.Interfaces.Services;
 using Core.Application.ViewModels.Beneficiary;
 using Core.Application.ViewModels.Loans;
+using Core.Application.ViewModels.Products;
 using Core.Application.ViewModels.Transation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,17 +19,24 @@ namespace WebApp.Netbanking.Controllers
         private readonly ICreditCardService _CreditCardService;
         private readonly IBeneficiaryService _BeneficiaryService;
         private readonly ISavingsAccountService _SavingAccountService;
+        private readonly ILoansService _loansService;
 
-
-        public ClientController(IBeneficiaryService BeneficiaryService, ITransationService transationService, ISavingsAccountService SavingAccountService)
+        public ClientController(ILoansService loansService, ICreditCardService CreditCardService, IBeneficiaryService BeneficiaryService, ITransationService transationService, ISavingsAccountService SavingAccountService)
         {
             _transationService = transationService;
             _BeneficiaryService = BeneficiaryService;
             _SavingAccountService = SavingAccountService;
+            _CreditCardService = CreditCardService;
+            _loansService = loansService;
+
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            UserProductsViewModels userProducts = new();
+            userProducts.CuentasDeAhorro = await _SavingAccountService.GetAllAsync();
+            userProducts.TarjetasDeCredito = await _CreditCardService.GetAllAsync();
+            userProducts.Prestamos = await _loansService.GetAllAsync();
+            return View(userProducts);
         }
 
         public IActionResult beneficiariosAdd()
@@ -48,15 +56,18 @@ namespace WebApp.Netbanking.Controllers
             _transationService.PayLoans(loans);
             return View();
         }
-        public IActionResult Avance_de_efectivo()
+        public async Task<IActionResult> Avance_de_efectivo()
         {
-            return View();
+            TransationsSaveViewModel transationsCard = new();
+            transationsCard.savingsAccounts = await _SavingAccountService.GetAllAsync();
+            transationsCard.CreditCards = await _CreditCardService.GetAllAsync();
+            return View(transationsCard);
         }
         [HttpPost]
         public IActionResult Avance_de_efectivo(TransationsSaveViewModel transationsSave)
         {
             _transationService.RetireToCard(transationsSave);
-            return RedirectToRoute(new { controller = "Home", action = "Index" });
+            return RedirectToRoute(new { controller = "Client", action = "Index" });
         }
 
         public async Task<IActionResult> Tranferencia()
@@ -93,6 +104,7 @@ namespace WebApp.Netbanking.Controllers
         {
             return View();
         }
+ 
         public IActionResult Expreso()
         {
             return View();

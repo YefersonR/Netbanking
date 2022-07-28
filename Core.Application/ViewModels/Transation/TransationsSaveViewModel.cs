@@ -1,4 +1,5 @@
-﻿using Core.Application.ViewModels.SavingsAccount;
+﻿using Core.Application.ViewModels.CreditCard;
+using Core.Application.ViewModels.SavingsAccount;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,10 @@ namespace Core.Application.ViewModels.Transation
         public string AccountNumber { get; set; }
         public double Amount { get; set; }
         public string UserToPayAccount { get; set; }
+        public string CreditCard { get; set; }
         public List<SavingsAccountViewModel> savingsAccounts { get; set; }
+        public List<CreditCardViewModel> CreditCards { get; set; }
+
 
     }
 }
