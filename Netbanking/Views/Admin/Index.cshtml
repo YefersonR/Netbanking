@@ -33,7 +33,7 @@
                       <td>@data.UserName</td>
                       <td>@data.IsActive</td>
                       <td>@data.IsAdmin</td>
-                      <td>aun</td>
+                      <td>∞ is ADMIN</td>
                       <td><button class="btn btn-outline-danger" disabled>Admin</button></td>
                       <td><button class="btn btn-outline-danger" disabled>Editar</button></td>
                     </tr> 
@@ -45,13 +45,14 @@
                       <td>@data.UserName</td>
                       <td>@data.IsActive</td>
                       <td>@data.IsAdmin</td>
-                      <td>aun</td>
                       @if(data.IsAdmin)
                         {
+                            <td>∞ is ADMIN</td>
                             <td><button class="btn btn-outline-danger" disabled>Admin</button></td>
                         }
                         else
                         {
+                             <td>@data.Monto</td>
                              <td><a asp-controller="Admin" asp-action="Products" asp-route-id="@data.Id" class="btn btn-outline-warning">Ver Productos</a></td>
                         }
                        <td><a asp-controller="Admin" asp-action="Edit" asp-route-id="@data.Id" class="btn btn-outline-danger">Editar</a></td>

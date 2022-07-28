@@ -28,7 +28,6 @@ namespace Core.Application.Services
             _mapper = mapper;
             _httpContext = httpContext;
             user = _httpContext.HttpContext.Session.Get<UserViewModel>("user");
-
         }
         public override async Task<LoansSaveViewModel> Add(LoansSaveViewModel vm)
         {
