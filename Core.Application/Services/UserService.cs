@@ -59,19 +59,9 @@ namespace Core.Application.Services
         {
             await _accountService.SignOut(); 
         }
-        public List<UserViewModel> GetAllClients()
-        {
-            List<UserViewModel> usersVM = _accountService.GetAllUser();
-            List<UserViewModel> usersClients = new();
-            
-            foreach(UserViewModel user in usersVM)
-            {
-                //if (user.Roles == Roles.Client.ToString())
-                //{
-                //    usersClients.Add(user);
-                //}
-            }
-            return usersClients;
+        public async Task<List<UserGetAllViewModel>> GetAllClients()
+        {            
+            return await _accountService.GetAllVMUser();
         }
         public List<UserViewModel> GetAlladmin()
         {
@@ -86,6 +76,23 @@ namespace Core.Application.Services
                 //}
             }
             return usersClients;
+        }
+        public async Task<UserSaveViewModel> GetAccountByid(string ID)
+        {
+            return await _accountService.GetAccountByid(ID);
+        }
+
+        public async Task<bool> IsAdmin(string ID)
+        {
+            var adminList = await _accountService.GetAdminUsers();
+            foreach (var admin in adminList)
+            {
+                if (admin == ID)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }
