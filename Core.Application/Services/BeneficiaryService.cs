@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Core.Application.DTOs.Account;
 using Core.Application.Helpers;
 using Core.Application.Interfaces.Repositories;
 using Core.Application.Interfaces.Services;
@@ -22,7 +23,7 @@ namespace Core.Application.Services
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContext;
         private readonly IAccountService _accountService;
-        private readonly UserViewModel user;
+        private readonly AuthenticationResponse user;
 
         public BeneficiaryService(IAccountService accountService, ISavingsAccountRepository savingsAccountRepository,IBeneficiaryRepository beneficiaryRepository, IMapper mapper, IHttpContextAccessor httpContext) : base(beneficiaryRepository, mapper)
         {
@@ -31,7 +32,8 @@ namespace Core.Application.Services
             _savingsAccountRepository = savingsAccountRepository;
             _httpContext = httpContext;
             _accountService = accountService;
-            user = _httpContext.HttpContext.Session.Get<UserViewModel>("user");
+            user = _httpContext.HttpContext.Session.Get<AuthenticationResponse>("user");
+
         }
         public override async Task<BeneficiarySaveViewModel> Add(BeneficiarySaveViewModel vm)
         {
@@ -45,7 +47,6 @@ namespace Core.Application.Services
                 vm.BeneficiaryID = useer.Id;
                 vm.UserID = user.Id;
 
-           
                 return await base.Add(vm);
             }
             return null;

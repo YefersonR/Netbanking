@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Core.Application.DTOs.Account;
 using Core.Application.Helpers;
 using Core.Application.Interfaces.Repositories;
 using Core.Application.Interfaces.Services;
@@ -20,14 +21,17 @@ namespace Core.Application.Services
         private readonly ICreditCardRepository _creditCardRepository;
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContext;
-        private readonly UserViewModel user;
+        private readonly IAccountService _accountService;
+        private readonly AuthenticationResponse user;
 
-        public CreditCardService(ICreditCardRepository creditCardRepository, IMapper mapper, IHttpContextAccessor httpContext) : base(creditCardRepository, mapper)
+        public CreditCardService(ICreditCardRepository creditCardRepository, IAccountService accountService, IMapper mapper, IHttpContextAccessor httpContext) : base(creditCardRepository, mapper)
         {
             _creditCardRepository = creditCardRepository;
             _mapper = mapper;
+            _accountService = accountService;
             _httpContext = httpContext;
-            user = _httpContext.HttpContext.Session.Get<UserViewModel>("user");
+            user = _httpContext.HttpContext.Session.Get<AuthenticationResponse>("user");
+
         }
         public override async Task<CreditCardSaveViewModel> Add(CreditCardSaveViewModel vm)
         {
@@ -39,12 +43,14 @@ namespace Core.Application.Services
                 Numberaccount = GenerateNumberAccount.GenerateAccount();
             }
             vm.CardNumber = Numberaccount;
+            
             return await base.Add(vm);
         }
         public override async Task<List<CreditCardViewModel>> GetAllAsync()
         {
             var userAccounts = await base.GetAllAsync();
-            return userAccounts.Where(account => account.UserID == user.Id).ToList();
+            var userCard = userAccounts.Where(account => account.UserID == user.Id).ToList();
+            return userCard;
         }
         public async Task<CreditCardSaveViewModel> GetById(string id)
         {
@@ -52,7 +58,6 @@ namespace Core.Application.Services
             CreditCardSaveViewModel CardVm = _mapper.Map<CreditCardSaveViewModel>(Card);
             return CardVm;
         }
-
         public async Task<List<CreditCardViewModel>> GetAllByUserID(string ID)
         {
             var CreditCardsList = await _creditCardRepository.GetAllAsync();

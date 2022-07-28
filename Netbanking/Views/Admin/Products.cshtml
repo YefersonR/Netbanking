@@ -27,12 +27,12 @@
             {
                 <div class="col-4 mb-5">
                     <div class="card shadow-sm">
-
                         <div class="card-body">
+                            <h4>Cuentas de ahorro</h4>
                             <h4 class="card-title">@item.AccountNumber</h4>
                             <p class="card-text">@item.Created</p>
                             <div class="d-flex justify-content-between align-items-center">
-                               
+
                                 <small class="fw-bold fs-6">$@item.Amount</small>
                             </div>
                             @if(ViewBag.Principal == item.AccountNumber){
@@ -55,12 +55,12 @@
             {
                 <div class="col-4">
                     <div class="card shadow-sm">
-
                         <div class="card-body">
+                            <h4 class="card-title">Tarjetas de credito</h4>
                             <h4 class="card-title">@item.CardNumber</h4>
                             <p class="card-text">@item.Created</p>
                             <div class="d-flex justify-content-between align-items-center">
-                               <small class="fw-bold fs-6">$@item.Limit</small>
+                                <small class="fw-bold fs-6">$@item.Limit</small>
                                 <small class="fw-bold fs-6">$@item.Debt</small>
                             </div>
                             <a asp-controller="Admin" asp-action="DeleteProductCC" asp-route-id="@item.CardNumber" type="button" class="btn btn-danger position-absolute top-100 start-50 translate-middle">Eliminar</a>
@@ -79,14 +79,13 @@
             {
                 <div class="col-4">
                     <div class="card shadow-sm">
-
                         <div class="card-body">
                             <h4 class="card-title">Prestamos</h4>
                             <p class="card-text">@item.Created</p>
                             <div class="d-flex justify-content-between align-items-center">
-                               
+
                                 <small class="fw-bold fs-6">$@item.Limit</small>
-                                 <small class="fw-bold fs-6">$@item.Debt</small>
+                                <small class="fw-bold fs-6">$@item.Debt</small>
                             </div>
                             <a asp-controller="Admin" asp-action="DeleteProductLoans" asp-route-id="@item.Loan" type="button" class="btn btn-danger position-absolute top-100 start-50 translate-middle">Eliminar</a>
 

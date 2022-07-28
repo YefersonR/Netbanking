@@ -1,5 +1,6 @@
 ﻿
 using AutoMapper;
+using Core.Application.DTOs.Account;
 using Core.Application.Helpers;
 using Core.Application.Interfaces.Repositories;
 using Core.Application.Interfaces.Services;
@@ -16,12 +17,12 @@ using System.Threading.Tasks;
 
 namespace Core.Application.Services
 {
-    public class SavingAccountService : GenericService<SavingsAccountSaveViewModel, SavingsAccountViewModel, SavingsAccount>, ISavingsAccountService
+    public class SavingAccountService : GenericService<SavingsAccountSaveViewModel, SavingsAccountViewModel, SavingsAccount>, ISavingsAccountService    
     {
         private readonly ISavingsAccountRepository _savingsAccountRepository;
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContext;
-        private readonly UserViewModel user = new();
+        private readonly AuthenticationResponse user = new();
 
 
         public SavingAccountService( ISavingsAccountRepository savingsAccountRepository, IMapper mapper, IHttpContextAccessor httpContext) : base(savingsAccountRepository, mapper)
@@ -29,7 +30,7 @@ namespace Core.Application.Services
             _savingsAccountRepository = savingsAccountRepository;
             _mapper = mapper;
             _httpContext = httpContext;
-            user = _httpContext.HttpContext.Session.Get<UserViewModel>("user");
+            user = _httpContext.HttpContext.Session.Get<AuthenticationResponse>("user");
 
         }
         public override async Task<SavingsAccountSaveViewModel> Add(SavingsAccountSaveViewModel vm)
@@ -48,7 +49,8 @@ namespace Core.Application.Services
         public override async Task<List<SavingsAccountViewModel>> GetAllAsync()
         {
             var userAccounts =  await base.GetAllAsync();
-            return userAccounts.Where(account=>account.UserID == user.Id).ToList();
+            var useraccount = userAccounts.Where(account=>account.UserID == user.Id).ToList();
+            return useraccount;
         }
         public async Task<SavingsAccountViewModel> GetById(string id)
         {
