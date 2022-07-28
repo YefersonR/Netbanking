@@ -5,6 +5,7 @@ using Core.Application.ViewModels.Products;
 using Core.Application.ViewModels.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 using WebApp.Netbanking.Middleware;
 
@@ -31,20 +32,31 @@ namespace WebApp.Netbanking.Controllers
             return View(_userService.GetAllClients().Result);
         }
 
-        public IActionResult Register()
+        public IActionResult Register(int type)
         {
+            ViewBag.Type = type;
             return View(new UserSaveViewModel());
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(UserSaveViewModel saveViewModel)
+        public async Task<IActionResult> Register(UserSaveViewModel saveViewModel, string infotipo)
         {
             if (!ModelState.IsValid)
             {
                 return View(saveViewModel);
             }
             var origin = Request.Headers["origin"];
-            RegisterResponse registerResponse = await _userService.RegisterClient(saveViewModel, origin);
+            RegisterResponse registerResponse;
+
+            if (Convert.ToInt32(infotipo) == 1)
+            {
+                registerResponse = await _userService.RegisterAdmin(saveViewModel, origin);
+            }
+            else
+            {
+                registerResponse = await _userService.RegisterClient(saveViewModel, origin);
+            }
+
             if (registerResponse.HasError)
             {
                 saveViewModel.HasError = registerResponse.HasError;
@@ -54,6 +66,7 @@ namespace WebApp.Netbanking.Controllers
             }
             return RedirectToRoute(new { controller = "Admin", action = "Index" });
         }
+
         public async Task<IActionResult> Products(string id)
         {
             UserProductsViewModels vm = new();
