@@ -29,6 +29,7 @@ namespace WebApp.Netbanking.Controllers
         
         public IActionResult Index()
         {
+            ViewBag.Actual = "90b5fc06-f8aa-4e24-8371-6920d33823a6";//Pasar user actual
             return View(_userService.GetAllClients().Result);
         }
 
@@ -89,7 +90,18 @@ namespace WebApp.Netbanking.Controllers
             {
                 return View(vm);
             }
-            return View();
+            var origin = Request.Headers["origin"];
+
+            if (await _userService.IsAdmin(vm.Id))
+            {
+                await _userService.UpdateAdmin(vm, origin);
+            }
+            else
+            {
+                await _userService.UpdateClient(vm, origin);
+            }
+
+            return RedirectToRoute(new { controller = "Admin", action = "Index" });
         }
     }
 }

@@ -22,5 +22,9 @@ namespace Core.Application.Interfaces.Services
         Task<UserSaveViewModel> GetAccountByid(string ID);
         Task<bool> IsAdmin(string ID);
 
+        Task<RegisterResponse> UpdateClient(UserSaveViewModel userSaveViewModel, string origin);
+        Task<RegisterResponse> UpdateAdmin(UserSaveViewModel userSaveViewModel, string origin);
+
+
     }
 }

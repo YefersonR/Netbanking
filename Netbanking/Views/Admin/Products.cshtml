@@ -7,6 +7,14 @@
     ViewData["Title"] = "Productos";
 }
 
+<div class="offset-7 mb-3">
+    <div class="row row-cols-3">
+        <a class="btn btn-outline-warning col-4" asp-controller="Admin" asp-action="CreateProducts" asp-route-type="0"> Crear Credit Card</a>
+        <a class="btn btn-outline-warning col-4" asp-controller="Admin" asp-action="CreateProducts" asp-route-type="1"> Crear Cuenta de ahorro</a>
+        <a class="btn btn-outline-warning col-4" asp-controller="Admin" asp-action="CreateProducts" asp-route-type="1"> Crear Prestamo</a>
+    </div>
+</div>
+
   <div class="row">
 
         @if (Model == null || Model.CuentasDeAhorro.Count == 0)
