@@ -63,6 +63,11 @@ namespace Core.Application.Services
             var data = await _creditCardRepository.GetById(id);
             await _creditCardRepository.DeleteAsync(data);
         }
-        
+        public async Task<string> getByIdString(string id)
+        {
+            var data = await _creditCardRepository.GetById(id);
+            return data.CardNumber;
+        }
+
     }
 }

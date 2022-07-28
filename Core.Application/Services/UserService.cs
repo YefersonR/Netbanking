@@ -99,5 +99,9 @@ namespace Core.Application.Services
             return await _accountService.UpdateAdmin(registerRequest, origin);
 
         }
+
+        public async Task<string> GetSavingByID(string id) {
+            return await _accountService.GetSavingByID(id);
+        }
     }
 }
