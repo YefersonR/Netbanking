@@ -53,11 +53,16 @@
                                 <input class="form-control" />
                                 <span class="text-danger"></span>
                             </div>
-                            <div class="mb-3">
-                                <label asp-for="MontoInicial" class="form-label">Monto Incial </label>
-                                <input type="number" step="any" asp-for="MontoInicial" class="form-control" />
-                                <span class="text-danger"></span>
-                            </div>
+                            @if(ViewBag.Type == 1){
+
+                            }else{
+                                <div class="mb-3"> 
+                                    <label asp-for="MontoInicial" class="form-label">Monto Incial </label>
+                                    <input type="number" step="any" asp-for="MontoInicial" class="form-control"/>
+                                    <span class="text-danger"></span>
+                                </div>
+                            }
+                            <input name="infotipo" for="infotipo" value="@ViewBag.Type" hidden/>
                             <div class="mb-3">
                                 <label asp-for="Identification" class="form-label">Cedula: </label>
                                 <input asp-for="Identification" class="form-control" />
@@ -74,7 +79,6 @@
                                 <input asp-for="ConfirmPassword" class="form-control" />
                                 <span class="text-danger"></span>
                             </div>
-
 
                             <button @*type="submit"*@ class="btn btn-primary">Guardar</button>
                             <a asp-controller="Admin" asp-action="Index" class="btn btn-warning">Volver atras</a>
