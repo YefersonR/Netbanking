@@ -17,12 +17,14 @@ namespace WebApp.Netbanking.Controllers
         private readonly ITransationService _transationService;
         private readonly ICreditCardService _CreditCardService;
         private readonly IBeneficiaryService _BeneficiaryService;
+        private readonly ISavingsAccountService _SavingAccountService;
 
 
-        public ClientController(IBeneficiaryService BeneficiaryService, ITransationService transationService)
+        public ClientController(IBeneficiaryService BeneficiaryService, ITransationService transationService, ISavingsAccountService SavingAccountService)
         {
             _transationService = transationService;
             _BeneficiaryService = BeneficiaryService;
+            _SavingAccountService = SavingAccountService;
         }
         public IActionResult Index()
         {
@@ -57,9 +59,11 @@ namespace WebApp.Netbanking.Controllers
             return RedirectToRoute(new { controller = "Home", action = "Index" });
         }
 
-        public IActionResult Tranferencia()
+        public async Task<IActionResult> Tranferencia()
         {
-            return View(new TransationsSaveViewModel());
+            TransationsSaveViewModel transations = new();
+            transations.savingsAccounts = await _SavingAccountService.GetAllAsync();
+            return View(transations);
         }
         [HttpPost]
         public async Task<IActionResult> Tranferencia(TransationsSaveViewModel transations )
@@ -75,7 +79,7 @@ namespace WebApp.Netbanking.Controllers
         public async Task<IActionResult> Beneficiario()
         {
             BeneficiarySaveViewModel beneficiarys = new();
-            //beneficiarys.Beneficiarys =  _BeneficiaryService.GetAllAsync();
+            beneficiarys.Beneficiarys =  await _BeneficiaryService.GetAllAsync();
             return View(beneficiarys);
         }
         [HttpPost]

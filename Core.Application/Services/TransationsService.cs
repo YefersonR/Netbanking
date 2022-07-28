@@ -50,9 +50,6 @@ namespace Core.Application.Services
 
                 accountToPay.Amount += vm.Amount;
                 await _savingsAccountRepository.Pay(accountToPay.AccountNumber);
-                Transations aTransation = _mapper.Map<Transations>(vm);
-                //account.Transations.Add(aTransation);
-                await _transationsRepository.AddAsync(aTransation);
             }
             return await base.Add(vm);
         }

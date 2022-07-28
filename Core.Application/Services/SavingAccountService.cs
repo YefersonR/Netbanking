@@ -21,12 +21,14 @@ namespace Core.Application.Services
         private readonly ISavingsAccountRepository _savingsAccountRepository;
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContext;
+        private readonly IAccountService _accountService;
         private readonly UserViewModel user;
 
 
-        public SavingAccountService(ISavingsAccountRepository savingsAccountRepository, IMapper mapper, IHttpContextAccessor httpContext) : base(savingsAccountRepository, mapper)
+        public SavingAccountService(IAccountService accountService, ISavingsAccountRepository savingsAccountRepository, IMapper mapper, IHttpContextAccessor httpContext) : base(savingsAccountRepository, mapper)
         {
             _savingsAccountRepository = savingsAccountRepository;
+            _accountService = accountService;
             _mapper = mapper;
             _httpContext = httpContext;
             user = _httpContext.HttpContext.Session.Get<UserViewModel>("user");
@@ -42,9 +44,13 @@ namespace Core.Application.Services
                 accountExist = await _savingsAccountRepository.GetById(Numberaccount);
             }
             vm.AccountNumber = Numberaccount;
+            var useraccount =   await base.Add(vm);
+            
+            
+            
             vm.UserID = user.Id;
 
-            return await base.Add(vm);
+            return null;
         }
         public override async Task<List<SavingsAccountViewModel>> GetAllAsync()
         {

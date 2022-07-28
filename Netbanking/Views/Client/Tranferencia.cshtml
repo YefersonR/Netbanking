@@ -17,10 +17,12 @@
 
                         <div class="mb-3">
                             <label asp-for="AccountNumber" class="form-label">Numero de cuenta: </label>
-                            <input type="text" asp-for="AccountNumber" class="form-control" />
+                            <select asp-items="@(new SelectList(Model.savingsAccounts,"Id","Name"))" asp-for="AccountNumber" class="form-select">
+                                <option value="0">Seleccione una opcion</option>
+
+                            </select>
                             <span class="text-danger"></span>
                         </div>
-
                         <div class="mb-3">
                             <label asp-for="Amount" class="form-label">Monto: </label>
                             <input type="number" asp-for="Amount" class="form-control">
