@@ -9,9 +9,9 @@
 
 <div class="offset-7 mb-3">
     <div class="row row-cols-3">
-        <a class="btn btn-outline-warning col-4" asp-controller="Admin" asp-action="CreateProducts" asp-route-type="0"> Crear Credit Card</a>
-        <a class="btn btn-outline-warning col-4" asp-controller="Admin" asp-action="CreateProducts" asp-route-type="1"> Crear Cuenta de ahorro</a>
-        <a class="btn btn-outline-warning col-4" asp-controller="Admin" asp-action="CreateProducts" asp-route-type="1"> Crear Prestamo</a>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#CreditCard"> Crear Credit Card</button>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Savings"> Crear Cuenta de ahorro</button>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Loans"> Crear Prestamo</button>
     </div>
 </div>
 
@@ -25,7 +25,7 @@
         {
             @foreach (SavingsAccountViewModel item in Model.CuentasDeAhorro)
             {
-                <div class="col-4">
+                <div class="col-4 mb-5">
                     <div class="card shadow-sm">
 
                         <div class="card-body">
@@ -35,6 +35,7 @@
                                
                                 <small class="fw-bold fs-6">$@item.Amount</small>
                             </div>
+                            <a asp-controller="Admin" asp-action="DeleteProductSavin" asp-route-id="@item.AccountNumber" type="button" class="btn btn-danger position-absolute top-100 start-50 translate-middle">Eliminar</a>
                         </div>
                     </div>
                 </div>
@@ -58,6 +59,7 @@
                                <small class="fw-bold fs-6">$@item.Limit</small>
                                 <small class="fw-bold fs-6">$@item.Debt</small>
                             </div>
+                            <a asp-controller="Admin" asp-action="DeleteProductCC" asp-route-id="@item.CardNumber" type="button" class="btn btn-danger position-absolute top-100 start-50 translate-middle">Eliminar</a>
                         </div>
                     </div>
                 </div>
@@ -82,6 +84,8 @@
                                 <small class="fw-bold fs-6">$@item.Limit</small>
                                  <small class="fw-bold fs-6">$@item.Debt</small>
                             </div>
+                            <a asp-controller="Admin" asp-action="DeleteProductLoans" asp-route-id="@item.Loan" type="button" class="btn btn-danger position-absolute top-100 start-50 translate-middle">Eliminar</a>
+
                         </div>
                     </div>
                 </div>
@@ -89,3 +93,91 @@
         }
 
           </div>
+
+
+<!-- Credit Card -->
+<div class="modal fade" id="CreditCard" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Crear Credit Card</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form method="post" asp-controller="Admin" asp-action="CreditCard">
+            <div class="form-floating mb-3">
+              <input class="form-control" type="text" value="@ViewBag.UserID" for="userid" name="userid" aria-label="readonly input example" readonly>
+              <label for="floatingInput">UserID</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input type="number" step="any" class="form-control" for="limite" name="limite" id="floatingInput" placeholder="80.00s">
+              <label for="floatingInput">Limite</label>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Crear</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Loans -->
+<div class="modal fade" id="Loans" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Crear Prestamo</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form method="post" asp-controller="Admin" asp-action="Loans">
+            <div class="form-floating mb-3">
+              <input class="form-control" type="text" value="@ViewBag.UserID" for="userid" name="userid" aria-label="readonly input example" readonly>
+              <label for="floatingInput">UserID</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input type="number" step="any" class="form-control" for="debt" name="debt" id="floatingInput" placeholder="80.00s">
+              <label for="floatingInput">Debitar</label>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Crear</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Savings Account -->
+<div class="modal fade" id="Savings" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Crear Cuenta de ahorros</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form method="post" asp-controller="Admin" asp-action="SaveAccount">
+            <div class="form-floating mb-3">
+              <input class="form-control" type="text" value="@ViewBag.UserID" for="userid" name="userid" aria-label="readonly input example" readonly>
+              <label for="floatingInput">UserID</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input type="number" step="any" class="form-control" for="mont" name="mont" id="floatingInput" placeholder="80.00s">
+              <label for="floatingInput">Monto</label>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Crear</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+

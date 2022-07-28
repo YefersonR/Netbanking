@@ -11,5 +11,6 @@ namespace Core.Application.Interfaces.Services
     public interface ICreditCardService : IGenericService<CreditCardSaveViewModel, CreditCardViewModel, CreditCard>
     {
         Task<List<CreditCardViewModel>> GetAllByUserID(string id);
+        Task DeleteByStringID(string id);
     }
 }

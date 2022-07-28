@@ -90,13 +90,13 @@ namespace Core.Application.Services
         public async Task<RegisterResponse> UpdateClient(UserSaveViewModel userSaveViewModel, string origin)
         {
             RegisterRequest registerRequest = _mapper.Map<RegisterRequest>(userSaveViewModel);
-            return await _accountService.RegisterClients(registerRequest, origin);
+            return await _accountService.UpdateClient(registerRequest, origin);
         }
 
         public async Task<RegisterResponse> UpdateAdmin(UserSaveViewModel userSaveViewModel, string origin)
         {
             RegisterRequest registerRequest = _mapper.Map<RegisterRequest>(userSaveViewModel);
-            return await _accountService.RegisterClients(registerRequest, origin);
+            return await _accountService.UpdateAdmin(registerRequest, origin);
 
         }
     }

@@ -94,9 +94,9 @@ namespace Infrastructure.Identity.Services
             var cuenta = GenerateNumberAccount.GenerateAccount();
             var account = new SavingsAccountSaveViewModel()
             {
-                AccountNumber = cuenta,
-                Amount = 0,
+                AccountNumber = cuenta
             };
+            account.Amount = float.Parse(request.SavingsAccount);
             await _savingAccount.Add(account);
 
             var user = new ApplicationUser()
@@ -138,7 +138,7 @@ namespace Infrastructure.Identity.Services
             response.HasError = false;
 
             var userToUpdate = await _userManager.FindByNameAsync(request.UserName);
-
+            var nuevoMonto = request.SavingsAccount;
             var user = userToUpdate;
 
             user.Email = request.Email;
@@ -146,7 +146,13 @@ namespace Infrastructure.Identity.Services
             user.LastName = request.LastName;
             user.UserName = request.UserName;
             user.Identification = request.Identification;
-            
+            user.SavingAccount = userToUpdate.SavingAccount;
+            //Agregar lo de editar monto
+            SavingsAccountSaveViewModel savingVm = new();
+            savingVm.UserID = user.Id;
+            savingVm.AccountNumber = user.SavingAccount;
+            savingVm.Amount = float.Parse(nuevoMonto);
+            await _savingAccount.UpdateC(savingVm, user.SavingAccount);
             var result = await _userManager.UpdateAsync(user);
             if (!result.Succeeded)
             {

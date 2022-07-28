@@ -33,13 +33,12 @@ namespace Core.Application.Services
         {
             var Numberaccount = GenerateNumberAccount.GenerateAccount();
             var accountExist = await _creditCardRepository.GetById(Numberaccount);
-            while (accountExist == null)
+            while (accountExist != null)
             {
                 accountExist = await _creditCardRepository.GetById(Numberaccount);
                 Numberaccount = GenerateNumberAccount.GenerateAccount();
             }
             vm.CardNumber = Numberaccount;
-            vm.UserID = user.Id;
             return await base.Add(vm);
         }
         public override async Task<List<CreditCardViewModel>> GetAllAsync()
@@ -59,5 +58,12 @@ namespace Core.Application.Services
             var CreditCardsList = await _creditCardRepository.GetAllAsync();
             return _mapper.Map<List<CreditCardViewModel>>(CreditCardsList.Where(x => x.UserID == ID).ToList());
         }
+
+        public async Task DeleteByStringID(string id)
+        {
+            var data = await _creditCardRepository.GetById(id);
+            await _creditCardRepository.DeleteAsync(data);
+        }
+        
     }
 }
