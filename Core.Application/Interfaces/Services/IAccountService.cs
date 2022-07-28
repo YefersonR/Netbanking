@@ -24,5 +24,6 @@ namespace Core.Application.Interfaces.Services
         Task<List<UserGetAllViewModel>> GetAllVMUser();
         Task<UserSaveViewModel> GetAccountByid(string ID);
         Task<List<string>> GetAdminUsers();
+        Task<string> GetSavingByID(string id);
     }
 }

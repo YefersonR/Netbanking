@@ -384,6 +384,12 @@ namespace Infrastructure.Identity.Services
             return roleList.Select(x => x.Id).ToList();
         }
 
+        public async Task<string> GetSavingByID(string id)
+        {
+            var savigs = await _userManager.FindByIdAsync(id);
+            return savigs.SavingAccount;
+        }
+
         public async Task<UserSaveViewModel> GetAccountByid(string ID)
         {
             var data = await _userManager.FindByIdAsync(ID);
