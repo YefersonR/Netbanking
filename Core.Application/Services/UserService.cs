@@ -77,5 +77,22 @@ namespace Core.Application.Services
             }
             return usersClients;
         }
+        public async Task<UserSaveViewModel> GetAccountByid(string ID)
+        {
+            return await _accountService.GetAccountByid(ID);
+        }
+
+        public async Task<bool> IsAdmin(string ID)
+        {
+            var adminList = await _accountService.GetAdminUsers();
+            foreach (var admin in adminList)
+            {
+                if (admin == ID)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

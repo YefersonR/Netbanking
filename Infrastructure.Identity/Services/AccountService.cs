@@ -372,5 +372,19 @@ namespace Infrastructure.Identity.Services
             return roleList.Select(x => x.Id).ToList();
         }
 
+        public async Task<UserSaveViewModel> GetAccountByid(string ID)
+        {
+            var data = await _userManager.FindByIdAsync(ID);
+            return new UserSaveViewModel
+            {
+                Name = data.Name,
+                LastName = data.LastName,
+                UserName = data.UserName,
+                Identification = data.Identification,
+                Email = data.Email,
+                Id = data.Id,
+            };
+        }
+
     }
 }

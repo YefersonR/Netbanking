@@ -62,5 +62,21 @@ namespace WebApp.Netbanking.Controllers
             vm.CuentasDeAhorro = await _savingsAccountService.GetAllByUserID(id);
             return View(vm);
         }
+
+        public async Task<IActionResult> Edit(string id)
+        {
+            ViewBag.Admin = await _userService.IsAdmin(id);
+            return View(await _userService.GetAccountByid(id));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(UserSaveViewModel vm)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(vm);
+            }
+            return View();
+        }
     }
 }

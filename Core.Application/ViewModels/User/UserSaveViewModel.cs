@@ -9,6 +9,7 @@ namespace Core.Application.ViewModels.User
 {
     public class UserSaveViewModel
     {
+        public string Id { get; set; }
         [Required(ErrorMessage = "Debe ingresar el nombre del usuario")]
         [DataType(DataType.Text)]
         public string Name { get; set; }
@@ -34,6 +35,7 @@ namespace Core.Application.ViewModels.User
         [Required(ErrorMessage = "Debe ingresar una contraseña para el usuario")]
         [DataType(DataType.Password)]
         public string ConfirmPassword { get; set;}
+        public double MontoInicial { get; set; }
         public string SavingsAccount { get; set; }
         public bool HasError { get; set; }
         public string Error { get; set; }

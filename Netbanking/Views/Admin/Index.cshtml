@@ -2,6 +2,12 @@
 @{
     ViewData["Title"] = "Home";
 }
+<div class="offset-10 mb-3">
+    <div class="row row-cols-2">
+        <a class="btn btn-outline-warning col"> Crear Usuario</a>
+        <a class="btn btn-outline-warning col"> Crear Admin</a>
+    </div>
+</div>
 
 <table class="table">
   <thead>
@@ -25,8 +31,8 @@
               <td>@data.IsActive</td>
               <td>@data.IsAdmin</td>
               <td>aun</td>
-              <td><a asp-controller="Admin" asp-action="Products" asp-route-id="@data.Id" class="btn btn-outline-Warning">Ver Productos</a></td>
-              <td><a asp-controller="Admin" asp-action="Editar" asp-route-id="@data.Id" class="btn btn-outline-Danger">Editar</a></td>
+              <td><a asp-controller="Admin" asp-action="Products" asp-route-id="@data.Id" class="btn btn-outline-warning">Ver Productos</a></td>
+              <td><a asp-controller="Admin" asp-action="Edit" asp-route-id="@data.Id" class="btn btn-outline-danger">Editar</a></td>
             </tr>  
         }
       }
