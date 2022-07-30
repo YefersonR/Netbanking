@@ -35,28 +35,52 @@ namespace Core.Application.Services
             user = _httpContext.HttpContext.Session.Get<AuthenticationResponse>("user");
 
         }
-        public override async Task<BeneficiarySaveViewModel> Add(BeneficiarySaveViewModel vm)
+        public async Task<BeneficiarySaveViewModel> AddBeneficiary(BeneficiarySaveViewModel vm)
         {
-            var accountExist = await _savingsAccountRepository.GetById(vm.AccountBeneficiary);
-            if (accountExist != null)
+            var accountExist = await _savingsAccountRepository.GetById(vm.AccountBeneficiary);            
+            var users = _accountService.GetAllUser();
+            if (accountExist == null)
             {
-                vm.BeneficiaryUser = _mapper.Map<SavingsAccountViewModel>(accountExist);
-                var users = _accountService.GetAllUser();
-                var useer = users.FirstOrDefault(us => us.Id == accountExist.UserID);
+                vm.Error = "No existe un usuario con esta cuenta";
+                return vm;
 
-                vm.BeneficiaryID = useer.Id;
-                vm.UserID = user.Id;
-
-                return await base.Add(vm);
             }
-            return null;
-        }
-        public override async Task<List<BeneficiaryViewModel>> GetAllAsync()
-        {
-            var userAccounts = await base.GetAllAsync();
-            var userBeneficiary = await _savingsAccountRepository.GetAllAsync();
+            var useer = users.FirstOrDefault(us => us.Id == accountExist.UserID);
+            vm.BeneficiaryID = useer.Id;
+            vm.UserID = user.Id;
 
-            return userAccounts.Where(account => account.UserID == user.Id).ToList();
+            return vm;
+        }
+        public async Task<List<UserBeneficiaryViewModel>> GetUserBeneficiary()
+        {
+            var beneficiaries = await _beneficiaryRepository.GetAllAsync();
+            var users = _accountService.GetAllUser();
+            var accounts = await _savingsAccountRepository.GetAllAsync();
+            var myBenficiaries = beneficiaries.Where(beneficiary => beneficiary.UserID == user.Id).ToList();
+            var userBeneficiearies = (from u in users
+                                         join mb in myBenficiaries on
+                                         u.Id equals mb.BeneficiaryID
+                                         select u);
+            var beneficiariesAccounts = (from a in accounts
+                                         join mb in myBenficiaries on
+                                         a.UserID equals mb.BeneficiaryID
+                                         select a);
+            var BeneficiariesWithAccount = (from ub in userBeneficiearies
+                                            join ba in beneficiariesAccounts 
+                                            on ub.Id equals ba.UserID
+                                            join mb in myBenficiaries 
+                                            on ub.Id equals mb.BeneficiaryID
+                                            select new UserBeneficiaryViewModel
+                                            {
+                                                ID = mb.Id,
+                                                Name = ub.Name,
+                                                LastName = ub.LastName,
+                                                Email = ub.Email,
+                                                SavingsAccount = ba.AccountNumber,
+                                                Created = mb.Created
+                                            }).ToList();
+
+            return BeneficiariesWithAccount;
         }
     }
 }

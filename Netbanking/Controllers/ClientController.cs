@@ -39,21 +39,28 @@ namespace WebApp.Netbanking.Controllers
             return View(userProducts);
         }
 
-        public IActionResult beneficiariosAdd()
+        public async Task<IActionResult> beneficiariosAdd()
         {
-            return View();
+            BeneficiarySaveViewModel Beneficiaries = new();
+            Beneficiaries.Beneficiaries = await _BeneficiaryService.GetUserBeneficiary();
+            return View(Beneficiaries);
         }
 
-
+        [HttpPost]
+        public async Task<IActionResult> beneficiarioAdd(BeneficiarySaveViewModel beneficiary)
+        {
+            await _BeneficiaryService.Add(beneficiary);
+            return View(beneficiary);
+        }
 
         public IActionResult Pagos()
         {
             return View(new TransationsSaveViewModel());
         }
         [HttpPost]
-        public IActionResult Pagos(TransationsSaveViewModel loans)
+        public async Task<IActionResult> Pagos(TransationsSaveViewModel loans)
         {
-            _transationService.PayLoans(loans);
+            await _transationService.PayLoans(loans);
             return View();
         }
         public async Task<IActionResult> Avance_de_efectivo()
@@ -64,9 +71,9 @@ namespace WebApp.Netbanking.Controllers
             return View(transationsCard);
         }
         [HttpPost]
-        public IActionResult Avance_de_efectivo(TransationsSaveViewModel transationsSave)
+        public async Task<IActionResult> Avance_de_efectivo(TransationsSaveViewModel transationsSave)
         {
-            _transationService.RetireToCard(transationsSave);
+            await _transationService.RetireToCard(transationsSave);
             return RedirectToRoute(new { controller = "Client", action = "Index" });
         }
 
@@ -74,40 +81,48 @@ namespace WebApp.Netbanking.Controllers
         {
             TransationsSaveViewModel transations = new();
             transations.savingsAccounts = await _SavingAccountService.GetAllAsync();
-
+            transations.UserToPayAccounts = await _SavingAccountService.GetAllAsync();
             return View(transations);
         }
         [HttpPost]
-        public async Task<IActionResult> Tranferencia(TransationsSaveViewModel transations )
+        public async Task<IActionResult> Tranferencia(TransationsSaveViewModel transations)
         {
             await _transationService.PayToAccount(transations);
-            return RedirectToRoute(new { controller = "Client",action="Index" });
+            return RedirectToRoute(new { controller = "Client", action = "Index" });
         }
 
         public IActionResult Prestamos()
         {
             return View();
         }
-        public async Task<IActionResult> Beneficiario()
+
+        public async Task<IActionResult> Tarjeta_de_credito()
         {
-            BeneficiarySaveViewModel beneficiarys = new();
-            beneficiarys.Beneficiarys =  await _BeneficiaryService.GetAllAsync();
-            return View(beneficiarys);
+            TransationsSaveViewModel transationsCard = new();
+            transationsCard.savingsAccounts = await _SavingAccountService.GetAllAsync();
+            transationsCard.CreditCards = await _CreditCardService.GetAllAsync();
+            return View(transationsCard);
         }
         [HttpPost]
-        public async Task<IActionResult> Beneficiario(BeneficiarySaveViewModel beneficiary)
+        public async Task<IActionResult> Tarjeta_de_credito(TransationsSaveViewModel transations)
         {
-            await _BeneficiaryService.Add(beneficiary);
-            return View(beneficiary);
+            await _transationService.PayToCard(transations);
+            return RedirectToRoute(new { controller = "Client", action = "Index" });
         }
-        public IActionResult Tarjeta_de_credito()
+
+        public async Task<IActionResult> Expreso(string savingaccount)
         {
-            return View();
+            TransationsSaveViewModel transations = new();
+            transations.savingsAccounts = await _SavingAccountService.GetAllAsync();
+            transations.UserToPayAccount = savingaccount;
+
+            return View(transations);
         }
- 
-        public IActionResult Expreso()
+        [HttpPost]
+        public async Task<IActionResult> Expreso(TransationsSaveViewModel transations)
         {
-            return View();
+            await _transationService.PayToAccount(transations);
+            return RedirectToRoute(new { controller = "Client", action = "Index" });
         }
     }
 }

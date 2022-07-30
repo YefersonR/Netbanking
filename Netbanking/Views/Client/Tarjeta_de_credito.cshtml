@@ -14,31 +14,35 @@
                     <h4>Pago de Tarjeta de credito </h4>
                 </div>
                 <div class="card-body">
-                <form method="post" asp-controller="Client" asp-action="Pagos" enctype="multipart/form-data">
+                    <form method="post" asp-controller="Client" asp-action="Tarjeta_de_credito" enctype="multipart/form-data">
 
-                    <div class="mb-3">
-                        <label asp-for="AccountNumber" class="form-label">Numero de cuenta de ahorro: </label>
-                        <input type="text" asp-for="AccountNumber" class="form-control" />
-                        <span class="text-danger"></span>
-                    </div>
 
-                    <div class="mb-3">
-                        <label asp-for="AccountNumber" class="form-label">Monto: </label>
-                        <input type="number" asp-for="AccountNumber" class="form-control">
-                    </div>
 
-                    <div class="mb-3">
-                        <label class="form-label">Selecione su tarjecta de credito: </label>
-                        <select  class="form-select">
-                            <option value="0">Seleccione una opcion</option>
+                        <div class="mb-3">
+                            <label asp-for="AccountNumber" class="form-label">Numero de cuenta de ahorro: </label>
+                            <select asp-items="@(new SelectList(Model.savingsAccounts,"AccountNumber","AccountNumber"))" asp-for="AccountNumber" class="form-select">
+                                <option value="0">Seleccione una opcion</option>
 
-                        </select>
-                        <span class="text-danger"></span>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Guardar</button>
-                    <a asp-controller="Home" asp-action="Index" class="btn btn-warning">Volver atras</a>
+                            </select>
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Amount" class="form-label">Monto: </label>
+                            <input asp-for="Amount" type="number" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="CardNumber" class="form-label">Selecione su tarjecta de credito: </label>
+                            <select asp-items="@(new SelectList(Model.CreditCards,"CardNumber","CardNumber"))" asp-for="CardNumber" class="form-select">
+                                <option value="0">Seleccione una opcion</option>
 
-                </form>
+                            </select>
+                            <span class="text-danger"></span>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                        <a asp-controller="Home" asp-action="Index" class="btn btn-warning">Volver atras</a>
+
+                    </form>
             </div>
              </div>
         </div>

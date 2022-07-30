@@ -6,67 +6,68 @@
 
 <div class="container-fluid">
 
-  <div class="row mb-3">
-        <div class="col-3 offset-9">
-           <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Agregar beneficiario</button>
+        <div class="row mb-3">
+            <div class="col-3 offset-9">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Agregar beneficiario</button>
+            </div>
         </div>
-    </div>
 
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Nuevo veneficiario</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form method="post" asp-controller="Client" asp-action="Beneficiario">
-          <div class="mb-3">
-            <label asp-for="AccountBeneficiary" for="recipient-name" class="col-form-label">Cuenta del beneficiario:</label>
-            <input asp-for="AccountBeneficiary" type="text" class="form-control" id="recipient-name">
-          </div>
-          <div class="modal-footer">
-            <a asp-controller="Client" asp-action="Beneficiario" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</a>
-            <button type="submit" class="btn btn-primary">Agrgar beneficiario</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Nuevo veneficiario</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" asp-controller="Client" asp-action="Beneficiario">
+                            <div class="mb-3">
+                                <label asp-for="AccountBeneficiary" for="recipient-name" class="col-form-label">Cuenta del beneficiario:</label>
+                                <input asp-for="AccountBeneficiary" type="text" class="form-control" id="recipient-name">
+                            </div>
+                            <div class="modal-footer">
+                                <a asp-controller="Client" asp-action="BeneficiarioAdd" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</a>
+                                <button type="submit" class="btn btn-primary">Agrgar beneficiario</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-     <div class="row">
+        <div class="row">
 
-        @if (Model == null || Model.Beneficiarys.Count == 0)
-        {
-            <h2>No hay Beneficiarios</h2>
-        }
-        else
-        {
-            @foreach (BeneficiaryViewModel item in Model.Beneficiarys)
+            @if (Model == null || Model.Beneficiaries.Count == 0)
             {
-                <div class="col-4">
-                    <div class="card shadow-sm">
-                        
-                        <div class="card-body">
-                            <h4 class="card-title">@item.AccountBeneficiary</h4>
-                            <p class="card-text">@item.</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="btn-group">
-                                    <a asp-controller="Product" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-info">Editar</a>
-                                    <a asp-controller="Product" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">Borrar</a>
+                <h2>No hay Beneficiarios</h2>
+            }
+            else
+            {
+                @foreach (UserBeneficiaryViewModel item in Model.Beneficiaries)
+                {
+                    <div class="col-4">
+                        <div class="card shadow-sm">
+
+                            <div class="card-body">
+                                <a asp-controller="Client" asp-action="Expreso" asp-route-savingaccount="@item.SavingsAccount" >
+                                 <h4 class="card-title">@item.Name @item.LastName</h4>
+                                </a>
+                                <p class="card-title">@item.SavingsAccount</p>
+                                <small class="card-text">Agregado @item.Created</small>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                        <a asp-controller="Product" asp-action="Edit" asp-route-id="@item.ID" class="btn btn-sm btn-outline-info">Editar</a>
+                                        <a asp-controller="Product" asp-action="Delete" asp-route-id="@item.ID" class="btn btn-sm btn-outline-danger">Borrar</a>
+                                    </div>
                                 </div>
-                                <small class="fw-bold fs-6"></small>
                             </div>
                         </div>
                     </div>
-                </div>
+                }
             }
-        }
 
-    </div>
-
-
+        </div>
+</div>
 
 
 
@@ -77,4 +78,7 @@
 
 
 
-     
+
+
+
+
