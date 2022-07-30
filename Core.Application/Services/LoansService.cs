@@ -20,15 +20,19 @@ namespace Core.Application.Services
     {
         private readonly ILoansRepository _loansRepository;
         private readonly IMapper _mapper;
+        private readonly IAccountService _accountService;
         private readonly IHttpContextAccessor _httpContext;
-        private readonly AuthenticationResponse user;
-        
-        public LoansService(ILoansRepository loansRepository, IMapper mapper, IHttpContextAccessor httpContext) : base(loansRepository, mapper)
+        private readonly ISavingsAccountRepository _savingsAccountRepository;
+        private readonly UserViewModel user;
+
+        public LoansService(IAccountService accountService,ILoansRepository loansRepository, ISavingsAccountRepository savingsAccountRepository, IMapper mapper, IHttpContextAccessor httpContext) : base(loansRepository, mapper)
         {
+            _accountService = accountService;
             _loansRepository = loansRepository;
             _mapper = mapper;
+            _savingsAccountRepository = savingsAccountRepository;
             _httpContext = httpContext;
-            user = _httpContext.HttpContext.Session.Get<AuthenticationResponse>("user");
+            user = _httpContext.HttpContext.Session.Get<UserViewModel>("user");
 
 
         }
@@ -41,6 +45,11 @@ namespace Core.Application.Services
                 accountExist = await _loansRepository.GetById(Numberaccount);
                 Numberaccount = GenerateNumberAccount.GenerateAccount();
             }
+            var account = await _savingsAccountRepository.GetAllAsync();
+            var useer = await _accountService.GetAccountByid(vm.UserID);
+            var principalAccount =  account.FirstOrDefault(accountU=>accountU.AccountNumber == useer.SavingsAccount);
+            principalAccount.Amount += vm.Debt;
+            await _savingsAccountRepository.Update(principalAccount,useer.SavingsAccount);
             vm.Loan = Numberaccount;
             return await base.Add(vm);
         }

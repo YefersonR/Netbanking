@@ -15,7 +15,7 @@ namespace Core.Application.ViewModels.User
         [Required(ErrorMessage = "Debe ingresar la clave")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
-        public bool HasError { get; set; }
+        public bool HasError { get; set; } = false;
         public string Error { get; set; }
     }
 }

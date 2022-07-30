@@ -401,6 +401,7 @@ namespace Infrastructure.Identity.Services
                 Identification = data.Identification,
                 Email = data.Email,
                 Id = data.Id,
+                SavingsAccount = data.SavingAccount
             };
         }
 

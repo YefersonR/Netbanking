@@ -16,8 +16,8 @@
                     <form method="post" asp-controller="Client" asp-action="Avance_de_Efectivo" enctype="multipart/form-data">
 
                         <div class="mb-3">
-                            <label asp-for="AccountNumber" class="form-label">Numero de cuenta de ahorro: </label>
-                            <select asp-items="@(new SelectList(Model.savingsAccounts,"AccountNumber","AccountNumber"))" asp-for="AccountNumber" class="form-select">
+                            <label asp-for="CardNumber" class="form-label">Selecione su tarjecta de credito: </label>
+                            <select asp-items="@(new SelectList(Model.CreditCards,"CardNumber","CardNumber"))" asp-for="CardNumber" class="form-select">
                                 <option value="0">Seleccione una opcion</option>
 
                             </select>
@@ -25,13 +25,13 @@
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">Monto: </label>
-                            <input type="number" class="form-control">
+                            <label asp-for="Amount" class="form-label">Monto: </label>
+                            <input asp-for="Amount" type="number" class="form-control">
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">Selecione su tarjecta de credito: </label>
-                            <select asp-items="@(new SelectList(Model.CreditCards,"CreditCard","CreditCard"))" asp-for="CreditCard" class="form-select">
+                            <label asp-for="AccountNumber" class="form-label">Numero de cuenta de ahorro: </label>
+                            <select asp-items="@(new SelectList(Model.savingsAccounts,"AccountNumber","AccountNumber"))" asp-for="AccountNumber" class="form-select">
                                 <option value="0">Seleccione una opcion</option>
 
                             </select>

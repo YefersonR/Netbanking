@@ -26,6 +26,8 @@ namespace Core.Application.Mappings
                                 .ForMember(dest => dest.Updated, opt => opt.Ignore());
 
             CreateMap<Beneficiary, BeneficiarySaveViewModel>()
+                .ForMember(dest => dest.HasError, opt => opt.Ignore())
+                    .ForMember(dest => dest.Error, opt => opt.Ignore())
                 .ReverseMap()
                 .ForMember(dest => dest.CreatedBy, opt => opt.Ignore())
                             .ForMember(dest => dest.UpdatedBy, opt => opt.Ignore())

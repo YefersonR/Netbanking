@@ -45,7 +45,7 @@ namespace Core.Application.Services
             var accountToPay = await _savingsAccountRepository.GetById(vm.UserToPayAccount);
             if (account.Amount >= vm.Amount)
             {
-                account.Amount -= vm.Amount;
+                    account.Amount -= vm.Amount;
                 await _savingsAccountRepository.Pay(account.AccountNumber);
 
                 accountToPay.Amount += vm.Amount;
@@ -56,13 +56,13 @@ namespace Core.Application.Services
         public async Task<TransationsSaveViewModel> PayToCard(TransationsSaveViewModel vm)
         {
             var account = await _savingsAccountRepository.GetById(vm.AccountNumber);
-            var card = await _creditCardRepository.GetById(vm.UserToPayAccount);
+            var card = await _creditCardRepository.GetById(vm.CardNumber);
             if(account.Amount >= vm.Amount )
             {
                 account.Amount -= vm.Amount;
                 await _savingsAccountRepository.Pay(account.AccountNumber);
 
-                if(card.Debt >= 0)
+                if(vm.Amount - card.Debt <= 0)
                 {
                     card.Debt -= vm.Amount;
                 }
@@ -75,7 +75,7 @@ namespace Core.Application.Services
                 Transations aTransation = _mapper.Map<Transations>(vm);
                 account.Transations.Add(aTransation);
                 card.Transations.Add(aTransation);
-                await _savingsAccountRepository.Pay(card.CardNumber);
+                await _creditCardRepository.Pay(card.CardNumber);
             }
             
             return await base.Add(vm);
@@ -83,12 +83,12 @@ namespace Core.Application.Services
         public async Task<TransationsSaveViewModel> RetireToCard(TransationsSaveViewModel vm)
         {
 
-            var card = await _creditCardRepository.GetById(vm.CreditCard);
+            var card = await _creditCardRepository.GetById(vm.CardNumber);
             var account = await _savingsAccountRepository.GetById(vm.AccountNumber);
             if (card.Limit >= card.Debt)
             {
                 card.Debt += vm.Amount  + (100 * 0.0625);
-                await _savingsAccountRepository.Pay(card.CardNumber);
+                await _creditCardRepository.Pay(card.CardNumber);
 
                 account.Amount += vm.Amount;
                 await _savingsAccountRepository.Pay(account.AccountNumber);
