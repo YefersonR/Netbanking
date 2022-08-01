@@ -100,7 +100,7 @@ namespace Core.Application.Services
         public async Task<TransationsSaveViewModel> PayLoans(TransationsSaveViewModel vm)
         {
             var account = await _savingsAccountRepository.GetById(vm.AccountNumber);
-            var loans = await _loansRepository.GetById(vm.UserToPayAccount);
+            var loans = await _loansRepository.GetById(vm.Loan);
             if (account.Amount >= vm.Amount)
             {
                 account.Amount -= vm.Amount;

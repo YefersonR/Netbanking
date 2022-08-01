@@ -81,7 +81,6 @@ namespace WebApp.Netbanking.Controllers
         {
             TransationsSaveViewModel transations = new();
             transations.savingsAccounts = await _SavingAccountService.GetAllAsync();
-            transations.UserToPayAccounts = await _SavingAccountService.GetAllAsync();
             return View(transations);
         }
         [HttpPost]
@@ -91,9 +90,18 @@ namespace WebApp.Netbanking.Controllers
             return RedirectToRoute(new { controller = "Client", action = "Index" });
         }
 
-        public IActionResult Prestamos()
+        public async Task<IActionResult> Prestamos()
         {
-            return View();
+            TransationsSaveViewModel transationsCard = new();
+            transationsCard.savingsAccounts = await _SavingAccountService.GetAllAsync();
+            transationsCard.Loans = await _loansService.GetAllAsync();
+            return View(transationsCard);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Prestamos(TransationsSaveViewModel transations)
+        {
+            await _transationService.PayLoans(transations);
+            return RedirectToRoute(new { controller = "Client", action = "Index" });
         }
 
         public async Task<IActionResult> Tarjeta_de_credito()

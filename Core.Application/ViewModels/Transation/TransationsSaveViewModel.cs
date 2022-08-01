@@ -1,4 +1,5 @@
 ﻿using Core.Application.ViewModels.CreditCard;
+using Core.Application.ViewModels.Loans;
 using Core.Application.ViewModels.SavingsAccount;
 using System;
 using System.Collections.Generic;
@@ -15,10 +16,11 @@ namespace Core.Application.ViewModels.Transation
         public double Amount { get; set; }
         public string UserToPayAccount { get; set; }
         public string CardNumber { get; set; }
-        public List<SavingsAccountViewModel> savingsAccounts { get; set; }
-        public List<SavingsAccountViewModel> UserToPayAccounts { get; set; }
+        public string Loan { get; set; }
 
+        public List<SavingsAccountViewModel> savingsAccounts { get; set; }
         public List<CreditCardViewModel> CreditCards { get; set; }
+        public List<LoansViewModel> Loans{ get; set; }
 
 
     }
