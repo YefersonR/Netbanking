@@ -21,11 +21,18 @@ namespace Infrastructure.Persistence.Repositories
         {
             return await _dbContext.Set<Loans>().FindAsync(Id);
         }
-        public async Task Pay(string Id)
+        public async Task Pay(string Id,Loans loan)
         {
-            Loans entry = await _dbContext.Set<Loans>().FindAsync(Id);
-            _dbContext.Entry(entry).CurrentValues.SetValues(entry);
-            await _dbContext.SaveChangesAsync();
+            if (loan.Debt == 0)
+            {
+                _dbContext.Set<Loans>().Remove(loan);
+            }
+            else
+            {
+                Loans entry = await _dbContext.Set<Loans>().FindAsync(Id);
+                _dbContext.Entry(entry).CurrentValues.SetValues(loan);
+                await _dbContext.SaveChangesAsync();
+            }
         }
     }
 }

@@ -14,7 +14,7 @@ namespace Infrastructure.Identity
         public static void AddIdentityLayer(this IServiceCollection services, IConfiguration configuration)
         {
             #region Context
-            if (configuration.GetValue<bool>("DatabaseInMomory"))
+            if (configuration.GetValue<bool>("DatabaseInMemory"))
             {
                 services.AddDbContext<IdentityContext>(option => option.UseInMemoryDatabase("InMemoryDB"));
 
@@ -34,13 +34,13 @@ namespace Infrastructure.Identity
             services.ConfigureApplicationCookie(option =>
                  {
                      option.LoginPath = "/User";
-                     option.AccessDeniedPath = "/Home";
+                     option.AccessDeniedPath = "/User/AccessDenied";
                  }
              ) ;
             services.AddAuthentication();
             #endregion
 
-            #region
+            #region Dependency Injection 
             services.AddTransient<IAccountService,AccountService>();
             
             #endregion

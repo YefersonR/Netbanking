@@ -6,18 +6,13 @@
 
 <div class="container-fluid">
 
-    <div class="row">
-        <div class="col-6 offset-3">
-            <div class="card">
-                <div class="card-header bg-dark text-light">
-                    <h4>Creando una nueva categoria</h4>
-                </div>
-                <div class="card-body">
+    <div class="transationCard">
+                    <h4 class="cardTitle">Avance de efectivo</h4>
                     <form method="post" asp-controller="Client" asp-action="Avance_de_Efectivo" enctype="multipart/form-data">
 
                         <div class="mb-3">
                             <label asp-for="CardNumber" class="form-label">Selecione su tarjecta de credito: </label>
-                            <select asp-items="@(new SelectList(Model.CreditCards,"CardNumber","CardNumber"))" asp-for="CardNumber" class="form-select">
+                            <select asp-items="@(new SelectList(Model.CreditCards,"CardNumber","CardNumber"))" asp-for="CardNumber" class="formSelect">
                                 <option value="0">Seleccione una opcion</option>
 
                             </select>
@@ -26,24 +21,22 @@
 
                         <div class="mb-3">
                             <label asp-for="Amount" class="form-label">Monto: </label>
-                            <input asp-for="Amount" type="number" class="form-control">
+                <input asp-for="Amount" type="number" step=".01" class="formSelect">
                         </div>
 
                         <div class="mb-3">
                             <label asp-for="AccountNumber" class="form-label">Numero de cuenta de ahorro: </label>
-                            <select asp-items="@(new SelectList(Model.savingsAccounts,"AccountNumber","AccountNumber"))" asp-for="AccountNumber" class="form-select">
+                            <select asp-items="@(new SelectList(Model.savingsAccounts,"AccountNumber","AccountNumber"))" asp-for="AccountNumber" class="formSelect">
                                 <option value="0">Seleccione una opcion</option>
 
                             </select>
                             <span class="text-danger"></span>
                         </div>
-                        <button type="submit" class="btn btn-primary">Guardar</button>
-                        <a asp-controller="Home" asp-action="Index" class="btn btn-warning">Volver atras</a>
+                        <div class="buttons">
+                            <a asp-controller="Home" asp-action="Index" class="btn btn-warning">Volver atras</a>
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                        </div>
 
                     </form>
                     </div>
                 </div>
-            </div>
-    </div>
-
-</div>

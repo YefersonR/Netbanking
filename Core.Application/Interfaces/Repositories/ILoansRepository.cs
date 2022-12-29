@@ -10,6 +10,6 @@ namespace Core.Application.Interfaces.Repositories
     public interface ILoansRepository : IGenericRepository<Loans>
     {
         Task<Loans> GetById(string Id);
-        Task Pay(string Id);
+        Task Pay(string Id,Loans loan);
     }
 }

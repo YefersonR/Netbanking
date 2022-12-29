@@ -42,14 +42,27 @@ namespace Core.Application.Services
             if (accountExist == null)
             {
                 vm.Error = "No existe un usuario con esta cuenta";
+                vm.HasError = true;
                 return vm;
 
             }
             var useer = users.FirstOrDefault(us => us.Id == accountExist.UserID);
             vm.BeneficiaryID = useer.Id;
             vm.UserID = user.Id;
+            Beneficiary beneficiary = _mapper.Map<Beneficiary>(vm);
+            await _beneficiaryRepository.AddAsync(beneficiary);
 
             return vm;
+        }
+        public async Task DeleteBeneficiary(int beneficiaryID)
+        {
+            var beneficiaryVm = await _beneficiaryRepository.GetByIdAsync(beneficiaryID);
+            if(beneficiaryVm is not null)
+            {
+                var beneficiary = _mapper.Map<Beneficiary>(beneficiaryVm);
+                await _beneficiaryRepository.DeleteAsync(beneficiary);
+            }
+
         }
         public async Task<List<UserBeneficiaryViewModel>> GetUserBeneficiary()
         {
@@ -64,12 +77,14 @@ namespace Core.Application.Services
             var beneficiariesAccounts = (from a in accounts
                                          join mb in myBenficiaries on
                                          a.UserID equals mb.BeneficiaryID
+
                                          select a);
             var BeneficiariesWithAccount = (from ub in userBeneficiearies
                                             join ba in beneficiariesAccounts 
                                             on ub.Id equals ba.UserID
                                             join mb in myBenficiaries 
                                             on ub.Id equals mb.BeneficiaryID
+                                            where mb.AccountBeneficiary == ba.AccountNumber
                                             select new UserBeneficiaryViewModel
                                             {
                                                 ID = mb.Id,

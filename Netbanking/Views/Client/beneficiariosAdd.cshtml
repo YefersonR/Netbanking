@@ -6,7 +6,7 @@
 
 <div class="container-fluid">
 
-        <div class="row mb-3">
+        <div class="row m-3">
             <div class="col-3 offset-9">
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Agregar beneficiario</button>
             </div>
@@ -20,7 +20,8 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form method="post" asp-controller="Client" asp-action="Beneficiario">
+                    <form method="post" asp-controller="Client" asp-action="beneficiariosAdd">
+                        <h3 class="text-danger">@ViewBag.Error</h3>
                             <div class="mb-3">
                                 <label asp-for="AccountBeneficiary" for="recipient-name" class="col-form-label">Cuenta del beneficiario:</label>
                                 <input asp-for="AccountBeneficiary" type="text" class="form-control" id="recipient-name">
@@ -37,7 +38,7 @@
 
         <div class="row">
 
-            @if (Model == null || Model.Beneficiaries.Count == 0)
+            @if (Model is null || Model.HasError || Model.Beneficiaries is null)
             {
                 <h2>No hay Beneficiarios</h2>
             }
@@ -56,8 +57,7 @@
                                 <small class="card-text">Agregado @item.Created</small>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
-                                        <a asp-controller="Product" asp-action="Edit" asp-route-id="@item.ID" class="btn btn-sm btn-outline-info">Editar</a>
-                                        <a asp-controller="Product" asp-action="Delete" asp-route-id="@item.ID" class="btn btn-sm btn-outline-danger">Borrar</a>
+                                    <a asp-controller="Client" asp-action="beneficiarioDelete" asp-route-id="@item.ID" class="btn btn-sm btn-outline-danger">Borrar</a>
                                     </div>
                                 </div>
                             </div>

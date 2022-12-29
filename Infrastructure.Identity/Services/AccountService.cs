@@ -9,7 +9,6 @@ using Infrastructure.Identity.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using System;
-using Core.Application.DTOs.Email;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,14 +23,12 @@ namespace Infrastructure.Identity.Services
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ISavingsAccountService _savingAccount;
-        private readonly IdentityContext _identityContext;
         private readonly IEmailService _emailService;
-        public AccountService(IEmailService emailService,IdentityContext identityContext, ISavingsAccountService savingAccount,UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public AccountService(IEmailService emailService, ISavingsAccountService savingAccount,UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _savingAccount = savingAccount;
-            _identityContext = identityContext;
             _emailService = emailService;
         }
         public async Task<AuthenticationResponse> Authentication(AuthenticationRequest request)
@@ -302,7 +299,7 @@ namespace Infrastructure.Identity.Services
 
             return verificationUrl;
         }
-    private async Task<string> SendForgotPasswordUrl(ApplicationUser user, string origin)
+        private async Task<string> SendForgotPasswordUrl(ApplicationUser user, string origin)
         {
 
             var code = await _userManager.GeneratePasswordResetTokenAsync(user);
@@ -313,8 +310,6 @@ namespace Infrastructure.Identity.Services
 
             return verificationUrl;
         }
-
-
         public async Task SignOut()
        {
             await _signInManager.SignOutAsync();
@@ -335,7 +330,6 @@ namespace Infrastructure.Identity.Services
 
             return usersList;
         }
-
         public async Task<List<UserGetAllViewModel>> GetAllVMUser()
         {
             var users = _userManager.Users.ToList();
@@ -377,19 +371,16 @@ namespace Infrastructure.Identity.Services
             user.EmailConfirmed = user.EmailConfirmed == false ? true : false;
             await _userManager.UpdateAsync(user);
         }
-
         public async Task<List<string>> GetAdminUsers()
         {
             var roleList = _userManager.GetUsersInRoleAsync("Admin").Result.ToList();
             return roleList.Select(x => x.Id).ToList();
         }
-
         public async Task<string> GetSavingByID(string id)
         {
             var savigs = await _userManager.FindByIdAsync(id);
             return savigs.SavingAccount;
         }
-
         public async Task<UserSaveViewModel> GetAccountByid(string ID)
         {
             var data = await _userManager.FindByIdAsync(ID);

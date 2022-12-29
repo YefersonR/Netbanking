@@ -38,7 +38,7 @@ namespace WebApp.Netbanking.Controllers
         
         public IActionResult Index()
         {
-            ViewBag.Actual = user.Id;
+                ViewBag.Actual = user.Id;
             return View(_userService.GetAllClients().Result);
         }
 

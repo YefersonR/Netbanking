@@ -15,13 +15,13 @@ namespace Infrastructure.Identity.Seeds
         {
             ApplicationUser applicationUser = new()
             {
-                Name = "Ramon",
-                UserName = "Ramonson",
+                Name = "Client",
+                LastName = "Test",
+                UserName = "Client",
                 Email = "",
                 PhoneNumber = "8095432231",
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true,
-
             };
             if(userManager.Users.All(user=>user.Id != applicationUser.Id))
             {

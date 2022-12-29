@@ -1,0 +1,41 @@
+﻿@using Microsoft.AspNetCore.Http
+@using Core.Application.Helpers
+@using Core.Application.DTOs.Account
+@inject IHttpContextAccessor httpContextAccesor
+@{
+    var user = httpContextAccesor.HttpContext.Session.Get<AuthenticationResponse>("user");
+    var isAdmin = user != null ? user.Roles.Any(rol => rol == "Admin") : false;
+}
+
+@{
+    ViewData["Title"] = "AccessDenied";
+    Layout = "";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>@ViewData["Title"] - Login</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css" />
+</head>
+<body>
+    <div class="m-0 vh-100 row justify-content-center align-items-center">
+
+    <div class="col-auto">
+        <div class="card">
+            <div class="card-body">
+                <h1 class="card-title text-center text-danger">Access Denied</h1>
+                <div class="container d-flex flex-column justify-content-center align-content-center">
+                    <h2 class="text-center">You don't have permission to access this route</h2>
+                    <a class="btn btn-outline-danger m-auto" asp-controller="@(isAdmin ? "Admin" : "Client")" asp-action="Index" >Back to Menu</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>
+

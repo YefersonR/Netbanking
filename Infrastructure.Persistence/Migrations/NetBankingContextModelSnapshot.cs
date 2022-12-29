@@ -26,6 +26,9 @@ namespace Infrastructure.Persistence.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("AccountBeneficiary")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("BeneficiaryID")
                         .HasColumnType("nvarchar(max)");
 

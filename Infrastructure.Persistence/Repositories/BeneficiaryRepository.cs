@@ -1,6 +1,7 @@
 ﻿using Core.Application.Interfaces.Repositories;
 using Core.Domain.Entities;
 using Infrastructure.Persistence.Contexts;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,5 +18,6 @@ namespace Infrastructure.Persistence.Repositories
         {
             _dbContext = dbContext;
         }
+
     }
 }

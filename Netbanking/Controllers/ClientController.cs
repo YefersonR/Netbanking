@@ -47,10 +47,22 @@ namespace WebApp.Netbanking.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> beneficiarioAdd(BeneficiarySaveViewModel beneficiary)
+        public async Task<IActionResult> beneficiariosAdd(BeneficiarySaveViewModel beneficiary)
         {
-            await _BeneficiaryService.Add(beneficiary);
-            return View(beneficiary);
+            var beneficiaryResult = await _BeneficiaryService.AddBeneficiary(beneficiary);
+            if (beneficiaryResult.HasError)
+            {
+                ViewBag.Error = beneficiaryResult.Error;
+                beneficiary.Error = beneficiaryResult.Error;
+                beneficiary.HasError = beneficiaryResult.HasError;
+            }
+            return RedirectToRoute(new { controller ="Client", action="beneficiariosAdd"});
+
+        }
+        public async Task<IActionResult> beneficiarioDelete(int ID)
+        {
+            await _BeneficiaryService.DeleteBeneficiary(ID);
+            return View("beneficiariosAdd");
         }
 
         public IActionResult Pagos()
@@ -118,7 +130,13 @@ namespace WebApp.Netbanking.Controllers
             return RedirectToRoute(new { controller = "Client", action = "Index" });
         }
 
-        public async Task<IActionResult> Expreso(string savingaccount)
+        public async Task<IActionResult> Expreso()
+        {
+            TransationsSaveViewModel transations = new();
+            transations.savingsAccounts = await _SavingAccountService.GetAllAsync();
+            return View();
+        }
+        public async Task<IActionResult> Beneficiario(string savingaccount)
         {
             TransationsSaveViewModel transations = new();
             transations.savingsAccounts = await _SavingAccountService.GetAllAsync();

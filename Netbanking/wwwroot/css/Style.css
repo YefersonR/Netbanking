@@ -1,0 +1,62 @@
+﻿.body{
+    
+}
+.transationCard{
+    border-radius:10px;
+    width:90%;
+    background-color:#f7f7f7ff;
+    height:80vh;
+    margin:auto;
+    transform:translateY(10%);
+    padding:20px;
+}
+.cardTitle {
+    text-align: center;
+    padding-top: 20px;
+    font-size: 1.7rem;
+}
+form{
+    width:70%;
+    margin:auto;
+    padding:20px;
+    font-size:1.2rem;
+}
+form input{
+
+}
+
+form .formSelect{
+    display:block;
+    width:90%;
+    padding:8px;
+    border:none;
+    outline-color:#b2b2b2;
+    background-color:#b7b7b766;
+    border-radius:15px;
+    color:#333333;
+    
+}
+form .formSelect:focus{
+    border:none;
+}    
+    form .buttons {
+        width: 100%;
+        height: 20%;
+        display: flex;
+        justify-content: end;
+        margin: 10px;
+        padding: 10px;
+    }
+form .buttons a{
+    margin-right:10px;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}

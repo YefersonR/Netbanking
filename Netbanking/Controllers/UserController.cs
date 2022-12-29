@@ -15,11 +15,11 @@ namespace WebApp.Netbanking.Controllers
     public class UserController : Controller
     {
         private readonly IUserService _userService;
-        
         public UserController(IUserService userService)
         {
             _userService = userService;
         }
+
         [ServiceFilter(typeof(LoginAuthorize))]
         public IActionResult Index()
         {
@@ -35,24 +35,20 @@ namespace WebApp.Netbanking.Controllers
                 return View(loginViewModel);
             }
             AuthenticationResponse user = await _userService.Login(loginViewModel);
-            if(user != null && user.HasError != true)
-            {
-                HttpContext.Session.Set<AuthenticationResponse>("user",user);
-                if (user.Roles.Any(rol => rol == "Admin"))
-                {
-                    return RedirectToRoute(new { controller = "Admin", action = "Index" });
-                }
-                    return RedirectToRoute(new { controller = "Client", action = "Index" });
-
-
-            }
-            else
+            if(user.HasError || user == null)
             {
                 loginViewModel.HasError = user.HasError;
                 loginViewModel.Error = user.Error;
                 ModelState.AddModelError("userValidation", "Datos de acceso incorrectos");
+                return View(loginViewModel);
             }
-            return View(loginViewModel);
+
+            HttpContext.Session.Set("user", user);
+            if (user.Roles.Any(rol => rol == "Admin"))
+            {
+                return RedirectToRoute(new { controller = "Admin", action = "Index" });
+            }
+            return RedirectToRoute(new { controller = "Client", action = "Index" });
         }
         public async Task<IActionResult> LogOut()
         {
@@ -117,6 +113,11 @@ namespace WebApp.Netbanking.Controllers
                 return View(resetPassword);
             }
             return RedirectToRoute(new { controller = "User", action = "Index" });
+        }
+
+        public IActionResult AccessDenied()
+        {
+            return View();
         }
 
     }

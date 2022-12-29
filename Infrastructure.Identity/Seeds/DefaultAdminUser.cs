@@ -18,13 +18,10 @@ namespace Infrastructure.Identity.Seeds
                 Name = "Admin",
                 LastName = "Administrador",
                 UserName = "Admin",
-                Email = "yefersonrubio27@gmail.com",
-                EmailConfirmed = true,
+                Email = "",
                 PhoneNumber = "8096534321",
+                EmailConfirmed = true,
                 PhoneNumberConfirmed = true,
-
-
-
             };
         
             if(userManager.Users.All(user=>user.Id != applicationAdmin.Id))
@@ -34,8 +31,6 @@ namespace Infrastructure.Identity.Seeds
                 {
                     await userManager.CreateAsync(applicationAdmin,"123Pa$$word!");
                     await userManager.AddToRoleAsync(applicationAdmin,Roles.Admin.ToString());
-                    await userManager.AddToRoleAsync(applicationAdmin,Roles.Client.ToString());
-
                 }
             }
         }

@@ -2,9 +2,6 @@
 using Core.Application.Helpers;
 using Core.Application.Interfaces.Repositories;
 using Core.Application.Interfaces.Services;
-using Core.Application.ViewModels.Beneficiary;
-using Core.Application.ViewModels.Loans;
-using Core.Application.ViewModels.SavingsAccount;
 using Core.Application.ViewModels.Transation;
 using Core.Application.ViewModels.User;
 using Core.Domain.Entities;
@@ -116,7 +113,7 @@ namespace Core.Application.Services
                     loans.Debt -= loans.Debt;
 
                 }
-                await _loansRepository.Pay(loans.Loan);
+                await _loansRepository.Pay(loans.Loan,loans);
                 Transations aTransation = _mapper.Map<Transations>(vm);
                 account.Transations.Add(aTransation);
                 loans.Transations.Add(aTransation);
@@ -132,7 +129,7 @@ namespace Core.Application.Services
             if (loans.Limit >= loans.Debt)
             {
                 loans.Debt += vm.Amount;
-                await _loansRepository.Pay(loans.Loan);
+                await _loansRepository.Pay(loans.Loan,loans);
 
                 account.Amount += vm.Amount;
                 await _savingsAccountRepository.Pay(account.AccountNumber);
