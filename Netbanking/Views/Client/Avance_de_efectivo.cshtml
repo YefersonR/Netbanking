@@ -16,12 +16,13 @@
                                 <option value="0">Seleccione una opcion</option>
 
                             </select>
-                            <span class="text-danger"></span>
+                            <span class="text-danger" asp-validation-for="CardNumber"></span>
                         </div>
 
                         <div class="mb-3">
                             <label asp-for="Amount" class="form-label">Monto: </label>
-                <input asp-for="Amount" type="number" step=".01" class="formSelect">
+                            <input asp-for="Amount" type="number" step=".01" class="formSelect">
+                            <span class="text-danger" asp-validation-for="Amount"></span>
                         </div>
 
                         <div class="mb-3">
@@ -30,10 +31,10 @@
                                 <option value="0">Seleccione una opcion</option>
 
                             </select>
-                            <span class="text-danger"></span>
+                            <span class="text-danger" asp-validation-for="AccountNumber"></span>
                         </div>
                         <div class="buttons">
-                            <a asp-controller="Home" asp-action="Index" class="btn btn-warning">Volver atras</a>
+                <a asp-controller="Home" asp-action="Index" class="btn btn-warning">Volver al menu</a>
                             <button type="submit" class="btn btn-primary">Guardar</button>
                         </div>
 

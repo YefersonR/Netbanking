@@ -74,6 +74,35 @@ namespace Core.Application.Services
             var data = await _creditCardRepository.GetById(id);
             return data.CardNumber;
         }
-
+        public async Task<double> TotalTarjeta()
+        {
+            double total = 0;
+            var cards = await GetAllByUserID(user.Id);
+            foreach (CreditCardViewModel card in cards)
+            {
+                total += card.Limit;
+            }
+            return total;
+        }
+        public async Task<double> DisponibleTarjeta()
+        {
+            double disponible = 0;
+            var cards = await GetAllByUserID(user.Id);
+            foreach (CreditCardViewModel card in cards)
+            {
+                disponible += card.Limit - (card.Debt - (100 * 0.0625));
+            }
+            return disponible;
+        }
+        public async Task<double> TarjetaAlCorte()
+        {
+            double corte = 0;
+            var cards = await GetAllByUserID(user.Id);
+            foreach (CreditCardViewModel card in cards)
+            {
+                corte += card.Debt;
+            }
+            return corte;
+        }
     }
 }

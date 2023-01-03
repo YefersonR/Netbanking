@@ -1,0 +1,34 @@
+﻿@using Core.Application.ViewModels.User;
+@using Core.Application.ViewModels.Transation;
+@model TransationsSaveViewModel
+
+
+<div class="transationCard confirm">
+    <h4 class="cardTitle">Confirmar pago</h4>
+    <form method="post" asp-controller="Client" asp-action="PagoExpreso" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label class="form-label">Cuenta origen: </label>
+            <input asp-for="AccountNumber" id="disabledTextInput" class="formSelect confirmInput">
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label">Cuenta destino </label>
+            <input asp-for="UserToPayAccount" type="text" class="formSelect confirmInput " />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Nombre del beneficiario </label>
+                <input type="text" id="disabledTextInput" value="@ViewBag.userInfo.Name @ViewBag.userInfo.LastName" class="formSelect confirmInput" >
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Amount" class="form-label">Monto: </label>
+            <input type="number" step=".01" asp-for="Amount" class="formSelect confirmInput">
+            </div>
+            
+            <div class="buttons">
+                <button type="submit" formaction=@Url.Action("Expreso") class="btn btn-warning me-3">Volver atras</button>
+                <button type="submit" class="btn btn-primary">Pagar</button>
+            </div>
+    </form>
+</div>

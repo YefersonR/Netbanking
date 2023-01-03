@@ -1,4 +1,5 @@
 ﻿using Core.Application.ViewModels.Beneficiary;
+using Core.Application.ViewModels.User;
 using Core.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -13,5 +14,7 @@ namespace Core.Application.Interfaces.Services
         Task<List<UserBeneficiaryViewModel>> GetUserBeneficiary();
         Task<BeneficiarySaveViewModel> AddBeneficiary(BeneficiarySaveViewModel vm);
         Task DeleteBeneficiary(int beneficiaryID);
+        Task<UserConfirmationViewModel> GetUserByAccount(string account);
+
     }
 }

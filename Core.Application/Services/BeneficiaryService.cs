@@ -41,12 +41,18 @@ namespace Core.Application.Services
             var users = _accountService.GetAllUser();
             if (accountExist == null)
             {
-                vm.Error = "No existe un usuario con esta cuenta";
+                vm.Error = "No existe esta cuenta";
                 vm.HasError = true;
                 return vm;
 
             }
             var useer = users.FirstOrDefault(us => us.Id == accountExist.UserID);
+            if (useer == null)
+            {
+                vm.Error = "No existe un usuario con esta cuenta";
+                vm.HasError = true;
+                return vm;
+            }
             vm.BeneficiaryID = useer.Id;
             vm.UserID = user.Id;
             Beneficiary beneficiary = _mapper.Map<Beneficiary>(vm);
@@ -96,6 +102,20 @@ namespace Core.Application.Services
                                             }).ToList();
 
             return BeneficiariesWithAccount;
+        }
+        public async Task<UserConfirmationViewModel> GetUserByAccount(string confirmccount)
+        {
+            UserConfirmationViewModel userInfo = new();
+
+            List<UserViewModel> users = _accountService.GetAllUser();
+            List<SavingsAccount> accounts = await _savingsAccountRepository.GetAllAsync();
+            var UserID = accounts.FirstOrDefault(account => account.AccountNumber == confirmccount).UserID ;
+            var User = users.FirstOrDefault(user=>user.Id == UserID);
+            userInfo.Name = User.Name;
+            userInfo.LastName = User.LastName;
+            userInfo.SavingsAccount = User.SavingsAccount;
+
+            return userInfo;
         }
     }
 }

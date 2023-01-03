@@ -13,5 +13,8 @@ namespace Core.Application.Interfaces.Services
         Task<List<CreditCardViewModel>> GetAllByUserID(string id);
         Task DeleteByStringID(string id);
         Task<string> getByIdString(string id);
+        Task<double> TotalTarjeta();
+        Task<double> DisponibleTarjeta();
+        Task<double> TarjetaAlCorte();
     }
 }

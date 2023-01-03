@@ -10,6 +10,13 @@
     transform:translateY(10%);
     padding:20px;
 }
+.confirm{
+    height:90vh;
+
+}
+.confirmInput{
+    pointer-events:none;
+}
 .cardTitle {
     text-align: center;
     padding-top: 20px;

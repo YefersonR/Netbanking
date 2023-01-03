@@ -5,160 +5,161 @@
 @model UserProductsViewModels
 @{
     ViewData["Title"] = "Home Page";
-    var totalcuentas =0.00;
 }
 <div class="container d-flex justify-content-center">
     <div class="row pt-5">
 
         @if (Model == null || Model.CuentasDeAhorro.Count == 0)
         {
-            <h2>No hay Cuentas de ahorro</h2>
+            <h2 class="m-5">No hay Cuentas de ahorro</h2>
+            <hr />
         }
         else
         {
-            <h2>Cuentas de ahorro</h2>
-
-                <div class="accordion" id="accordionSavings">
-                Disponible
-                $@totalcuentas
+            <div class="accordion p-3" id="accordionSavings">
+                <h2>Cuentas de ahorro</h2>
+                <hr />
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="Savings">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSaving" aria-expanded="true" aria-controls="Savings">
                             Disponible
-                            $@totalcuentas
+                            $@Model.TotalCuentas
                         </button>
                     </h2>
-            @foreach (SavingsAccountViewModel item in Model.CuentasDeAhorro)
-            {
-                    totalcuentas += item.Amount;    
-                    @*            <div class="col-4">
-                    <div class="card shadow-sm">
-
-                        <div class="card-body">
-                            <h4 class="card-title">@item.AccountNumber</h4>
-                            <p class="card-text">@item.Created</p>
-                            <div class="d-flex justify-content-between align-items-center">
-
-                                <small class="fw-bold fs-6">$@item.Amount</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>*@
-
-                        <div id="collapseSaving" class="accordion-collapse collapse" aria-labelledby="Savings" data-bs-parent="#accordionSavings">
-                            <div class="accordion-body">
-                                @item.AccountNumber
-                                $@item.Amount
-                                <strong>@item.Created</strong> 
-                            </div>
-                        </div>
-            }
-                    </div>
-                </div>
-        }
-        @if (Model == null || Model.TarjetasDeCredito.Count == 0)
-        {
-            <h2>No hay Tarjetas de credito</h2>
-        }
-        else
-        {
-            <div class="accordion" id="accordionCreditCard">
-
-            <h2>Tarjetas de credito</h2>
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="CreditCard">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCard" aria-expanded="true" aria-controls="CreditCard">
-                        Disponible
-                        $@totalcuentas
-                    </button>
-                </h2>
-            @foreach (CreditCardViewModel item in Model.TarjetasDeCredito)
-            {
-    @*            <div class="col-4">
-                    <div class="card shadow-sm">
-
-                        <div class="card-body">
-                            <h4 class="card-title">@item.CardNumber</h4>
-                            <p class="card-text">@item.Created</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <small class="fw-bold fs-6">$@item.Limit</small>
-                                <small class="fw-bold fs-6">$@item.Debt</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>*@
-
-                 <div id="collapseCard" class="accordion-collapse collapse" aria-labelledby="CreditCard" data-bs-parent="#accordionCreditCard">
+                    <div id="collapseSaving" class="accordion-collapse collapse" aria-labelledby="Savings" data-bs-parent="#accordionSavings">
                         <div class="accordion-body">
-                            @item.CardNumber
-                            $@item.Limit - @item.Debt
-                            <strong>@item.Created</strong> 
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Alias</th>
+                                        <th scope="col">Disponible</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (SavingsAccountViewModel item in Model.CuentasDeAhorro)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @item.AccountNumber
+                                            </td>
+                                            <td>
+                                                $@item.Amount
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
                         </div>
-                 </div>
-            }
+                    </div>
                 </div>
             </div>
-        }
-        @if (Model == null || Model.Prestamos.Count == 0)
-        {
-            <h2>No hay Prestamos pendientes</h2>
-        }
-        else
-        {
-             <div class="accordion" id="accordionLoans">
+                    }
+                    @if (Model == null || Model.TarjetasDeCredito.Count == 0)
+                    {
+                        <h2 class="m-5">No hay Tarjetas de credito</h2>
+                        <hr />
+                    }
+                    else
+                    {
+                        <div class="accordion p-3" id="accordionCreditCard">
+                            <h2>Tarjetas de credito</h2>
+                            <hr />
 
-                <h2>Prestamos pendientes</h2>
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="Loans">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseLoan" aria-expanded="true" aria-controls="Loans">
-                        Disponible
-                        $@totalcuentas
-                    </button>
-                </h2>
-            @foreach (LoansViewModel item in Model.Prestamos)
-            {
-         @*       <div class="col-4">
-                    <div class="card shadow-sm">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="CreditCard">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCard" aria-expanded="true" aria-controls="CreditCard">
+                                        <div class="d-flex justify-content-around align-items-center w-100 m-0 p-0">
+                                            <p class="m-0 p-0">Total $@Model.TarjetasActual</p>
+                                            <p class="m-0 p-0">Balance Disponible $@Model.DisponibleTarjetas</p>
+                                            <p class="m-0 p-0">Balance al corte $@Model.TarjetasAlCorte</p>
 
-                        <div class="card-body">
-                            <h4 class="card-title">Prestamos</h4>
-                            <p class="card-text">@item.Loan</p>
-                            <p class="card-text">@item.Created</p>
-                            <div class="d-flex justify-content-between align-items-center">
-
-                                <small class="fw-bold fs-6">$@item.Limit</small>
-                                <small class="fw-bold fs-6">limite $@item.Debt</small>
+                                        </div>
+                                    </button>
+                                </h2>
+                     
+                                    <div id="collapseCard" class="accordion-collapse collapse" aria-labelledby="CreditCard" data-bs-parent="#accordionCreditCard">
+                                        <div class="accordion-body">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">Producto</th>
+                                                        <th scope="col">Disponible</th>
+                                                        <th scope="col">Balance Actual</th>
+                                                        <th scope="col">Balance al corte</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (CreditCardViewModel item in Model.TarjetasDeCredito)
+                                                    {
+                                                    <tr>
+                                                        <td>
+                                                            Tarjeta de Credito - @item.CardNumber
+                                                        </td>
+                                                        <td>
+                                                            $@item.Limit
+                                                        </td>
+                                                        <td>
+                                                            $@(item.Limit - (item.Debt - (100 * 0.0625))) 
+                                                        </td>
+                                                        <td>
+                                                            $@item.Debt
+                                                        </td>
+                                                    </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                
                             </div>
                         </div>
-                    </div>
-                </div>
-        *@        <div id="collapseLoan" class="accordion-collapse collapse" aria-labelledby="Loans" data-bs-parent="#accordionLoans">
-                    <div class="accordion-body">
-                                @item.Loan
-                                @item.Debt
-                        <strong>@item.Created</strong> 
-                    </div>
-                 </div>
-            }
-            </div>
-            </div>
-        }
+                    }
+                    @if (Model == null || Model.Prestamos.Count == 0)
+                    {
+                        <h2 class="m-5">No hay Prestamos pendientes</h2>
+                        <hr />
+                    }
+                    else
+                    {
+                        <div class="accordion p-3" id="accordionLoans">
+                            <h2>Prestamos pendientes</h2>
+                            <hr />
+                         
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="Loans">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseLoan" aria-expanded="true" aria-controls="Loans">
+                                        Deuda Total $@Model.TotalDeudas
+                                    </button>
+                                </h2>
+                                <div id="collapseLoan" class="accordion-collapse collapse" aria-labelledby="Loans" data-bs-parent="#accordionLoans">
+                                    <div class="accordion-body">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Producto</th>
+                                                    <th scope="col">Deuda</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (LoansViewModel item in Model.Prestamos)
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            Prestamo- @item.Loan
+                                                        </td>
+                                                        <td>
+                                                            $@item.Debt
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
 
     </div>
-
-
-    @*<div class="accordion" id="accordionExample">
-        <div class="accordion-item">
-            <h2 class="accordion-header" id="headingOne">
-                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    Accordion Item #1
-                </button>
-            </h2>
-            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-                    <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                </div>
-            </div>
-        </div>
-    </div>*@
 </div>

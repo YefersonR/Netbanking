@@ -19,17 +19,18 @@
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/sidebars.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <link href="~/css/toastr.css" rel="stylesheet" />
 
-     <!----======== CSS ======== -->
+    <!----======== CSS ======== -->
     <link rel="stylesheet" href="~/lib/sidervar/style.css">
-    
+
     <!----===== Boxicons CSS ===== -->
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
 
 </head>
 <body>
     <div class="d-flex justify-content-between">
-        <div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px; height:100vh;">
+        <div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px; min-height:100vh; height:auto;">
             <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
                 <svg class="bi pe-none me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
                 <span class="fs-4">ARM Banking</span>
@@ -113,141 +114,19 @@
         </div>
 
 
-
-
-    @*<center>
-            <a class=" btn btn-light text-dark text-center" asp-area="" asp-controller="Client" asp-action="Index">Internet Banking</a>
-            </center>
-             <nav class="sidebar close">
-            <header>
-                <div class="image-text">
-                    <span class="image">
-                        <img src="~/lib/sidervar/logo.png" alt="">
-                    </span>
-
-                    <div class="text logo-text">
-                        <span class="name">ARM</span>
-                        <span class="profession">Banking</span>
-                    </div>
-                </div>
-
-                <i class='bx bx-chevron-right toggle'></i>
-            </header>
-
-            <div class="menu-bar">
-
-                 @if (user != null)
-                  {
-                    if (isAdmin)
-                    {
-                    <div class="bottom-content">
-                        <ul>
-                            <li class="">
-                                <a asp-area="" asp-controller="Admin" asp-action="Index">
-                                    <i class="bi bi-gear"></i>
-                                    <span class="text nav-text">User Admin</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-
-                    }
-                 else
-
-                {
-
-                <div class="menu">
-                    <ul>
-                        <li class="nav-link">
-                            <a asp-area="" asp-controller="Client" asp-action="Index">
-                                <i class="bi bi-house-door"></i>
-                                <span class="text nav-text"> Home</span>
-                            </a>
-                        </li>
-
-                        <li class="nav-link">
-                            <a asp-controller="Client" asp-action="Pagos">
-                                <i class="bi bi-cash-coin"></i>
-                                <span class="text nav-text"> Pagos </span>
-                            </a>
-                    </li>
-
-
-                    <li class="nav-link">
-                        <a asp-controller="Client" asp-action="beneficiariosAdd">
-                            <i class="bi bi-people-fill"></i>
-                            <span class="text nav-text"> Beneficiarios</span>
-                        </a>
-                    </li>
-
-
-                    <li class="nav-link">
-                        <a asp-controller="Client" asp-action="Avance_de_efectivo">
-                            <i class="bi bi-currency-exchange"></i>
-                            <span class="text nav-text"> Avance de efectivo</span>
-                        </a>
-                    </li>
-
-                    <li class="nav-link">
-                        <a asp-controller="Client" asp-action="Tranferencia">
-                            <i class="bx bi-credit-card-2-front"></i>
-                            <span class="text nav-text"> Tranferencia entre cuentas</span>
-                        </a>
-                    </li>
-                    </ul>
-
-                </div>
-                     }
-
-                <div class="bottom-content">
-                    <div class="">
-                        <a asp-controller="User" asp-action="LogOut">
-                            <i class='bx bx-log-out icon' ></i>
-                            <span class="text nav-text">Logout</span>
-                        </a>
-                    </div>
-
-
-                    <li class="mode">
-                        <div class="sun-moon">
-                            <i class='bx bx-moon icon moon'></i>
-                            <i class='bx bx-sun icon sun'></i>
-                        </div>
-                        <span class="mode-text text">Dark mode</span>
-
-                        <div class="toggle-switch">
-                            <span class="switch"></span>
-                        </div>
-                    </li>
-
-                    </div>
-
-
-
-                 }
-            </div>
-
-        </nav>*@
-
-
-
-
         <div class="container">
             <main role="main" class="pb-3">
                 @RenderBody()
             </main>
         </div>
     </div>
-@*    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; @DateTime.Now.Year - ARM Netbanking
-        </div>
-    </footer>*@
+
     <script src="~/lib/sidervar/script.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/lib/bootstrap/dist/js/sidebars.js"></script>
+    <script src="~/js/toastr.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

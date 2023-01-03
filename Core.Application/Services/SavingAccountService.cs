@@ -76,6 +76,16 @@ namespace Core.Application.Services
             var data = await _savingsAccountRepository.GetById(id);
             await _savingsAccountRepository.DeleteAsync(data);
         }
+        public async Task<double> TotalActual()
+        {
+            double Total = 0;
+            var accounts = await GetAllAsync();
+            foreach(SavingsAccountViewModel account in accounts)
+            {
+                Total += account.Amount;
+            }
+            return Total;
+        }
 
     }
 }

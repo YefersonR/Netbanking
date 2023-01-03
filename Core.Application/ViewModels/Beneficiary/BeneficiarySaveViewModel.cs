@@ -2,6 +2,7 @@
 using Core.Application.ViewModels.User;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ namespace Core.Application.ViewModels.Beneficiary
     {
         public int Id { get; set; }
         public string UserID { get; set; }
+        [Required(ErrorMessage ="Ingrese una cuenta valida")]
         public string AccountBeneficiary { get; set; }
         public string BeneficiaryID { get; set; }
         public List<UserBeneficiaryViewModel> Beneficiaries{get;set;}

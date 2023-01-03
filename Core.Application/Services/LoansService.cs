@@ -76,6 +76,16 @@ namespace Core.Application.Services
             var data = await _loansRepository.GetById(id);
             await _loansRepository.DeleteAsync(data);
         }
+        public async Task<double> TotalDeudas()
+        {
+            double deudas = 0;
+            var loans = await GetAllByUserID(user.Id);
+            foreach(LoansViewModel loan in loans)
+            {
+                deudas += loan.Debt;
+            }
+            return deudas;
+        }
 
     }
 }

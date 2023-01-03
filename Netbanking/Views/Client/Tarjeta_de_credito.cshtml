@@ -13,15 +13,16 @@
 
                         <div class="mb-3">
                             <label asp-for="AccountNumber" class="form-label">Numero de cuenta de ahorro: </label>
-                <select asp-items="@(new SelectList(Model.savingsAccounts,"AccountNumber","AccountNumber"))" asp-for="AccountNumber" class="formSelect">
+                            <select asp-items="@(new SelectList(Model.savingsAccounts,"AccountNumber","AccountNumber"))" asp-for="AccountNumber" class="formSelect">
                                 <option value="0">Seleccione una opcion</option>
 
                             </select>
-                            <span class="text-danger"></span>
+                            <span class="text-danger" asp-validation-for="AccountNumber"></span>
                         </div>
                         <div class="mb-3">
                             <label asp-for="Amount" class="form-label">Monto: </label>
-                <input asp-for="Amount" type="number" step=".01" class="formSelect">
+                            <input asp-for="Amount" type="number" step=".01" class="formSelect">
+                            <span class="text-danger" asp-validation-for="Amount"></span>
                         </div>
                         <div class="mb-3">
                             <label asp-for="CardNumber" class="form-label">Selecione su tarjecta de credito: </label>
@@ -29,10 +30,10 @@
                                 <option value="0">Seleccione una opcion</option>
 
                             </select>
-                            <span class="text-danger"></span>
+                            <span class="text-danger" asp-validation-for="CardNumber"></span>
                         </div>
                         <div class="buttons">
-                            <a asp-controller="Home" asp-action="Index" class="btn btn-warning">Volver atras</a>
+                <a asp-controller="Client" asp-action="Index" class="btn btn-warning">Volver al menu</a>
                             <button type="submit" class="btn btn-primary">Guardar</button>
                         </div>
                     </form>

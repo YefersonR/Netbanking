@@ -8,7 +8,7 @@
     <div class="transationCard">
 
                     <h4 class="cardTitle">Pago de Prestamo </h4>
-                <form method="post" asp-controller="Client" asp-action="Pagos" enctype = "multipart/form-data">
+                <form method="post" asp-controller="Client" asp-action="Prestamos" enctype = "multipart/form-data">
 
                     <div class="mb-3">
                         <label asp-for="AccountNumber" class="form-label">Numero de cuenta de ahorro: </label>
@@ -16,12 +16,13 @@
                             <option value="0">Seleccione una opcion</option>
 
                         </select>
-                        <span class="text-danger"></span>
+                        <span class="text-danger" asp-validation-for="AccountNumber"></span>
                     </div>
 
                     <div class="mb-3">
                         <label asp-for="Amount" class="form-label">Monto: </label>
-                <input asp-for="Amount" type="number" step=".01" class="formSelect">
+                        <input asp-for="Amount" type="number" step=".01" class="formSelect">
+                        <span class="text-danger" asp-validation-for="Amount"></span>
                     </div>                
 
                     <div class="mb-3">
@@ -30,11 +31,11 @@
                             <option value="0">Seleccione una opcion</option>
 
                         </select>
-                        <span class="text-danger"></span>
+                        <span class="text-danger" asp-validation-for="Loan"></span>
                     </div>
                     <div class="buttons">
-                        <a asp-controller="Client" asp-action="Pagos" class="btn btn-warning">Volver atras</a>
-                        <button type="submit" class="btn btn-primary">Guardar</button>
+                <a asp-controller="Client" asp-action="Pagos" class="btn btn-warning">Volver al menu</a>
+                        <button type="submit" class="btn btn-primary" >Guardar</button>
                     </div>
                 </form>
      </div>

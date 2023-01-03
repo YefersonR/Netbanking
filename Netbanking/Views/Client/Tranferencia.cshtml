@@ -16,12 +16,12 @@
                         <option value="0">Seleccione una opcion</option>
 
                     </select>
-                    <span class="text-danger"></span>
+                    <span class="text-danger" asp-validation-for="AccountNumber"></span>
                 </div>
                 <div class="mb-3">
                     <label asp-for="Amount" class="form-label">Monto: </label>
                 <input type="number" asp-for="Amount" step=".01" class="formSelect">
-                    <span class="text-danger"></span>
+                    <span class="text-danger" asp-validation-for="Amount"></span>
                 </div>
                 <div class="mb-3">
                     <label asp-for="UserToPayAccount" class="form-label">Numero de cuenta destino </label>
@@ -29,11 +29,11 @@
                         <option value="0">Seleccione una opcion</option>
 
                     </select>
-                    <span class="text-danger"></span>
+                    <span class="text-danger" asp-validation-for="UserToPayAccount"></span>
                 </div>
                 <div class="buttons">
-                    <a asp-controller="Client" asp-action="Index" class="btn btn-warning">Volver atras</a>
-                    <button type="submit" class="btn btn-primary">Transferir</button>
+                <a asp-controller="Client" asp-action="Index" class="btn btn-warning">Volver al menu</a>
+                    <button type="submit" class="btn btn-primary" >Transferir</button>
                 </div>
 
             </form> 
