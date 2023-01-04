@@ -24,7 +24,7 @@ namespace Core.Application.Interfaces.Services
         Task<string> GetSavingByID(string id);
         Task<RegisterResponse> UpdateClient(UserSaveViewModel userSaveViewModel, string origin);
         Task<RegisterResponse> UpdateAdmin(UserSaveViewModel userSaveViewModel, string origin);
-
+        Task ChangeStatus(string Id);
 
     }
 }

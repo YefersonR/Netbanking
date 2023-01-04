@@ -52,6 +52,12 @@ namespace Core.Application.Services
             var useraccount = userAccounts.Where(account=>account.UserID == user.Id).ToList();
             return useraccount;
         }
+        public async Task<List<SavingsAccountViewModel>> GetAllSavings()
+        {
+            var userAccounts = await base.GetAllAsync();
+            return userAccounts;
+
+        }
         public async Task<SavingsAccountViewModel> GetById(string id)
         {
             var account = await _savingsAccountRepository.GetById(id);
@@ -70,6 +76,7 @@ namespace Core.Application.Services
             var CreditCardsList = await _savingsAccountRepository.GetAllAsync();
             return _mapper.Map<List<SavingsAccountViewModel>>(CreditCardsList.Where(x => x.UserID == ID).ToList());
         }
+
 
         public async Task DeleteByStringID(string id)
         {

@@ -10,8 +10,6 @@ namespace Core.Domain.Entities
         public double Debt { get; set; }
         public string UserID { get; set; }
         public double Limit { get; set; }
-        public List<Transations> Transations { get; set; } = new();
-
 
     }
 }

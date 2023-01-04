@@ -3,26 +3,22 @@ using Core.Application.ViewModels.Loans;
 using Core.Application.ViewModels.SavingsAccount;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Core.Application.ViewModels.Transation
 {
-    public class TransationsSaveViewModel
+    public class TransationsInfoViewModel
     {
         public int Id { get; set; }
         public string AccountNumber { get; set; }
         public double Amount { get; set; }
         public string UserToPayAccount { get; set; }
-        public string CardNumber { get; set; }
-        public string Loan { get; set; }
+        public DateTime Created { get; set; }
         public string SavingsAccount { get; set; }
-        public List<SavingsAccountViewModel> savingsAccounts { get; set; }
-        public List<CreditCardViewModel> CreditCards { get; set; }
-        public List<LoansViewModel> Loans{ get; set; }
-
+        public string CreditCard { get; set; }
+        public string Loans { get; set; }
 
     }
 }

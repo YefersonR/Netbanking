@@ -58,6 +58,12 @@ namespace Core.Application.Services
             var userAccounts = await base.GetAllAsync();
             return userAccounts.Where(account => account.UserID == user.Id).ToList();
         }
+        public async Task<List<LoansViewModel>> GetAllLoans()
+        {
+            var userAccounts = await _loansRepository.GetAllAsync();
+            List<LoansViewModel> loanVm = _mapper.Map<List<LoansViewModel>>(userAccounts);
+            return loanVm;
+        }
         public async Task<LoansSaveViewModel> GetById(string id)
         {
             var loan = await _loansRepository.GetById(id);

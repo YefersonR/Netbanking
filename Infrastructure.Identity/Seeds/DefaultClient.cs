@@ -18,7 +18,7 @@ namespace Infrastructure.Identity.Seeds
                 Name = "Client",
                 LastName = "Test",
                 UserName = "Client",
-                Email = "",
+                Email = "Cliente@gmail.com",
                 PhoneNumber = "8095432231",
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true,

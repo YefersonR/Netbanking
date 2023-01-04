@@ -1,66 +1,269 @@
-﻿@model List<Core.Application.ViewModels.User.UserGetAllViewModel>
-@{
-    ViewData["Title"] = "Home";
-    var dataID = ViewBag.Actual;
+﻿@using Core.Application.ViewModels.Transation;
+@using Core.Application.ViewModels.CreditCard;
+@using Core.Application.ViewModels.Loans;
+@using Core.Application.ViewModels.SavingsAccount;
+@using Core.Application.ViewModels.User;
+
+@model List<TransationsInfoViewModel>
+@{ 
+    
 }
-<div class="offset-10 mb-3">
-    <div class="row row-cols-2">
-        <a class="btn btn-outline-warning col" asp-controller="Admin" asp-action="Register" asp-route-type="0"> Crear Usuario</a>
-        <a class="btn btn-outline-warning col" asp-controller="Admin" asp-action="Register" asp-route-type="1"> Crear Admin</a>
+
+<div class="accordion p-3" id="accordionTransations">
+
+    <h2>Transaciones Realizadas</h2>
+    <hr />
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="Transations">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTransation" aria-expanded="true" aria-controls="Transations">
+                <div class="d-flex justify-content-around align-items-center w-100 m-0 p-0">
+                    <p class="m-0 p-0">Transaciones Totales @Model.Where(transation=> transation.UserToPayAccount is not null).Count()</p>
+                    <p class="m-0 p-0">Transaciones realizadas hoy @Model.Where(transacion => transacion.Created.Date == DateTime.Today && transacion.UserToPayAccount is not null).Count()</p>
+                </div>
+            </button>
+        </h2>
+        <div id="collapseTransation" class="accordion-collapse collapse" aria-labelledby="Transations" data-bs-parent="#accordionTransations">
+            <div class="accordion-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Cuenta Origen</th>
+                            <th scope="col">Cantidad</th>
+                            <th scope="col">Cuenta Destino</th>
+                            <th scope="col">Fecha</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (TransationsInfoViewModel transation in Model)
+                        {
+                            if (transation.AccountNumber is not null && transation.Amount != 0 && transation.UserToPayAccount is not null)
+                            {
+
+                                <tr>
+                                    <td>
+                                        @transation.AccountNumber
+                                    </td>
+                                    <td>
+                                        @transation.Amount
+                                    </td>
+                                    <td>
+                                        @transation.UserToPayAccount
+                                    </td>
+                                    <td>
+                                        @transation.Created.ToShortDateString()
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Usuario</th>
-      <th scope="col">IsActive</th>
-      <th scope="col">IsAdmin</th>
-      <th scope="col">Monto</th>
-      <th scope="col">Productos</th>
-      <th scope="col">Editar</th>
-    </tr>
-  </thead>
-  <tbody>
-      @if(Model != null || Model.Count != 0){
-        @foreach(var data in Model)
-        {
-                @if(dataID == data.Id)
-                {
-                    <tr>
-                      <th scope="row">@data.Id</th>
-                      <td>@data.UserName</td>
-                      <td>@data.IsActive</td>
-                      <td>@data.IsAdmin</td>
-                      <td>∞ is ADMIN</td>
-                      <td><button class="btn btn-outline-danger" disabled>Admin</button></td>
-                      <td><button class="btn btn-outline-danger" disabled>Editar</button></td>
-                    </tr> 
-                }
-                else
-                {
-                    <tr>
-                      <th scope="row">@data.Id</th>
-                      <td>@data.UserName</td>
-                      <td>@data.IsActive</td>
-                      <td>@data.IsAdmin</td>
-                      @if(data.IsAdmin)
-                        {
-                            <td>∞ is ADMIN</td>
-                            <td><button class="btn btn-outline-danger" disabled>Admin</button></td>
-                        }
-                        else
-                        {
-                             <td>@data.Monto</td>
-                             <td><a asp-controller="Admin" asp-action="Products" asp-route-id="@data.Id" class="btn btn-outline-warning">Ver Productos</a></td>
-                        }
-                       <td><a asp-controller="Admin" asp-action="Edit" asp-route-id="@data.Id" class="btn btn-outline-danger">Editar</a></td>
 
-                    </tr> 
-                }
- 
-        }
-      }
-  </tbody>
-</table>
+<div class="accordion p-3" id="accordionPayments">
+
+    <h2>Pagos Realizados</h2>
+    <hr />
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="Payments">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePayments" aria-expanded="true" aria-controls="Payments">
+                <div class="d-flex justify-content-around align-items-center w-100 m-0 p-0">
+                    <p class="m-0 p-0">Pagos Totales @Model.Where(transation=> transation.Loans is not null || transation.CreditCard is not null).Count()</p>
+                    <p class="m-0 p-0">Pagos realizadas hoy @Model.Where(transation => transation.Loans is not null || transation.CreditCard is not null).Where(transacion=>transacion.Created.Date == DateTime.Today).Count()</p>
+                </div>
+            </button>
+        </h2>
+        <div id="collapsePayments" class="accordion-collapse collapse" aria-labelledby="Payments" data-bs-parent="#accordionPayments">
+            <div class="accordion-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Cuenta Origen</th>
+                            <th scope="col">Cantidad</th>
+                            <th scope="col">Producto</th>
+                            <th scope="col">Producto a pagar</th>
+                            <th scope="col">Fecha</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (TransationsInfoViewModel transation in Model)
+                        {
+                            if (transation.AccountNumber is not null && transation.Amount != 0 && (transation.Loans is not null || transation.CreditCard is not null))
+                            {
+
+                        <tr>
+                            <td>
+                                @transation.AccountNumber
+                            </td>
+                            <td>
+                                @transation.Amount
+                            </td>
+                            @if (transation.Loans is not null)
+                            {
+                                <td>
+                                    Prestamo
+                                </td>
+                                <td>
+                                    @transation.Loans
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    Tarjeta de credito
+                                </td>
+                                <td>
+                                    @transation.CreditCard
+                                </td>
+                            }
+                            <td>
+                                @transation.Created.ToShortDateString()
+                            </td>
+                        </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="accordion p-3" id="accordionClient">
+
+    <h2>Clientes</h2>
+    <hr />
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="Client">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseClient" aria-expanded="true" aria-controls="Client">
+                <div class="d-flex align-items-center w-100 m-0 p-0">
+                    <p class="m-0 p-0">Clientes registrados @ViewBag.cantClients</p>
+                </div>
+            </button>
+        </h2>
+        <div id="collapseClient" class="accordion-collapse collapse" aria-labelledby="Client" data-bs-parent="#accordionClient">
+            <div class="accordion-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Id User</th>
+                            <th scope="col">Activo</th>
+                            <th scope="col">Usuario</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (UserGetAllViewModel client in ViewBag.client)
+                        {
+                            if (!client.IsAdmin)
+                            {
+
+                                <tr>
+                                    <td>
+                                        @client.Id
+                                    </td>
+                                    <td>
+                                        @(client.IsActive ? "Activo":"Inactivo")
+                                    </td>
+                                    <td>
+                                        @client.UserName
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="accordion p-3" id="accordionProducts">
+
+    <h2>Products</h2>
+    <hr />
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="Products">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseProducts" aria-expanded="true" aria-controls="Products">
+                <div class="d-flex align-items-center w-100 m-0 p-0">
+                    <p class="m-0 p-0">Productos creados @ViewBag.cantProducts</p>
+                </div>
+            </button>
+        </h2>
+        <div id="collapseProducts" class="accordion-collapse collapse" aria-labelledby="Products" data-bs-parent="#accordionProducts">
+            <div class="accordion-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Id Usuario</th>
+                            <th scope="col">Tipo de Producto</th>
+                            <th scope="col">Producto</th>
+                            <th scope="col">Fecha de creacion</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (SavingsAccountViewModel savings in ViewBag.products.CuentasDeAhorro)
+                        {
+                            <tr>
+                                <td>
+                                    @savings.UserID
+                                </td>
+                                <td>
+                                    Cuenta de ahorro
+                                </td>
+                                <td>
+                                    @savings.AccountNumber
+                                </td>
+                                <td>
+                                    @savings.Created.ToShortDateString()
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tbody>
+                        @foreach (CreditCardViewModel creditCard in ViewBag.products.TarjetasDeCredito)
+                        {
+                            <tr>
+                                <td>
+                                    @creditCard.UserID
+                                </td>
+                                <td>
+                                    Tarjeta de credito
+                                </td>
+                                <td>
+                                    @creditCard.CardNumber
+                                </td>
+                                <td>
+                                    @creditCard.Created.ToShortDateString()
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tbody>
+                        @foreach (LoansViewModel loan in ViewBag.products.Prestamos)
+                        {
+                            <tr>
+                                <td>
+                                    @loan.UserID
+                                </td>
+                                <td>
+                                    Prestamos
+                                </td>
+                                <td>
+                                    @loan.Loan
+                                </td>
+                                <td>
+                                    @loan.Created.ToShortDateString()
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

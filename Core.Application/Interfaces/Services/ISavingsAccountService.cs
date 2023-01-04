@@ -14,5 +14,6 @@ namespace Core.Application.Interfaces.Services
         Task UpdateC(SavingsAccountSaveViewModel model, string id);
         Task DeleteByStringID(string id);
         Task<double> TotalActual();
+        Task<List<SavingsAccountViewModel>> GetAllSavings();
     }
 }

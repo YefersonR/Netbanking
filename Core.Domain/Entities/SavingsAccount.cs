@@ -8,6 +8,5 @@ namespace Core.Domain.Entities
         public string AccountNumber{ get; set; }
         public double Amount { get; set; }
         public string UserID { get; set; }
-        public List<Transations> Transations { get; set; } = new();
     }
 }

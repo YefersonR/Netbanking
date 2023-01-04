@@ -16,5 +16,6 @@ namespace Core.Application.Interfaces.Services
         Task<double> TotalTarjeta();
         Task<double> DisponibleTarjeta();
         Task<double> TarjetaAlCorte();
+        Task<List<CreditCardViewModel>> GetAllCreditCards();
     }
 }

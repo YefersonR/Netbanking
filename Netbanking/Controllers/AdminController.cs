@@ -24,19 +24,34 @@ namespace WebApp.Netbanking.Controllers
         private readonly ISavingsAccountService _savingsAccountService;
         private readonly IUserService _userService;
         private readonly IHttpContextAccessor _httpContext;
+        private readonly ITransationService _transationService;
         private readonly UserViewModel user;
 
-        public AdminController(IUserService userService,ICreditCardService creditCardService, ILoansService loansService, IHttpContextAccessor httpContext, ISavingsAccountService savingsAccountService)
+        public AdminController(IUserService userService,ICreditCardService creditCardService, ILoansService loansService, IHttpContextAccessor httpContext, ISavingsAccountService savingsAccountService, ITransationService transationService)
         {
             _creditCardService = creditCardService;
             _loansService = loansService;
             _httpContext = httpContext;
             _userService = userService;
             _savingsAccountService = savingsAccountService;
+            _transationService = transationService;
             user = _httpContext.HttpContext.Session.Get<UserViewModel>("user");
         }
         
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
+        {
+            UserProductsViewModels userProducts = new();
+            userProducts.CuentasDeAhorro = await _savingsAccountService.GetAllSavings();
+            userProducts.TarjetasDeCredito = await _creditCardService.GetAllCreditCards();
+            userProducts.Prestamos = await _loansService.GetAllLoans();
+
+            ViewBag.products = userProducts;
+            ViewBag.client = _userService.GetAllClients().Result;
+            ViewBag.cantProducts = userProducts.CuentasDeAhorro.Count + userProducts.TarjetasDeCredito.Count + userProducts.Prestamos.Count;
+            ViewBag.cantClients = _userService.GetAllClients().Result.Count;
+            return View(await _transationService.GetAll());
+        }
+        public IActionResult Manage_User()
         {
                 ViewBag.Actual = user.Id;
             return View(_userService.GetAllClients().Result);
@@ -45,18 +60,18 @@ namespace WebApp.Netbanking.Controllers
         public async Task<IActionResult> DeleteProductCC(string id)
         {
             await _creditCardService.DeleteByStringID(id);
-            return RedirectToRoute(new { controller = "Admin", action = "Index" });
+            return RedirectToRoute(new { controller = "Admin", action = "Manage_User" });
         }
 
         public async Task<IActionResult> DeleteProductLoans(string id)
         {
             await _loansService.DeleteByStringID(id);
-            return RedirectToRoute(new { controller = "Admin", action = "Index" });
+            return RedirectToRoute(new { controller = "Admin", action = "Manage_User" });
         }
         public async Task<IActionResult> DeleteProductSavin(string id)
         {
             await _savingsAccountService.DeleteByStringID(id);
-            return RedirectToRoute(new { controller = "Admin", action = "Index" });
+            return RedirectToRoute(new { controller = "Admin", action = "Manage_User" });
         }
         public IActionResult Register(int type)
         {
@@ -90,7 +105,7 @@ namespace WebApp.Netbanking.Controllers
 
                 return View(saveViewModel);
             }
-            return RedirectToRoute(new { controller = "Admin", action = "Index" });
+            return RedirectToRoute(new { controller = "Admin", action = "Manage_User" });
         }
 
         public async Task<IActionResult> Products(string id)
@@ -128,7 +143,7 @@ namespace WebApp.Netbanking.Controllers
                 await _userService.UpdateClient(vm, origin);
             }
 
-            return RedirectToRoute(new { controller = "Admin", action = "Index" });
+            return RedirectToRoute(new { controller = "Admin", action = "Manage_User" });
         }
 
         public async Task<IActionResult> CreditCard(double limite, string userid)
@@ -137,7 +152,7 @@ namespace WebApp.Netbanking.Controllers
             vm.UserID = userid;
             vm.Limit = limite;
             await _creditCardService.Add(vm);
-            return RedirectToRoute(new { controller = "Admin", action = "Index" });
+            return RedirectToRoute(new { controller = "Admin", action = "Manage_User" });
         }
 
         public async Task<IActionResult> Loans(double debt, string userid)
@@ -146,7 +161,7 @@ namespace WebApp.Netbanking.Controllers
             vm.Debt = debt;
             vm.UserID = userid;
             await _loansService.Add(vm);
-            return RedirectToRoute(new { controller = "Admin", action = "Index" });
+            return RedirectToRoute(new { controller = "Admin", action = "Manage_User" });
         }
 
         public async Task<IActionResult> SaveAccount(float mont, string userid)
@@ -155,7 +170,12 @@ namespace WebApp.Netbanking.Controllers
             vm.Amount = mont;
             vm.UserID = userid;
             await _savingsAccountService.Add(vm);
-            return RedirectToRoute(new { controller = "Admin", action = "Index" });
+            return RedirectToRoute(new { controller = "Admin", action = "Manage_User" });
+        }
+        public IActionResult ChangeStatus(string id)
+        {
+            _userService.ChangeStatus(id);
+            return RedirectToRoute(new { controller = "Admin", action = "Manage_User" });
         }
 
     }

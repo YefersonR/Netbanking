@@ -5,6 +5,8 @@
 @model UserProductsViewModels
 @{
     ViewData["Title"] = "Home Page";
+
+    double tax = 100 * 0.0625;
 }
 <div class="container d-flex justify-content-center">
     <div class="row pt-5">
@@ -91,6 +93,7 @@
                                                 <tbody>
                                                     @foreach (CreditCardViewModel item in Model.TarjetasDeCredito)
                                                     {
+                                                        
                                                     <tr>
                                                         <td>
                                                             Tarjeta de Credito - @item.CardNumber
@@ -99,7 +102,15 @@
                                                             $@item.Limit
                                                         </td>
                                                         <td>
-                                                            $@(item.Limit - (item.Debt - (100 * 0.0625))) 
+                                                            $
+                                                            @if (item.Debt == 0)
+                                                            {
+                                                                @(item.Limit)
+                                                            }
+                                                            else
+                                                            {
+                                                                @(item.Limit - (item.Debt - tax))
+                                                            }
                                                         </td>
                                                         <td>
                                                             $@item.Debt

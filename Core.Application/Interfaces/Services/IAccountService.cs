@@ -25,5 +25,6 @@ namespace Core.Application.Interfaces.Services
         Task<UserSaveViewModel> GetAccountByid(string ID);
         Task<List<string>> GetAdminUsers();
         Task<string> GetSavingByID(string id);
+        Task ChangeStatus(string id);
     }
 }

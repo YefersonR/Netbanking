@@ -7,11 +7,6 @@ using Core.Application.ViewModels.SavingsAccount;
 using Core.Application.ViewModels.Transation;
 using Core.Application.ViewModels.User;
 using Core.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Core.Application.Mappings
 {
@@ -32,8 +27,7 @@ namespace Core.Application.Mappings
                 .ForMember(dest => dest.CreatedBy, opt => opt.Ignore())
                             .ForMember(dest => dest.UpdatedBy, opt => opt.Ignore())
                                 .ForMember(dest => dest.Updated, opt => opt.Ignore());
-//                                        .ForMember(dest => dest.BeneficiaryUser, opt => opt.Ignore());
-            
+
             CreateMap<CreditCard, CreditCardViewModel>()
                 .ReverseMap()
                     .ForMember(dest => dest.CreatedBy, opt => opt.Ignore())
@@ -69,8 +63,7 @@ namespace Core.Application.Mappings
                 .ReverseMap()
                     .ForMember(dest => dest.CreatedBy, opt => opt.Ignore())
                             .ForMember(dest => dest.UpdatedBy, opt => opt.Ignore())
-                                .ForMember(dest => dest.Updated, opt => opt.Ignore())
-                                        .ForMember(dest => dest.Transations, opt => opt.Ignore());
+                                .ForMember(dest => dest.Updated, opt => opt.Ignore());
 
             CreateMap<Transations, TransationsViewModel>()
                 .ReverseMap()
@@ -79,11 +72,25 @@ namespace Core.Application.Mappings
                                 .ForMember(dest => dest.Updated, opt => opt.Ignore());
 
             CreateMap<Transations, TransationsSaveViewModel>()
+                .ForMember(dest => dest.CreditCards, opt => opt.Ignore())
+                .ForMember(dest => dest.Loans, opt => opt.Ignore())
+                .ForMember(dest => dest.savingsAccounts, opt => opt.Ignore())
+                .ForMember(dest => dest.CreditCards, opt => opt.Ignore())
+                .ReverseMap()
+                    .ForMember(dest => dest.Created, opt => opt.Ignore())
+                        .ForMember(dest => dest.CreatedBy, opt => opt.Ignore())
+                            .ForMember(dest => dest.UpdatedBy, opt => opt.Ignore())
+                                .ForMember(dest=>dest.Loans,opt=>opt.MapFrom(src=>src.Loan))
+                                .ForMember(dest=>dest.CreditCard,opt=>opt.MapFrom(src=>src.CardNumber))
+                                .ForMember(dest => dest.Updated, opt => opt.Ignore());
+
+            CreateMap<Transations, TransationsInfoViewModel>()
                 .ReverseMap()
                     .ForMember(dest => dest.Created, opt => opt.Ignore())
                         .ForMember(dest => dest.CreatedBy, opt => opt.Ignore())
                             .ForMember(dest => dest.UpdatedBy, opt => opt.Ignore())
                                 .ForMember(dest => dest.Updated, opt => opt.Ignore());
+
 
             CreateMap<AuthenticationRequest, LoginViewModel>()
                 .ForMember(dest => dest.HasError, opt => opt.Ignore())
@@ -92,7 +99,8 @@ namespace Core.Application.Mappings
             CreateMap<RegisterRequest, UserSaveViewModel>()
                 .ForMember(dest => dest.HasError, opt => opt.Ignore())
                     .ForMember(dest => dest.Error, opt => opt.Ignore())
-                        .ReverseMap();
+                        .ReverseMap()
+                        .ForMember(dest=>dest.isActive,opt=>opt.MapFrom(src=>src.isActive));
             CreateMap<ForgotPasswordRequest, ForgotPasswordViewModel>()
                 .ForMember(dest => dest.HasError, opt => opt.Ignore())
                     .ForMember(dest => dest.Error, opt => opt.Ignore())

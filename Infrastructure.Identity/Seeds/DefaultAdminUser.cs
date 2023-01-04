@@ -18,7 +18,7 @@ namespace Infrastructure.Identity.Seeds
                 Name = "Admin",
                 LastName = "Administrador",
                 UserName = "Admin",
-                Email = "",
+                Email = "Admin@gmai.com",
                 PhoneNumber = "8096534321",
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true,

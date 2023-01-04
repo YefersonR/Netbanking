@@ -66,11 +66,6 @@ namespace Infrastructure.Persistence.Contexts
             #endregion
             #region Relationship
 
-            //modelBuilder.Entity<Beneficiary>()
-            //    .HasOne<SavingsAccount>(transations => transations.BeneficiaryUser)
-            //    .WithOne(beneficiary => beneficiary.Beneficiary)
-            //    .HasForeignKey<SavingsAccount>(transations => transations.BeneficiaryID);
-
             //modelBuilder.Entity<Transations>()
             //    .HasOne<SavingsAccount>(account => account.SavingsAccount)
             //    .WithMany(transations => transations.Transations)

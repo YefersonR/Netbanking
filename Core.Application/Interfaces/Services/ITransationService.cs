@@ -16,8 +16,8 @@ namespace Core.Application.Interfaces.Services
         Task<TransationsSaveViewModel> RetireToCard(TransationsSaveViewModel vm);
         Task<TransationsSaveViewModel> PayLoans(TransationsSaveViewModel vm);
         Task<TransationsSaveViewModel> RetireLoans(TransationsSaveViewModel vm);
-        Task<List<TransationsViewModel>> GetAll();
         Task<TransationsSaveViewModel> GetById(string id);
+        Task<List<TransationsInfoViewModel>> GetAll();
 
     }
 }

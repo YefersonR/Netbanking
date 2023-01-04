@@ -1,0 +1,80 @@
+﻿@using Core.Application.ViewModels.User
+@model List<UserGetAllViewModel>
+@{
+    ViewData["Title"] = "Home";
+    var dataID = ViewBag.Actual;
+}
+<div class="offset-8 mb-3 w-25">
+    <div class=" d-flex justify-content-between mt-3">
+        <a class="btn btn-outline-success me-2" asp-controller="Admin" asp-action="Register" asp-route-type="0"> Crear Usuario</a>
+        <a class="btn btn-outline-success " asp-controller="Admin" asp-action="Register" asp-route-type="1"> Crear Admin</a>
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Usuario</th>
+            <th scope="col">IsActive</th>
+            <th scope="col">IsAdmin</th>
+            <th scope="col">Monto</th>
+            <th scope="col">Productos</th>
+            <th scope="col">Editar</th>
+            <th scope="col">Cambiar Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null || Model.Count != 0)
+        {
+            @foreach (var data in Model)
+            {
+                @if (dataID == data.Id)
+                {
+        <tr>
+            <th scope="row">@data.Id</th>
+            <td>@data.UserName</td>
+            <td>@(data.IsActive ? "Activo":"Inactivo")</td>
+            <td>Admin</td>
+            <td>∞ is ADMIN</td>
+            <td><button class="btn btn-outline-danger" disabled>Admin</button></td>
+            <td><button class="btn btn-outline-danger" disabled>Editar</button></td>
+        </tr>
+
+                }
+                else
+                {
+    <tr>
+        <th scope="row">@data.Id</th>
+        <td>@data.UserName</td>
+        <td>@(data.IsActive ? "Activo":"Inactivo")</td>
+        <td>@(data.IsAdmin ? "Admin":"Cliente")</td>
+
+
+        @if (data.IsAdmin)
+        {
+            <td>∞ is ADMIN</td>
+            <td><button class="btn btn-outline-danger" disabled>Admin</button></td>
+        }
+        else
+        {
+            <td>@data.Monto</td>
+            <td>
+                <a asp-controller="Admin" asp-action="Products" asp-route-id="@data.Id" class="btn btn-outline-warning">Ver Productos</a>
+            </td>
+        }
+        <td>
+            <a asp-controller="Admin" asp-action="Edit" asp-route-id="@data.Id" class="btn btn-outline-danger">Editar</a>
+        </td>
+        <td>
+            <a asp-controller="Admin" asp-action="ChangeStatus" asp-route-id="@data.Id" class="btn @(data.IsActive ? "btn-outline-primary" :"btn-outline-danger")">@(!data.IsActive ? "Activar": "Desactivar")</a>
+        </td>
+
+    </tr>
+
+                }
+
+            }
+        }
+    </tbody>
+</table>

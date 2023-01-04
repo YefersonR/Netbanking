@@ -161,14 +161,14 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CreditCardCardNumber")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<string>("CreditCard")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("LoansLoan")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<string>("Loans")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("SavingsAccountAccountNumber")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<string>("SavingsAccount")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Updated")
                         .HasColumnType("datetime2");
@@ -181,49 +181,7 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CreditCardCardNumber");
-
-                    b.HasIndex("LoansLoan");
-
-                    b.HasIndex("SavingsAccountAccountNumber");
-
                     b.ToTable("Transations");
-                });
-
-            modelBuilder.Entity("Core.Domain.Entities.Transations", b =>
-                {
-                    b.HasOne("Core.Domain.Entities.CreditCard", "CreditCard")
-                        .WithMany("Transations")
-                        .HasForeignKey("CreditCardCardNumber");
-
-                    b.HasOne("Core.Domain.Entities.Loans", "Loans")
-                        .WithMany("Transations")
-                        .HasForeignKey("LoansLoan");
-
-                    b.HasOne("Core.Domain.Entities.SavingsAccount", "SavingsAccount")
-                        .WithMany("Transations")
-                        .HasForeignKey("SavingsAccountAccountNumber");
-
-                    b.Navigation("CreditCard");
-
-                    b.Navigation("Loans");
-
-                    b.Navigation("SavingsAccount");
-                });
-
-            modelBuilder.Entity("Core.Domain.Entities.CreditCard", b =>
-                {
-                    b.Navigation("Transations");
-                });
-
-            modelBuilder.Entity("Core.Domain.Entities.Loans", b =>
-                {
-                    b.Navigation("Transations");
-                });
-
-            modelBuilder.Entity("Core.Domain.Entities.SavingsAccount", b =>
-                {
-                    b.Navigation("Transations");
                 });
 #pragma warning restore 612, 618
         }

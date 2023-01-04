@@ -69,9 +69,7 @@ namespace Core.Application.Services
                     card.Debt -=  card.Debt;
 
                 }
-                Transations aTransation = _mapper.Map<Transations>(vm);
-                account.Transations.Add(aTransation);
-                card.Transations.Add(aTransation);
+                    Transations aTransation = _mapper.Map<Transations>(vm);
                 await _creditCardRepository.Pay(card.CardNumber);
             }
             
@@ -115,8 +113,6 @@ namespace Core.Application.Services
                 }
                 await _loansRepository.Pay(loans.Loan,loans);
                 Transations aTransation = _mapper.Map<Transations>(vm);
-                account.Transations.Add(aTransation);
-                loans.Transations.Add(aTransation);
             }
 
             return await base.Add(vm);
@@ -137,18 +133,10 @@ namespace Core.Application.Services
 
             return await base.Add(vm);
         }
-        public async Task<List<TransationsViewModel>> GetAll()
+        public async Task<List<TransationsInfoViewModel>> GetAll()
         {
             var userTransations = await _transationsRepository.GetAllAsync();
-            var userAccount = await _savingsAccountRepository.GetAllAsync();
-         
-            var result = (from t in userTransations
-                          join a in userAccount
-                          on t.AccountNumber equals a.AccountNumber
-                          where (a.UserID == user.Id)
-                          select t).ToList();
-            
-            List<TransationsViewModel> viewModels = _mapper.Map<List<TransationsViewModel>>(result);
+            List<TransationsInfoViewModel> viewModels = _mapper.Map<List<TransationsInfoViewModel>>(userTransations);
             return viewModels;
         }
         public async Task<TransationsSaveViewModel> GetById(string id)

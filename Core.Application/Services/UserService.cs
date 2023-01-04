@@ -103,6 +103,10 @@ namespace Core.Application.Services
         public async Task<string> GetSavingByID(string id) {
             return await _accountService.GetSavingByID(id);
         }
+        public async Task ChangeStatus(string Id)
+        {
+            await _accountService.ChangeStatus(Id);
+        }
 
     }
 }

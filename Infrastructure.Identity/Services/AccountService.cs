@@ -392,9 +392,15 @@ namespace Infrastructure.Identity.Services
                 Identification = data.Identification,
                 Email = data.Email,
                 Id = data.Id,
-                SavingsAccount = data.SavingAccount
+                SavingsAccount = data.SavingAccount,
+                isActive = data.EmailConfirmed
             };
         }
-
+        public async Task ChangeStatus(string id)
+        {
+            var userToUpdate = await _userManager.FindByIdAsync(id);
+            userToUpdate.EmailConfirmed = !userToUpdate.EmailConfirmed;
+            await _userManager.UpdateAsync(userToUpdate);
+        }
     }
 }

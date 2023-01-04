@@ -13,6 +13,7 @@ namespace Core.Application.Interfaces.Services
         Task<List<LoansViewModel>> GetAllByUserID(string id);
         Task DeleteByStringID(string id);
         Task<double> TotalDeudas();
+        Task<List<LoansViewModel>> GetAllLoans();
 
     }
 }

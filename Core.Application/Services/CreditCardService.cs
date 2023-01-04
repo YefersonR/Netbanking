@@ -52,6 +52,12 @@ namespace Core.Application.Services
             var userCard = userAccounts.Where(account => account.UserID == user.Id).ToList();
             return userCard;
         }
+        public async Task<List<CreditCardViewModel>> GetAllCreditCards()
+        {
+            var userAccounts = await base.GetAllAsync();
+            List<CreditCardViewModel> CardVm = _mapper.Map<List<CreditCardViewModel>>(userAccounts);
+            return CardVm;
+        }
         public async Task<CreditCardSaveViewModel> GetById(string id)
         {
             var Card = await _creditCardRepository.GetById(id);
@@ -90,7 +96,14 @@ namespace Core.Application.Services
             var cards = await GetAllByUserID(user.Id);
             foreach (CreditCardViewModel card in cards)
             {
-                disponible += card.Limit - (card.Debt - (100 * 0.0625));
+                if (card.Debt == 0)
+                {
+                    disponible += card.Limit;
+                }
+                else
+                {
+                    disponible += card.Limit - (card.Debt - (100 * 0.0625));
+                }
             }
             return disponible;
         }
